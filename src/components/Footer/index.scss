@@ -1,0 +1,42 @@
+.footer {
+  background: #2F2F2F;
+  padding: 0.5rem 0;
+  min-height: fit-content;
+  .list {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .menu-wrapper {
+      flex: 1;
+    }
+
+    .menu {
+      text-align: center;
+      cursor: pointer;
+    }
+    .title {
+      color: #fff;
+      font-size: 0.9rem;
+      line-height: 1rem;
+    }
+    svg {
+      fill: #fff;
+    }
+    .active {
+      svg {
+        fill: var(--btnBg);
+      }
+
+      .title {
+        color: var(--btnBg);
+      }
+    }
+
+    svg {
+      width: 26px;
+      height: 26px;
+      fill: #fff;
+    }
+  }
+}

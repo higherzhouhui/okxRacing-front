@@ -1,0 +1,16 @@
+.global-loading {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bgColor);
+  z-index: 10011;
+  top: 0;
+  left: 0;
+  img {
+    width: 200px;
+  }
+}

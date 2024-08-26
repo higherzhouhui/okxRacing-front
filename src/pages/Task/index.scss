@@ -1,0 +1,100 @@
+.task-page {
+  padding: 18px 12px;
+  .task-title {
+    text-align: center;
+    .task {
+      font-size: 2rem;
+      font-family: 'bold';
+    }
+    .desc {
+      margin-top: 1rem;
+      opacity: 0.8;
+    }
+  }
+  .item-wrapper {
+    margin-bottom: 1.5rem;
+    .item-wrapper-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 1.5rem;
+      font-family: bold;
+      .logo-pic {
+        width: 30px;
+        border-radius: 50%;
+      }
+      .touch {
+        width: 24px;
+        border-radius: 50%;
+      }
+    }
+  }
+  .task-list {
+    padding: 1.5rem 0;
+    .skeleton {
+      width: 100%;
+      height: 5rem;
+      margin-bottom: 1rem;
+    }
+    .skeleton:last-child {
+      margin-bottom: 0;
+    }
+    .task-list-item {
+      border-radius: 6px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      background: #313131;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #111;
+    }
+    .task-list-item:last-child {
+      border-bottom: none;
+    }
+    .task-list-left {
+      display: flex;
+      align-items: center;
+
+      .type-img {
+        width: 32px;
+        object-fit: contain;
+        margin-right: 6px;
+      }
+      .unit-img {
+        width: 16px;
+        height: 16px;
+      }
+      .middle {
+        flex: 1;
+      }
+      .middle-name {
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+      .reward {
+        align-items: center;
+        margin-top: 0.6rem;
+        display: flex;
+      }
+    }
+    .task-list-right {
+      min-width: fit-content;
+      margin-left: 4px;
+    }
+    .task-list-right-btn {
+      border-radius: 2rem;
+      color: #fff;
+      background: #000;
+      font-size: 1rem;
+      width: 60px;
+      border: none;
+    }
+    .Claim {
+      background: #ff0000;
+    }
+    .Done {
+      background: #bebcbc;
+    }
+  }
+}

@@ -1,0 +1,170 @@
+.checkIn-container {
+  height: 100vh;
+  overflow: hidden;
+  z-index: 999;
+  background: var(--bgColor);
+  width: 100%;
+  .checkIn-first {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+
+    .hooray {
+      width: 250px;
+      opacity: 0;
+      animation: fadeIn forwards 2s 0.8s;
+      transition:  all 1s;
+      margin-top: 5vh;
+      margin-bottom: 2rem;
+    }
+    .change-hooray {
+      margin-top: 2vh;
+      width: 200px;
+    }
+    .day {
+      text-align: center;
+      font-size: 4rem;
+      color: #FFF200;
+      text-shadow: 1px 2px 1px #000;
+      animation: displayNone forwards 0.2s 4s;
+      margin-bottom: 12px;
+    }
+
+    .daily-reward {
+      font-size: 2.8rem;
+      font-family: 'bold';
+      animation: scaleBig forwards 1s;
+      transition: all 1s;
+    }
+    .change-daily {
+      font-size: 1.8rem;
+    }
+    .rewards-container {
+      background: #515151;
+      display: flex;
+      align-items: center;
+      border-radius: 10px;
+      padding: 6px 14px;
+      margin-top: 32px;
+      gap: 4px;
+      font-size: 1.2rem;
+      opacity: 0;
+      .rewards-logo {
+        width: 18px;
+        height: 18px;
+        object-fit: contain;
+      }
+    }
+    @keyframes scaleBig {
+      from {
+        transform: scale(0.5);
+      }
+
+      to {
+        transform: scale(1);
+      }
+    }
+    @keyframes displayNone {
+      from {
+        display: block;
+      }
+      to {
+        display: none;
+      }
+    }
+  }
+  .rewards-detail {
+    padding: 18px 12px;
+    width: 100%;
+    opacity: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .rewards-two {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    .rewards-one {
+      flex: 1;
+      text-align: center;
+      background: #313131;
+      border-radius: 12px;
+      padding: 15px 0;
+      img {
+        width: 30px;
+        height: 30px;
+      }
+      .reward-number {
+        color: var(--highColor);
+        font-size: 1.6rem;
+        font-weight: bold;
+        font-family: 'number';
+        margin-top: 8px;
+      }
+      .unit {
+        margin-top: 5px;
+        font-size: 1.2rem;
+      }
+    }
+  }
+  .check-in-title {
+    margin: 2rem 0 1rem 0;
+    font-size: 1.2rem;
+  }
+  .rewards-list {
+    display: grid;
+    position: relative;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    .rewards-item {
+      background: #2E2E2E;
+      display: flex;
+      justify-content: space-between;
+      padding: 0.7rem 0.8rem;
+      align-items: center;
+      font-family: 'number';
+      font-size: 1.2rem;
+      .desc {
+        font-size: 0.9rem;
+        font-family: 'regular';
+      }
+      .rewards-item-right {
+        line-height: 16px;
+        .score-ticket {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          font-family: 'number';
+          font-size: 0.8rem;
+        }
+        .ticket-pic{
+          margin-top: 6px;
+        }
+        img {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+    .rewards-item-active {
+      background: #41532B;
+    }
+    .rewards-item:last-child {
+      position: absolute;
+      width: 100%;
+      top: calc(100% + 2px);
+    }
+  }
+  .rewards-detail-top {
+    width: 100%;
+    button {
+      width: 100%;
+      border-radius: 32px;
+      background: var(--btnBg);
+      border: none;
+    }
+  }
+}
