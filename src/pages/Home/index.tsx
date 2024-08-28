@@ -178,7 +178,7 @@ export const HomePage: FC = () => {
       <div className='race-bg'>
         <img src='/assets/home/race.png' alt='race' className='race-img' />
         <video src='/assets/home/doudong.webm' className='doudong' muted id='douDong' loop />
-        <video src='/assets/home/race.mp4' className='doudong' id='race' muted={!isVoice} />
+        <video src='/assets/home/race.mp4' className='doudong' id='race' muted={!isVoice} style={{ opacity: isBeginGuess ? '1' : 0 }} />
         <div className={`ybp-container ${isBeginGuess ? 'ybp-container-active' : ''}`}>
           <div className='ybp-inner'>
             <div className='price-title'>
