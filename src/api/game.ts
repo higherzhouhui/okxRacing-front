@@ -2,14 +2,14 @@ import service from '@/utils/request';
 
 export const beginGameReq = () => {
   return service<any>({
-    url: '/game/begin',
+    url: '/api/game/begin',
     method: 'GET',
   });
 };
 
 export const endGameReq = (data: any) => {
   return service<any>({
-    url: '/game/end',
+    url: '/api/game/end',
     method: 'POST',
     data
   });

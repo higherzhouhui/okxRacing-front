@@ -2,7 +2,7 @@ import service from '@/utils/request';
 
 export const loginReq = (data: any) => {
   return service<any>({
-    url: '/user/login',
+    url: '/api/user/login',
     method: 'POST',
     data,
   });
@@ -10,7 +10,7 @@ export const loginReq = (data: any) => {
 
 export const h5PcLoginReq = (data: any) => {
   return service<any>({
-    url: '/user/h5PcLogin',
+    url: '/api/user/h5PcLogin',
     method: 'POST',
     data,
   });
@@ -19,7 +19,7 @@ export const h5PcLoginReq = (data: any) => {
 
 export const updateUserReq = (data: any) => {
   return service<any>({
-    url: '/user/update',
+    url: '/api/user/update',
     method: 'POST',
     data,
   });
@@ -27,7 +27,7 @@ export const updateUserReq = (data: any) => {
 
 export const getUserListReq = (params: any) => {
   return service<any>({
-    url: '/user/list',
+    url: '/api/user/list',
     method: 'GET',
     params,
   });
@@ -35,14 +35,14 @@ export const getUserListReq = (params: any) => {
 
 export const getSubUserListReq = (params: any) => {
   return service<any>({
-    url: '/user/subList',
+    url: '/api/user/subList',
     method: 'GET',
     params,
   });
 };
 export const getMyScoreHistoryReq = (params: any) => {
   return service<any>({
-    url: '/user/getMyScoreHistory',
+    url: '/api/user/getMyScoreHistory',
     method: 'GET',
     params,
   });
@@ -51,7 +51,7 @@ export const getMyScoreHistoryReq = (params: any) => {
 
 export const getSubUserTotalReq = () => {
   return service<any>({
-    url: '/user/subTotal',
+    url: '/api/user/subTotal',
     method: 'GET',
   });
 };
@@ -59,7 +59,7 @@ export const getSubUserTotalReq = () => {
 
 export const getUserInfoReq = (params: any) => {
   return service<any>({
-    url: '/user/userInfo',
+    url: '/api/user/userInfo',
     method: 'GET',
     params,
   });
@@ -67,7 +67,7 @@ export const getUserInfoReq = (params: any) => {
 
 export const userCheckReq = () => {
   return service<any>({
-    url: '/user/check',
+    url: '/api/user/check',
     method: 'POST',
   });
 };
@@ -75,7 +75,7 @@ export const userCheckReq = () => {
 
 export const bindWalletReq = (data: any) => {
   return service<any>({
-    url: '/user/bindWallet',
+    url: '/api/user/bindWallet',
     method: 'POST',
     data,
   });
@@ -84,28 +84,28 @@ export const bindWalletReq = (data: any) => {
 
 export const getCheckInRewardListReq = () => {
   return service<any>({
-    url: '/checkInReward/list',
+    url: '/api/checkInReward/list',
     method: 'GET',
   });
 };
 
 export const startFarmingReq = () => {
   return service<any>({
-    url: '/user/startFarming',
+    url: '/api/user/startFarming',
     method: 'GET',
   });
 };
 
 export const getRewardFarmingReq = () => {
   return service<any>({
-    url: '/user/getRewardFarming',
+    url: '/api/user/getRewardFarming',
     method: 'GET',
   });
 };
 
 export const getMagicPrizeReq = () => {
   return service<any>({
-    url: '/user/getMagicPrize',
+    url: '/api/user/getMagicPrize',
     method: 'GET',
   });
 };
@@ -113,7 +113,16 @@ export const getMagicPrizeReq = () => {
 
 export const getSystemConfigReq = () => {
   return service<any>({
-    url: '/system/getConfig',
+    url: '/api/system/getConfig',
     method: 'GET'
   })
 }
+
+export const getBtcPriceReq = (symbol: string) => {
+  return service<any>({
+    url: 'https://www.binance.com/api/v3/ticker/price',
+    params: { symbol: symbol },
+    method: 'GET'
+  })
+}
+

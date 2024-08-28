@@ -1,0 +1,26 @@
+.terms-page {
+  padding: 24px 12px;
+  .title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  .time {
+    opacity: 0.8;
+    margin-bottom: 2rem;
+    font-size: 1.2rem;
+  }
+  .terms-content, .terms-bot {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    word-break: keep-all;
+    line-height: 1.5rem;
+  }
+  .terms-bot {
+    margin-bottom: 0;
+    span {
+      color: rgb(159, 159, 211);
+      text-decoration: underline;
+      font-weight: bold;
+    }
+  }
+}

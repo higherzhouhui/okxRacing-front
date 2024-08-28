@@ -1,12 +1,13 @@
 .footer {
-  background: #2F2F2F;
-  padding: 0.5rem 0;
+  padding: 12px 12px 20px 12px;
   min-height: fit-content;
   .list {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
+    background: #181818;
+    border-radius: 50px;
+    padding: 12px 0;
     .menu-wrapper {
       flex: 1;
     }

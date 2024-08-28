@@ -2,7 +2,7 @@ import service from '@/utils/request';
 
 export const taskListReq = () => {
   return service<any>({
-    url: '/task/list',
+    url: '/api/task/list',
     method: 'GET',
   });
 };
@@ -11,7 +11,7 @@ export const taskListReq = () => {
 
 export const handleTakReq = (data: any) => {
   return service<any>({
-    url: '/task/handle',
+    url: '/api/task/handle',
     method: 'POST',
     data,
   });

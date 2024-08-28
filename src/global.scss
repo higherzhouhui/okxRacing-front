@@ -19,6 +19,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'UnidreamLED';
+  src: url('./assets/font/UnidreamLED.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 
 
 .content::-webkit-scrollbar {
@@ -90,7 +97,7 @@ code {
   --elevation-light-1: 0px 10px 60px rgba(0, 0, 0, .1);
   --elevation-dark-1: 0px 10px 60px rgba(0, 0, 0, .7);
   --tg-theme-button-color: red;
-  --bgColor: #181818;
+  --bgColor: #000;
   --textColor: #fff;
   --btnBg: #FFBE1D;
   --highColor: #FFF200;

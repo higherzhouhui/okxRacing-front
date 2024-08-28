@@ -150,3 +150,15 @@ export function throttle(handler: ThrottleHandler, limit: number) {
     }
   };
 }
+
+
+export const accordingEthToBtc = (result: any) => {
+  let btc = 0
+  try {
+    const { ethbtc, ethusd } = result
+    btc = Math.round(ethusd / ethbtc * 100) / 100
+  } catch (error) {
+    console.error(error)
+  }
+  return btc
+}

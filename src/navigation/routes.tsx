@@ -9,6 +9,7 @@ import AssetsPage from '@/components/Assets';
 import LeaderBoardPage from '@/pages/LeaderBoard';
 import FrensDetailPage from '@/pages/Frens/Detail';
 import CheckInlPage from '@/pages/CheckIn';
+import TermsPage from '@/pages/Terms';
 
 interface Route {
   path: string;
@@ -28,4 +29,5 @@ export const routes: Route[] = [
   { path: '/frens-detail', Component: FrensDetailPage },
   { path: '/assets', Component: AssetsPage },
   { path: '/checkIn', Component: CheckInlPage },
+  { path: '/terms', Component: TermsPage },
 ];
