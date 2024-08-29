@@ -17,7 +17,7 @@ import Footer from '@/components/Footer';
 import Congrates from '@/components/Congrates';
 import EventBus from '@/utils/eventBus';
 import { type FC, useEffect, useState } from 'react';
-import { getSystemConfigReq, h5PcLoginReq, loginReq } from '@/api/common';
+import { getSystemConfigReq, h5PcLoginReq } from '@/api/common';
 import { setSystemAction, setUserInfoAction } from '@/redux/slices/userSlice';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
@@ -77,6 +77,11 @@ const PcApp: FC = () => {
   }
   useEffect(() => {
     localStorage.setItem('h5PcRoot', '1')
+    getSystemConfigReq().then((res: any) => {
+      if (res.code == 0) {
+        dispatch(setSystemAction(res.data))
+      }
+    })
     // initApp()
     const onMessage = ({ visible, time }: { visible: boolean, time?: number }) => {
       setShowCongrates(visible)

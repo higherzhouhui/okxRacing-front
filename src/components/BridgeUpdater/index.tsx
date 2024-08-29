@@ -78,6 +78,7 @@ export default function BridgeUpdater() {
     const r1 = PortkeyBridgeEventReceiveInstance.on(
       NotificationEvents.connectChanged,
       (event) => {
+
         console.log(event, "NotificationEvents.connectChanged");
       }
     );
@@ -105,6 +106,11 @@ export default function BridgeUpdater() {
               wallet_nickName: event?.extraInfo?.nickName,
             })
           }
+        }
+        // 如果无wallet任何信息，则清空数据
+        if (!event) {
+          localStorage.setItem('authorization', '')
+          localStorage.setItem('walletInfo', '')
         }
         console.log(event, "NotificationEvents.walletChanged");
       }
