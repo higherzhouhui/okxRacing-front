@@ -32,7 +32,7 @@ export default defineConfig({
     port: 6953,
     proxy: {
       '/binance': {
-        target: 'https://www.binance.com', // 目标服务器地址
+        target: 'https://api.binance.com/api/v3/ticker/price', // 目标服务器地址
         changeOrigin: true, // 是否改变源地址
         rewrite: (path) => path.replace(/^\/binance/, ''), // 重写路径
       },

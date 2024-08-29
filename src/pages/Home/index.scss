@@ -4,11 +4,13 @@
   width: 100%;
   position: relative;
   background-size: 100% 100%;
+
   .race-bg {
     position: relative;
     width: 100%;
     height: 0;
     padding-bottom: 100%;
+
     .race-img {
       position: absolute;
       width: 100%;
@@ -16,6 +18,7 @@
       left: 0;
       top: 0;
     }
+
     .doudong {
       position: absolute;
       width: 100%;
@@ -23,6 +26,7 @@
       left: 0;
       top: 0;
     }
+
     .ybp-container {
       position: absolute;
       bottom: -25px;
@@ -33,6 +37,7 @@
       left: 50%;
       transform: translate(-50%, 0);
       padding: 15px;
+
       .ybp-inner {
         width: 100%;
         height: 100%;
@@ -45,6 +50,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
         .price-title {
           font-size: 1.4rem;
           opacity: 0.8;
@@ -57,18 +63,22 @@
           align-items: center;
           justify-content: center;
           gap: 6px;
+
           .token-price {
             font-family: 'number';
           }
         }
+
         .price {
           font-weight: bold;
           font-size: 3.8rem;
           margin: 10px 0;
+
           span {
             font-family: 'number';
           }
         }
+
         .chance {
           display: flex;
           align-items: center;
@@ -78,12 +88,14 @@
           left: 50%;
           bottom: 0;
           transform: translate(-50%, 30%);
+
           .progress-wrapper {
             width: 80px;
             height: 4px;
             background: #aaa;
             border-radius: 4px;
             position: relative;
+
             .progress {
               position: absolute;
               left: 0;
@@ -95,46 +107,114 @@
         }
       }
     }
+
     .ybp-container-active {
       animation: lightDark infinite 0.5s;
     }
+
     @keyframes lightDark {
       0% {
         border-color: #aaa;
       }
+
       100% {
         border-color: #fff;
-        box-shadow: 0 0 10px #fff, /* 主阴影 */
-              0 0 5px rgba(224, 227, 230, 0.8), /* 次阴影 */
-              0 10px 15px -5px rgba(210, 213, 216, 0.5); /* 扩散阴影 */
+        box-shadow: 0 0 10px #fff,
+          /* 主阴影 */
+          0 0 5px rgba(224, 227, 230, 0.8),
+          /* 次阴影 */
+          0 10px 15px -5px rgba(210, 213, 216, 0.5);
+        /* 扩散阴影 */
       }
     }
   }
+
   .operation-btns {
     margin-top: 70px;
     text-align: center;
+
     .operation-title {
       margin-bottom: 1rem;
     }
+
     .btns {
       display: flex;
       align-items: center;
       padding: 0 14px;
       gap: 14px;
-      .btn {
+
+      .btn-outLine {
         flex: 1;
         text-align: center;
-        background: green;
         border-radius: 12px;
-        padding: 12px 0;
         font-weight: bold;
         font-size: 1.6rem;
         cursor: pointer;
+        position: relative;
+        height: 55px;
+        border: 3px solid #fff;
+        border-top: none;
       }
-      .btn:last-child {
-        background: red;
+
+      .dark-outLine {
+        opacity: 0.4;
+      }
+
+      .btn {
+        position: absolute;
+        width: 100%;
+        height: 58px;
+        border-radius: 12px;
+        left: 0%;
+        top: -5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(180deg, rgb(130, 238, 130), rgb(14, 124, 14));
+        border-bottom: 6px solid #015701;
+        transition: all 0.5s;
+
+        span {
+          margin-right: 4px;
+        }
+
+        svg {
+          fill: #fff;
+        }
+      }
+
+      .active-btn {
+        background: linear-gradient(180deg, rgb(41, 85, 41), rgb(17, 90, 17));
+        border-bottom: 3px solid #016908;
+
+        span {
+          opacity: 0.8;
+        }
+
+        svg {
+          fill: #c0b1b1;
+        }
+      }
+
+      .f-btn {
+        background: linear-gradient(180deg, rgb(248, 154, 126), rgb(245, 41, 41));
+        border-bottom: 6px solid #812205;
+      }
+
+      .f-active-btn {
+        background: linear-gradient(180deg, rgb(180, 108, 86), rgb(170, 28, 28));
+        border-bottom: 3px solid #812205;
+
+        span {
+          opacity: 0.7;
+        }
+
+        svg {
+          fill: #c0b1b1;
+        }
       }
     }
+
     .tktj {
       opacity: 0.8;
       margin-top: 14px;
@@ -142,11 +222,13 @@
       text-decoration: underline;
     }
   }
+
   .main-content {
     position: absolute;
     left: 0;
     top: 18px;
     width: 100%;
+
     .count-time {
       font-size: 4.5rem;
       text-align: center;
@@ -154,20 +236,24 @@
       letter-spacing: 5px;
       margin-top: 20px;
     }
+
     .top-btn {
       display: flex;
       justify-content: space-between;
       align-items: center;
       width: 100%;
       padding: 0 12px;
+
       .top-btn-left {
         background: #181818;
         border-radius: 50%;
         padding: 6px;
+
         img {
           width: 28px;
         }
       }
+
       .top-btn-right {
         display: flex;
         align-items: center;
@@ -176,41 +262,48 @@
         padding: 6px 6px 6px 12px;
         border-radius: 60px 0 0 60px;
       }
-     }
-     .score-section {
+    }
+
+    .score-section {
       text-align: center;
       font-size: 1.3rem;
       font-family: 'bold';
       margin: 1rem 0;
-     }
-     .score-center {
+    }
+
+    .score-center {
       text-align: center;
       font-size: 5rem;
       font-weight: bold;
       font-family: 'number';
-     }
+    }
   }
+
   .speed-wrapper {
     display: flex;
     height: 42px;
     gap: 5px;
     align-items: center;
+
     .dot {
       font-size: 4rem;
       display: inline-block;
     }
+
     .percent {
       font-size: 2.5rem;
       font-weight: bold;
       line-height: 42px;
     }
+
     .rotate-item-img {
-      height: fit-content!important;
+      height: fit-content !important;
       object-fit: contain;
     }
   }
+
   .ybpNumber-wrapper {
-    height: 42px;
+    height: 100%;
     overflow: hidden;
     padding: 0 2px;
     position: relative;
@@ -221,19 +314,119 @@
     font-size: 3rem;
     font-weight: bold;
     font-family: 'number';
-    line-height: 3rem;
+    line-height: 44px;
+
     .rotate-wrapper {
       position: absolute;
       height: 100%;
       top: 0;
       left: 0;
       width: 100%;
+
       .rotate-item {
         display: flex;
         align-items: center;
         justify-content: center;
         height: 100%;
         width: 100%;
+      }
+    }
+  }
+
+  .result-comp {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba($color: #000000, $alpha: 0.7);
+    left: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 0 0 10px #fff;
+
+    .result-comp-content {
+      margin-top: -50px;
+      text-align: center;
+      animation: moveContent forwards 0.2s 2s;
+      @keyframes moveContent {
+        from {
+          margin-top: -50px;
+        }
+        to {
+          margin-top: -250px;
+        }
+      }
+
+      .rcct-content {
+        transform: translate(0, 250px);
+        animation: transY forwards 0.2s;
+      }
+
+      @keyframes transY {
+        from {
+          transform: translate(0, 250px);
+        }
+
+        to {
+          transform: translate(0, 0);
+
+        }
+      }
+
+      .rccb-content {
+        transform: translate(0, 500px);
+        animation: transY forwards 0.2s 0.2s;
+      }
+
+      @keyframes transbY {
+        from {
+          transform: translate(0, 500px);
+        }
+
+        to {
+          transform: translate(0, 0);
+
+        }
+      }
+
+      .rcc-top {
+        font-size: 4rem;
+      }
+
+      .rcc-big {
+        font-size: 8rem;
+        font-family: 'bold';
+      }
+
+      .rcc-desc {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .rcc-win {
+        margin-left: 4px;
+        font-weight: bold;
+        color: green;
+        text-shadow: none;
+        &::before {
+          content: '+'
+        }
+      }
+
+      .rcc-miss {
+        text-shadow: none;
+        margin-left: 4px;
+        font-weight: bold;
+        color: red;
+      }
+
+      .rcc-detail {
+        font-size: 1.5rem;
+
+        span {
+          opacity: 0.8;
+        }
       }
     }
   }

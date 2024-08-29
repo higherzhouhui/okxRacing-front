@@ -118,9 +118,10 @@ export const getSystemConfigReq = () => {
   })
 }
 
-export const getBtcPriceReq = (symbol: string) => {
+export const getBtcPriceReq = (dev: boolean, symbol: string) => {
+  const url = dev ? 'https://api.binance.com/api/v3/ticker/price' : '/binance'
   return service<any>({
-    url: 'https://www.binance.com/api/v3/ticker/price',
+    url: url,
     params: { symbol: symbol },
     method: 'GET'
   })

@@ -39,6 +39,7 @@ export const HomePage: FC = () => {
   const preRealPrice = useRef<any>(null)
   const [isDouDong, setIsDouDong] = useState(false)
   const [symbol, setSymbol] = useState('BTC')
+  const [resultInfo, setResultInfo] = useState<any>({})
   useEffect(() => {
     let timer
     if (isShowCongrate) {
@@ -89,18 +90,26 @@ export const HomePage: FC = () => {
         clearTimeout(guessTimer.current)
         setBeginGuess(false)
         const diff = realPrice.current - preRealPrice.current
-        console.log(realPrice, preRealPrice, 11111111)
         let percentPrice: any = diff / preRealPrice.current * 100
         percentPrice = percentPrice.toFixed(4)
         setPercent(percentPrice)
+        setResultInfo({
+          isWin: diff > 0 ? true : false,
+          prePrice: preRealPrice.current,
+          curPrice: realPrice.current,
+          visible: true,
+          percent: percentPrice,
+          symbol: symbol,
+        })
       }, 5000);
       setTimeout(() => {
         clearInterval(countTimer.current)
         setIsAnimation(false)
-        tokenPriceTimer.current = setInterval(() => {
-          getTokenPrice()
-        }, 2000);
-      }, 10000);
+        setGuessType('')
+        setResultInfo({
+          visible: false,
+        })
+      }, 8000);
       let myCount = 5
       setCount(myCount)
       countTimer.current = setInterval(() => {
@@ -152,7 +161,7 @@ export const HomePage: FC = () => {
 
   const getTokenPrice = async () => {
     try {
-      const res: any = await getBtcPriceReq(`${symbol}USDT`)
+      const res: any = await getBtcPriceReq(import.meta.env.DEV, `${symbol}USDT`)
       let price = res.price.substring(0, 8)
       realPrice.current = res.price
       price = `${price.substring(0, 2)},${price.substring(2)}`
@@ -220,8 +229,18 @@ export const HomePage: FC = () => {
       <div className='operation-btns'>
         <div className='operation-title'>Guess the {symbol} price in 5 seconds</div>
         <div className='btns'>
-          <div className='btn' onClick={() => handleGuess('Rise')}>Rise</div>
-          <div className='btn' onClick={() => handleGuess('Fail')}>Fall</div>
+          <div className={`btn-outLine ${guessType && guessType == 'Fail' ? 'dark-outLine' : ''}`}>
+            <div className={`btn ${guessType ? guessType == 'Rise' ? 'active-btn' : 'dark-btn' : ''}`} onClick={() => handleGuess('Rise')}>
+              <span>Rise</span>
+              <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="695" width="18" height="18"><path d="M833.28 206.208v760.32l135.808 8.96v-904.96h-904.96l8.96 135.68z" p-id="696"></path><path d="M64 975.616h108.672l715.008-715.008-99.584-99.584-715.008 715.008z" p-id="697"></path><path d="M64 975.616h108.672l715.008-715.008-99.584-99.584-715.008 715.008z" p-id="698"></path></svg>
+            </div>
+          </div>
+          <div className={`btn-outLine ${guessType && guessType == 'Rise' ? 'dark-outLine' : ''}`}>
+            <div className={`f-btn btn ${guessType ? guessType == 'Fail' ? 'f-active-btn' : 'f-dark-btn' : ''}`} onClick={() => handleGuess('Fail')}>
+              <span>Fall</span>
+              <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="903" width="18" height="18"><path d="M833.28 839.808l-769.28-8.96v144.64h905.088v-904.96l-135.68-9.088z" p-id="904"></path><path d="M64 70.4l9.088 99.584 715.008 715.136 99.584-99.584-715.008-715.008z" p-id="905"></path><path d="M64 70.4l9.088 99.584 715.008 715.136 99.584-99.584-715.008-715.008z" p-id="906"></path></svg>
+            </div>
+          </div>
         </div>
         <div className='tktj' onClick={() => navigate('/terms')}>Terms and Conditions</div>
       </div>
@@ -319,6 +338,7 @@ export const HomePage: FC = () => {
           </div>
         </div> : null
       }
+      <ResultComp {...resultInfo} />
     </div>
   )
 }
@@ -384,6 +404,43 @@ const ImageRotate: FC = () => {
       }
     </div>
   </div>
+}
+
+type ResultCompProps = {
+  visible: boolean;
+  percent: string;
+  prePrice: number;
+  curPrice: number;
+  isWin: boolean;
+  symbol: string;
+}
+
+const ResultComp: FC<ResultCompProps> = ({ percent, prePrice, curPrice, isWin, visible, symbol }) => {
+  return (
+    <>
+      {
+        visible ? <div className='result-comp'>
+          <div className='result-comp-content'>
+            <div className='rcct-content'>
+              <div className='rcc-top'>🔥</div>
+              <div className='rcc-big'>{isWin ? 'WIN' : 'MISS'}</div>
+            </div>
+            <div className='rccb-content'>
+              <div className='rcc-desc'>
+                <span>{symbol}&nbsp;Price</span>
+                <span className={`${isWin ? 'rcc-win' : 'rcc-miss'}`}>
+                  {percent}%
+                </span>
+              </div>
+              <div className='rcc-detail'>
+                <span>From</span>&nbsp;${Number(prePrice)?.toFixed(2)}<span>To</span>&nbsp;${Number(curPrice)?.toFixed(2)}
+              </div>
+            </div>
+          </div>
+        </div> : null
+      }
+    </>
+  )
 }
 
 export default HomePage
