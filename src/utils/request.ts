@@ -40,8 +40,9 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config: any) => {
     if (typeof window !== 'undefined') {
-      const authorization = localStorage.getItem('authorization');
+      let authorization = localStorage.getItem('authorization');
       if (authorization) {
+        authorization = btoa(authorization)
         config.headers = {
           ...config.headers,
           'authorization': `Bearer ${authorization}`,

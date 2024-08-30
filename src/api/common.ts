@@ -57,11 +57,10 @@ export const getSubUserTotalReq = () => {
 };
 
 
-export const getUserInfoReq = (params: any) => {
+export const getUserInfoReq = () => {
   return service<any>({
     url: '/api/user/userInfo',
     method: 'GET',
-    params,
   });
 };
 

@@ -1,14 +1,15 @@
 import './index.scss';
 import { FC, useEffect, useRef, useState } from 'react';
-import { getBtcPriceReq, getMagicPrizeReq, getRewardFarmingReq, getUserInfoReq, startFarmingReq } from '@/api/common';
+import { getBtcPriceReq, getUserInfoReq } from '@/api/common';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserInfoAction } from '@/redux/slices/userSlice'
 import { initUtils } from '@telegram-apps/sdk';
-import { Button, Popup, Toast } from 'antd-mobile';
-import { accordingEthToBtc, handleCopyLink, judgeIsStartFarming } from '@/utils/common';
+import { Popup, Toast } from 'antd-mobile';
+import { secondsToTimeFormat } from '@/utils/common';
 import { useNavigate } from 'react-router-dom';
 import EventBus from '@/utils/eventBus';
 import { useConnectWallet } from '@aelf-web-login/wallet-adapter-react';
+import { endGameReq } from '@/api/game';
 
 export const HomePage: FC = () => {
   const dispatch = useDispatch()
@@ -17,13 +18,9 @@ export const HomePage: FC = () => {
   const systemConfig = useSelector((state: any) => state.user.system);
   const link = `${systemConfig.tg_link}?startapp=${btoa(userInfo.user_id)}`
   const [isShowRules, setShowRules] = useState(false)
-  const [showAddScore, setShowScore] = useState(false)
   const scoreTimer = useRef<any>(null)
   const tokenPriceTimer = useRef<any>(null)
-  const eventBus = EventBus.getInstance()
-  const utils = initUtils()
   const [isShowInvite, setShowInvite] = useState(false)
-  const [isShowCongrate, setShowCongrates] = useState(false)
   const [isVoice, setIsVoice] = useState(false)
   const { isConnected } = useConnectWallet()
   const [oldScore, setOldScore] = useState(0)
@@ -37,42 +34,36 @@ export const HomePage: FC = () => {
   const [guessType, setGuessType] = useState('')
   const realPrice = useRef<any>(null)
   const preRealPrice = useRef<any>(null)
+  const resultTimer = useRef<any>(null)
   const [isDouDong, setIsDouDong] = useState(false)
   const [symbol, setSymbol] = useState('BTC')
   const [resultInfo, setResultInfo] = useState<any>({})
-  useEffect(() => {
-    let timer
-    if (isShowCongrate) {
-      timer = setTimeout(() => {
-        setShowCongrates(false)
-      }, 3000);
+  const handleSwitchSymbol = () => {
+    if (symbol == 'BTC') {
+      setSymbol('ELF')
+    } else {
+      setSymbol('BTC')
     }
-    return () => {
-      if (timer) {
-        clearInterval(timer)
-      }
-    }
-  }, [isShowCongrate])
-
-  const selfHandleCopyLink = () => {
-    handleCopyLink(link)
   }
-
-  const handleSendLink = () => {
-    const text = `Hey, if you're a Hamster, DOGS, Blum or Catizen user... you have something very special to claim in the Cat app now.\nThe Cat airdrop is coming! 🪂\nClaim with this link.`
-    utils.shareURL(link, text)
-  }
-
   const handleGuess = (type: string) => {
-    if (!isDouDong) {
-      const douDongVideo = document.getElementById('douDong') as any
-      if (douDongVideo) {
-        douDongVideo.play()
-      }
+    if (userInfo.ticket <= 0) {
+      Toast.show({
+        content: 'Gas is Empty, please wait!',
+        position: 'top',
+      })
+      return
     }
     if (isAnimation) {
       return
     }
+    if (!isDouDong) {
+      const douDongVideo = document.getElementById('douDong') as any
+      if (douDongVideo) {
+        douDongVideo.play()
+        setIsDouDong(true)
+      }
+    }
+
     const raceVideo = document.getElementById('race') as any
     raceVideo.play()
 
@@ -81,42 +72,88 @@ export const HomePage: FC = () => {
     preRealPrice.current = realPrice.current
     setGuessType(type)
   }
-
   useEffect(() => {
     if (isBeginGuess) {
+
       clearTimeout(guessTimer.current)
       clearInterval(countTimer.current)
+      clearTimeout(resultTimer.current)
+      clearInterval(scoreTimer.current)
+
       guessTimer.current = setTimeout(async () => {
-        clearTimeout(guessTimer.current)
         setBeginGuess(false)
         const diff = realPrice.current - preRealPrice.current
-        let percentPrice: any = diff / preRealPrice.current * 100
+        let percentPrice: any = diff / preRealPrice.current
         percentPrice = percentPrice.toFixed(4)
+        if (percentPrice == '0.0000') {
+          percentPrice = '0.0001'
+        }
+        if (diff == 0) {
+          percentPrice = '0.0000'
+        }
         setPercent(percentPrice)
-        setResultInfo({
-          isWin: diff > 0 ? true : false,
-          prePrice: preRealPrice.current,
-          curPrice: realPrice.current,
-          visible: true,
-          percent: percentPrice,
-          symbol: symbol,
+        let isRight = false
+        if (guessType == 'Rise' && diff > 0) {
+          isRight = true
+        }
+        if (guessType == 'Fall' && diff < 0) {
+          isRight = true
+        }
+        // 如果价格不变，通杀
+        if (diff == 0) {
+          isRight = false
+        }
+        const res = await endGameReq({
+          guessType: guessType,
+          result: isRight ? 'Win' : 'Miss',
         })
-      }, 5000);
-      setTimeout(() => {
-        clearInterval(countTimer.current)
-        setIsAnimation(false)
-        setGuessType('')
-        setResultInfo({
-          visible: false,
-        })
-      }, 8000);
+        if (res.code == 0) {
+          const info = {
+            diff: diff,
+            prePrice: Number(preRealPrice.current).toFixed(2),
+            curPrice: Number(realPrice.current).toFixed(2),
+            visible: true,
+            percent: percentPrice,
+            symbol: symbol,
+            isRight: isRight
+          }
+          if (symbol == 'ELF') {
+            info.prePrice = Number(preRealPrice.current).toFixed(4);
+            info.curPrice = Number(realPrice.current).toFixed(4);
+          }
+          setResultInfo(info)
+
+          resultTimer.current = setTimeout(() => {
+            dispatch(setUserInfoAction(res.data))
+            setIsAnimation(false)
+            setGuessType('')
+            setResultInfo({
+              visible: false,
+            })
+          }, 2500);
+        } else {
+          Toast.show({
+            content: res.msg,
+            position: 'top'
+          })
+          clearInterval(countTimer.current)
+          setIsAnimation(false)
+          setGuessType('')
+        }
+      }, 5500);
+
       let myCount = 5
       setCount(myCount)
       countTimer.current = setInterval(() => {
-        myCount--;
+        myCount = myCount - 1
         myCount = Math.max(0, myCount)
         setCount(myCount)
       }, 1000);
+    }
+    return () => {
+      clearInterval(countTimer.current)
+      clearInterval(resultTimer.current)
+      clearTimeout(guessTimer.current)
     }
   }, [isBeginGuess])
 
@@ -129,9 +166,9 @@ export const HomePage: FC = () => {
   }
 
   useEffect(() => {
-    getUserInfoReq({}).then(res => {
+    getUserInfoReq().then(res => {
       if (res.code == 0) {
-        dispatch(setUserInfoAction(res.data.userInfo))
+        dispatch(setUserInfoAction(res.data))
       }
     })
   }, [])
@@ -146,17 +183,17 @@ export const HomePage: FC = () => {
         clearInterval(scoreTimer.current)
         let score = oldScore
         scoreTimer.current = setInterval(() => {
-          score += Math.round((userScore - oldScore) / 50)
+          score += Math.max(Math.round((userScore - oldScore) / 50), 1)
           if (score >= userScore) {
-            clearInterval(scoreTimer.current)
             setOldScore(userScore)
+            clearInterval(scoreTimer.current)
           } else {
             setOldScore(score)
           }
         }, 50)
       }
     }
-
+    return () => clearInterval(scoreTimer.current)
   }, [userInfo])
 
   const getTokenPrice = async () => {
@@ -164,7 +201,9 @@ export const HomePage: FC = () => {
       const res: any = await getBtcPriceReq(import.meta.env.DEV, `${symbol}USDT`)
       let price = res.price.substring(0, 8)
       realPrice.current = res.price
-      price = `${price.substring(0, 2)},${price.substring(2)}`
+      if (symbol == 'BTC') {
+        price = `${price.substring(0, 2)},${price.substring(2)}`
+      }
       setTokenPrice(price)
       return res.price
     } catch (error) {
@@ -174,12 +213,13 @@ export const HomePage: FC = () => {
   }
 
   useEffect(() => {
+    clearInterval(tokenPriceTimer.current)
     getTokenPrice()
     tokenPriceTimer.current = setInterval(() => {
       getTokenPrice()
     }, 2000);
     return () => clearInterval(tokenPriceTimer.current)
-  }, [])
+  }, [symbol])
 
 
   return (
@@ -190,8 +230,8 @@ export const HomePage: FC = () => {
         <video src='/assets/home/race.mp4' className='doudong' id='race' muted={!isVoice} style={{ opacity: isBeginGuess ? '1' : 0 }} />
         <div className={`ybp-container ${isBeginGuess ? 'ybp-container-active' : ''}`}>
           <div className='ybp-inner'>
-            <div className='price-title'>
-              <span>{symbol} Price</span>
+            <div className='price-title' onClick={() => handleSwitchSymbol()}>
+              <div className='price-switch'>{symbol} Price <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3412" width="16" height="16"><path d="M917.333333 341.333333H106.666667a21.333333 21.333333 0 0 1 0-42.666666h759.166666l-134.253333-134.246667a21.333333 21.333333 0 0 1 30.173333-30.173333l170.666667 170.666666A21.333333 21.333333 0 0 1 917.333333 341.333333z m-624.913333 548.42a21.333333 21.333333 0 0 0 0-30.173333L158.166667 725.333333H917.333333a21.333333 21.333333 0 0 0 0-42.666666H106.666667a21.333333 21.333333 0 0 0-15.086667 36.42l170.666667 170.666666a21.333333 21.333333 0 0 0 30.173333 0z" fill="#fff" p-id="3413"></path></svg></div>
               {
                 isAnimation ? <span>$<span className='token-price'>{tokenPrice}</span></span> : null
               }
@@ -216,27 +256,29 @@ export const HomePage: FC = () => {
             <div className='chance'>
               <span>⛽️</span>
               <div className='progress-wrapper'>
-                <div className='progress' style={{ width: '50%' }}></div>
+                <div className='progress' style={{ width: `${(userInfo?.ticket || 0) / 0.1}%` }}></div>
               </div>
-              <div className='change-number'><span>9&nbsp;/&nbsp;</span><span>10</span></div>
-              <div className='more'>
+              <div className='change-number'>{userInfo?.ticket}&nbsp;/&nbsp;<span>10</span></div>
+              <div className='more' onClick={() => navigate('/frens')}>
                 <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5328" width="12" height="12"><path d="M749.6 466.4l-384-384-91.2 91.2L613.6 512l-339.2 338.4 91.2 91.2 384-384 44.8-45.6z" p-id="5329" fill="#bfbfbf"></path></svg>
               </div>
             </div>
           </div>
+          <RecoveryComp userInfo={userInfo} />
         </div>
+
       </div>
       <div className='operation-btns'>
         <div className='operation-title'>Guess the {symbol} price in 5 seconds</div>
         <div className='btns'>
-          <div className={`btn-outLine ${guessType && guessType == 'Fail' ? 'dark-outLine' : ''}`}>
+          <div className={`btn-outLine ${guessType && guessType == 'Fall' ? 'dark-outLine' : ''}`}>
             <div className={`btn ${guessType ? guessType == 'Rise' ? 'active-btn' : 'dark-btn' : ''}`} onClick={() => handleGuess('Rise')}>
               <span>Rise</span>
               <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="695" width="18" height="18"><path d="M833.28 206.208v760.32l135.808 8.96v-904.96h-904.96l8.96 135.68z" p-id="696"></path><path d="M64 975.616h108.672l715.008-715.008-99.584-99.584-715.008 715.008z" p-id="697"></path><path d="M64 975.616h108.672l715.008-715.008-99.584-99.584-715.008 715.008z" p-id="698"></path></svg>
             </div>
           </div>
           <div className={`btn-outLine ${guessType && guessType == 'Rise' ? 'dark-outLine' : ''}`}>
-            <div className={`f-btn btn ${guessType ? guessType == 'Fail' ? 'f-active-btn' : 'f-dark-btn' : ''}`} onClick={() => handleGuess('Fail')}>
+            <div className={`f-btn btn ${guessType ? guessType == 'Fall' ? 'f-active-btn' : 'f-dark-btn' : ''}`} onClick={() => handleGuess('Fall')}>
               <span>Fall</span>
               <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="903" width="18" height="18"><path d="M833.28 839.808l-769.28-8.96v144.64h905.088v-904.96l-135.68-9.088z" p-id="904"></path><path d="M64 70.4l9.088 99.584 715.008 715.136 99.584-99.584-715.008-715.008z" p-id="905"></path><path d="M64 70.4l9.088 99.584 715.008 715.136 99.584-99.584-715.008-715.008z" p-id="906"></path></svg>
             </div>
@@ -330,14 +372,6 @@ export const HomePage: FC = () => {
           </div>
         </div>
       </Popup>
-      {
-        isShowCongrate ? <div className='full-congrate fadeIn' onClick={() => setShowCongrates(false)}>
-          <div className='full-congrate-content'>
-            <div className='full-congrate-score'>+ {isGetBigReward ? systemConfig?.special_reward : systemConfig?.farm_score}<img src='/assets/common/cat.webp' /></div>
-            <div className='full-congrate-desc'>{isGetBigReward ? 'Mysterious Grand Prize' : 'Congratulations on farming 1080 $CAT'}</div>
-          </div>
-        </div> : null
-      }
       <ResultComp {...resultInfo} />
     </div>
   )
@@ -359,15 +393,19 @@ const NumberRotateWrapper: FC = () => {
 const NumberRotate: FC = () => {
   const numArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const [translateY, setTranslateY] = useState(0)
+  const timer = useRef<any>(null)
   useEffect(() => {
     let y = 0
-    setInterval(() => {
+    timer.current = setInterval(() => {
       y -= Math.random() * 5 + 10
       if (y < -450) {
         y = 0
       }
       setTranslateY(y)
     }, 20);
+    return () => {
+      clearInterval(timer.current)
+    }
   }, [])
   return <div className='ybpNumber-wrapper'>
     <div className='rotate-wrapper' style={{ transform: `translate(0, ${translateY}px)` }}>
@@ -383,15 +421,19 @@ const NumberRotate: FC = () => {
 const ImageRotate: FC = () => {
   const numArray = ['/assets/home/up.png', '/assets/home/right-arrow.png', '/assets/home/down.png'];
   const [translateY, setTranslateY] = useState(0)
+  const timer = useRef<any>(null)
   useEffect(() => {
     let y = 0
-    setInterval(() => {
+    timer.current = setInterval(() => {
       y -= Math.random() * 5 + 3
       if (y < -100) {
         y = 0
       }
       setTranslateY(y)
     }, 20);
+    return () => {
+      clearInterval(timer.current)
+    }
   }, [])
   return <div className='ybpNumber-wrapper'>
     <div className='rotate-wrapper' style={{ transform: `translate(0, ${translateY}px)` }}>
@@ -411,11 +453,12 @@ type ResultCompProps = {
   percent: string;
   prePrice: number;
   curPrice: number;
-  isWin: boolean;
+  diff: number;
   symbol: string;
+  isRight: boolean,
 }
 
-const ResultComp: FC<ResultCompProps> = ({ percent, prePrice, curPrice, isWin, visible, symbol }) => {
+const ResultComp: FC<ResultCompProps> = ({ percent, prePrice, curPrice, diff, visible, symbol, isRight }) => {
   return (
     <>
       {
@@ -423,17 +466,17 @@ const ResultComp: FC<ResultCompProps> = ({ percent, prePrice, curPrice, isWin, v
           <div className='result-comp-content'>
             <div className='rcct-content'>
               <div className='rcc-top'>🔥</div>
-              <div className='rcc-big'>{isWin ? 'WIN' : 'MISS'}</div>
+              <div className='rcc-big'>{isRight ? 'WIN' : 'MISS'}</div>
             </div>
             <div className='rccb-content'>
               <div className='rcc-desc'>
                 <span>{symbol}&nbsp;Price</span>
-                <span className={`${isWin ? 'rcc-win' : 'rcc-miss'}`}>
+                <span className={`${diff > 0 ? 'rcc-win' : diff < 0 ? 'rcc-miss' : ''}`}>
                   {percent}%
                 </span>
               </div>
               <div className='rcc-detail'>
-                <span>From</span>&nbsp;${Number(prePrice)?.toFixed(2)}<span>To</span>&nbsp;${Number(curPrice)?.toFixed(2)}
+                <span>From</span>&nbsp;${prePrice}<span>To</span>&nbsp;${curPrice}
               </div>
             </div>
           </div>
@@ -441,6 +484,51 @@ const ResultComp: FC<ResultCompProps> = ({ percent, prePrice, curPrice, isWin, v
       }
     </>
   )
+}
+
+const RecoveryComp: FC<any> = ({ userInfo }) => {
+  const systemConfig = useSelector((state: any) => state.user.system);
+  const [isShow, setIsShow] = useState(false)
+  const [count, setCount] = useState('00:00')
+  const dispatch = useDispatch()
+  const timer = useRef<any>(null)
+  useEffect(() => {
+    clearInterval(timer.current)
+    if (userInfo.ticket < 10) {
+      setIsShow(true)
+      let diffTime = Math.floor((new Date().getTime() - new Date(userInfo.last_play_time).getTime()) / 1000)
+      diffTime = systemConfig.recovery_time - diffTime % systemConfig.recovery_time
+      setCount(secondsToTimeFormat(diffTime))
+      timer.current = setInterval(() => {
+        if (diffTime == 0) {
+          clearInterval(timer.current)
+          getUserInfoReq().then(res => {
+            if (res.code == 0) {
+              dispatch(setUserInfoAction(res.data))
+            }
+          })
+        } else {
+          diffTime -= 1;
+          setCount(secondsToTimeFormat(diffTime))
+        }
+
+
+      }, 1000);
+    } else {
+      setIsShow(false)
+    }
+    return () => {
+      clearInterval(timer.current)
+    }
+  }, [userInfo])
+  return <>
+    {
+      isShow ? <div className='recovery-comp'>
+        <div className='recovery'>Gas Recovery Time:</div>
+        <div className='count'>{count}</div>
+      </div> : null
+    }
+  </>
 }
 
 export default HomePage

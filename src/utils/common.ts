@@ -45,6 +45,16 @@ export function formatNumber(num: any, hz?: number) {
     return (num / 1000000000).toFixed(fixed) + 'B';
   }
 }
+export function secondsToTimeFormat(seconds: number) {
+  let minutes: any = Math.floor(seconds / 60);
+  let secs: any = seconds % 60;
+
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  secs = secs < 10 ? '0' + secs : secs;
+
+  return minutes + ':' + secs;
+}
+
 
 
 export function judgeIsCheckIn(time: any) {
