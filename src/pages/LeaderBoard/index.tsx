@@ -1,101 +1,79 @@
-import { getUserInfoReq, getUserListReq } from "@/api/common"
-import { setUserInfoAction } from "@/redux/slices/userSlice"
-import { formatNumber, stringToColor } from "@/utils/common"
-import { InfiniteScroll, List } from "antd-mobile"
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import BackTop from "@/components/BackTop"
+import { FC, useEffect, useState } from 'react';
 import './index.scss'
-import { useNavigate } from "react-router-dom"
-export default function LeaderBoard() {
-  const userInfo = useSelector((state: any) => state.user.info);
-  const [total, setTotal] = useState('10.00M')
-  const [holderList, setHolderList] = useState<any[]>([])
-  const [rank, setRank] = useState(1)
-  const [page, setPage] = useState(1)
-  const [hasMore, setHasMore] = useState(true)
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  async function loadMore() {
-    const append = await getList()
-    if (page == 1) {
-      if (append.length < 20) {
-        setHasMore(false)
-      }
-      setHolderList(append)
-    } else {
-      setHolderList(val => [...val, ...append])
-      setHasMore(append.length > 0)
-    }
-  }
-  const getList = async () => {
-    const res = await getUserListReq({ page })
-    setTotal(formatNumber(res.data.count))
-    setPage((page => page + 1))
-    setRank(res.data.rank)
-    return res.data.rows
-  }
+import { InfiniteScroll, List, Popup, Tabs } from 'antd-mobile';
 
-  useEffect(() => {
-    getUserInfoReq().then(res => {
-      if (res.code == 0) {
-        dispatch(setUserInfoAction(res.data))
-      }
-    })
-  }, [])
-
-  return <div className="LeaderBoard fadeIn">
-    <div className="title">Telegram Wall of Fame</div>
-    <div className="myself" onClick={() => navigate('/frens-detail?myself=true')}>
-      <div className="left">
-        <div className="icon" style={{ background: stringToColor(userInfo?.username) }}>
-          {userInfo?.username?.slice(0, 2)}
-        </div>
-        <div className="name-score-warpper">
-          <div className="name">{userInfo?.username}</div>
-          <div className="name-score">{userInfo?.score?.toLocaleString()}&nbsp;TOMATO</div>
-        </div>
-      </div>
-      <div className="right">
-        {
-          rank == 1 ? <img src='/assets/first.png' alt="first" /> : rank == 2 ? <img src='/assets/second.png' alt="second" /> : rank == 3 ? <img src='/assets/third.png' alt="third" /> : `#${rank}`
-        }
-      </div>
+function LeaderBoardPage() {
+  const [isShowRecord, setShowRecord] = useState(false)
+  const [recordList, setRecordList] = useState([])
+  const handleShowRecord = () => {
+    setShowRecord(true)
+  }
+  return <div className='fadeIn leader-page'>
+    <div className='title'>赛车手<span>排行榜</span></div>
+    <div className='sub-title'>查看你的排名，挑战顶尖车手！</div>
+    <div className='record-btn' onClick={() => handleShowRecord()}>
+      <span>我的记录</span>
+      <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2231" width="10" height="10"><path d="M326.7079 958.51045l-63.278185-60.523445L651.328255 512.841158 257.924327 124.944664l66.024739-60.523445 445.672362 448.419939L326.7079 958.51045z" fill="#ffffff" p-id="2232"></path></svg>
     </div>
-    <div className="holders">
-      <div className="holder-title">{total}&nbsp;holders</div>
-      <List>
+    <Tabs>
+      <Tabs.Tab title='朋友' key='fruits'>
+        <CustomList />
+      </Tabs.Tab>
+      <Tabs.Tab title='全球' key='vegetables'>
+        全球
+      </Tabs.Tab>
+    </Tabs>
+
+
+    <Popup visible={isShowRecord}
+      onMaskClick={() => {
+        setShowRecord(false)
+      }}
+      bodyStyle={{
+        borderTopLeftRadius: '8px',
+        borderTopRightRadius: '8px',
+      }}
+      className='popup-rule'>
+      111
+    </Popup>
+  </div>
+}
+type CustomListType = {
+  type?: string
+}
+const CustomList: FC<CustomListType> = ({ type }) => {
+  const [data, setData] = useState([1, 23])
+  const [hasMore, setHasMore] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [total, setTotal] = useState(0)
+  const loadMore = async () => {
+    console.log(type)
+  }
+
+  return <div className='custom-list'>
+    <div className='custom-content'>
+      <div className='custom-title'>
+        <div className='ct-left'>{total}&nbsp;<span>名选手</span></div>
+        <div className='ct-right'>历史总积分</div>
+      </div>
+      <div className='custom-lists'>
         {
-          holderList.map((item, index) => {
-            return <List.Item key={index}>
-              <ListItem {...{ ...item, rank: index + 1 }} />
-            </List.Item>
+          data.map((item, index) => {
+            return <div key={index} className='custom-list'>
+              <div className='custom-title'>
+                <div className='ct-left'>
+                  <div className='ctl-icon'>{index}</div>
+                  <div className='ctl-name'>33</div>
+                </div>
+                <div className='ct-right'>历史总积分</div>
+              </div>
+            </div>
           })
         }
-      </List>
-      <InfiniteScroll loadMore={loadMore} hasMore={hasMore} />
+      </div>
     </div>
+    <InfiniteScroll loadMore={loadMore} hasMore={hasMore} />
   </div>
 }
 
-function ListItem({ username, score, rank }: { username: string, score: number, rank: number }) {
-  return <div className="holders-item">
-    <div className="holders-left">
-      <div className="icon" style={{ background: stringToColor(username) }}>
-        {
-          username.slice(0, 2)
-        }
-      </div>
-      <div className="name-score-wrapper">
-        <div className="name">{username}</div>
-        <div className="name-score">{score.toLocaleString()}&nbsp;TOMATO</div>
-      </div>
-    </div>
-    <div className="right">
-      {
-        rank == 1 ? <img src='/assets/first.png' alt="first" /> : rank == 2 ? <img src='/assets/second.png' alt="second" /> : rank == 3 ? <img src='/assets/third.png' alt="third" /> : <span>#{rank}</span>
-      }
-    </div>
-    <BackTop scrollName={'content'} />
-  </div>
-}
+export default LeaderBoardPage;

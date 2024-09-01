@@ -101,6 +101,8 @@ code {
   --textColor: #fff;
   --btnBg: #FFBE1D;
   --highColor: #FFF200;
+  --adm-color-primary: #FFF200!important;
+  --adm-color-border: #333!important;
 }
 html {
   font-size: 12px;
@@ -169,77 +171,6 @@ body,
   .content {
     flex: 1;
     overflow: auto;
-  }
-}
-
-.freeze-gif {
-  position: fixed;
-  left: 50%;
-  top: 0;
-  width: 100%;
-  height: 100vh;
-  max-width: 450px;
-  transform: translate(-50%, 0);
-  img {
-    width: 36px;
-    position: absolute;
-  }
-
-  .tl {
-    top: 0;
-    left: 0;
-  }
-
-  .tr {
-    top: 0;
-    right: 0;
-    transform: rotate(90deg);
-  }
-
-  .bl {
-    bottom: 0;
-    left: 0;
-    transform: rotate(-90deg);
-  }
-
-  .br {
-    bottom: 0;
-    right: 0;
-    transform: rotate(180deg);
-  }
-}
-
-.get-score {
-  position: fixed;
-  left: 50%;
-  top: 0;
-  width: 100%;
-  height: 100vh;
-  max-width: 450px;
-  transform: translate(-50%, 0);
-  z-index: 9;
-  img {
-    width: 70px;
-    position: absolute;
-    transform: translate(-50%, -50%);
-  }
-}
-
-.qrCode {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  div {
-    font-size: 1.6rem;
-    font-weight: bold;
-  }
-  img {
-    width: 260px;
-    margin: 2rem 0;
   }
 }
 
