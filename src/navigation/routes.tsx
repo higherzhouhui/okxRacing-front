@@ -10,6 +10,8 @@ import LeaderBoardPage from '@/pages/LeaderBoard';
 import FrensDetailPage from '@/pages/Frens/Detail';
 import CheckInlPage from '@/pages/CheckIn';
 import TermsPage from '@/pages/Terms';
+import LevelPage from '@/pages/Level';
+import LoadingPage from '@/components/Loading'
 
 interface Route {
   path: string;
@@ -20,7 +22,8 @@ interface Route {
 
 
 export const routes: Route[] = [
-  { path: '/', Component: HomePage },
+  { path: '/', Component: LoadingPage },
+  { path: '/home', Component: HomePage },
   { path: '/game', Component: GamePage },
   { path: '/task', Component: TaskPage },
   { path: '/frens', Component: FrensPage },
@@ -30,4 +33,5 @@ export const routes: Route[] = [
   { path: '/assets', Component: AssetsPage },
   { path: '/checkIn', Component: CheckInlPage },
   { path: '/terms', Component: TermsPage },
+  { path: '/level', Component: LevelPage },
 ];

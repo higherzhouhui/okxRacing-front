@@ -16,11 +16,13 @@ export default function BridgeUpdater() {
   const eventBus = EventBus.getInstance()
   const navigate = useNavigate()
   const bindWallet = async (walletInfo: any) => {
-    const res = await bindWalletReq(walletInfo)
-    if (res.code !== 0) {
-      Toast.show({ content: res.msg, position: 'top' })
-    } else {
-      dispatch(setUserInfoAction(res.data))
+    if (localStorage.getItem('authorization')) {
+      const res = await bindWalletReq(walletInfo)
+      if (res.code !== 0) {
+        Toast.show({ content: res.msg, position: 'top' })
+      } else {
+        dispatch(setUserInfoAction(res.data))
+      }
     }
   }
 
@@ -35,17 +37,13 @@ export default function BridgeUpdater() {
       Toast.show({ content: res.msg, position: 'top' })
     } else {
       dispatch(setUserInfoAction(res.data))
-      localStorage.setItem('authorization', res.data.user_id)
+      localStorage.setItem('authorization', res.data.token)
       localStorage.setItem('walletInfo', JSON.stringify(walletInfo))
-      if (res.data.check_date) {
-        const today = moment().utc().format('MM-DD')
-        if (res.data.check_date != today) {
-          navigate('/checkIn')
-        } else {
-          navigate(url)
-        }
-      } else {
+      const today = moment().utc().format('MM-DD')
+      if (!res.data.check_date || (res.data.check_date && res.data.check_date != today)) {
         navigate('/checkIn')
+      } else {
+        navigate(url)
       }
     }
     eventBus.emit('loading', false)
@@ -109,8 +107,8 @@ export default function BridgeUpdater() {
         }
         // 如果无wallet任何信息，则清空数据
         if (!event) {
-          localStorage.setItem('authorization', '')
-          localStorage.setItem('walletInfo', '')
+          localStorage.removeItem('authorization')
+          localStorage.removeItem('walletInfo')
         }
         console.log(event, "NotificationEvents.walletChanged");
       }

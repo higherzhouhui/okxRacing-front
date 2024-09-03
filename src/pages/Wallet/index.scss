@@ -82,7 +82,11 @@
       width: 100%;
       background: rgba($color: #1A2338, $alpha: 0.9);
       padding: 12px;
-
+      .full-name {
+        font-family: 'Bold';
+        font-size: 1.2rem;
+        margin: 1rem 0;
+      }
       .username {
         color: var(--darkColor);
         font-size: 1.1rem;

@@ -7,15 +7,10 @@ const handleResponse = (data: GlobalRequest.Response<any>) => {
   if (code === 403) {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('authorization');
-      window.location.href = `/`;
-    }
-  }
-  if (code === 401) {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('authorization');
-      if (localStorage.getItem('h5PcRoot') == '1') {
-        window.location.href = `/#/wallet`;
-      }
+      window.location.href = `/#/`;
+      // setTimeout(() => {
+      //   window.location.reload()
+      // }, 200);
     }
   }
 };
@@ -29,7 +24,7 @@ const handleError = (res: any) => {
 
 // 创建请求实例
 const instance = axios.create({
-  baseURL: '',
+  baseURL: '/api',
   timeout: 500000,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8',
@@ -40,9 +35,8 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config: any) => {
     if (typeof window !== 'undefined') {
-      let authorization = localStorage.getItem('authorization');
+      const authorization = localStorage.getItem('authorization');
       if (authorization) {
-        authorization = btoa(authorization)
         config.headers = {
           ...config.headers,
           'authorization': `Bearer ${authorization}`,

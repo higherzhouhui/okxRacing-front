@@ -1,5 +1,5 @@
 import '@/mockEnv';
-import { type FC } from 'react';
+import { useEffect, type FC } from 'react';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { Provider } from 'react-redux';
 import store from '@/redux/store';
@@ -108,7 +108,7 @@ const config: IConfigProps = {
 };
 
 const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
-  <div>
+  <div className='error-container maxWidth'>
     <p>An unhandled error occurred:</p>
     <blockquote>
       <code>
@@ -119,13 +119,17 @@ const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
             : JSON.stringify(error)}
       </code>
     </blockquote>
+    <div className='reload' onClick={() => location.reload()}>Fresh</div>
   </div>
-
 );
 
 const MiNiRoot: FC = () => {
-  const bridgeAPI = init(config)
-
+  let bridgeAPI: any
+  try {
+    bridgeAPI = init(config)
+  } catch (error) {
+    console.error(error)
+  }
   return (
     <Provider store={store}>
       <ConfigProvider locale={enUS}>

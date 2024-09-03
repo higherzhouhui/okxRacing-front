@@ -32,6 +32,7 @@ import { setSystemAction, setUserInfoAction } from '@/redux/slices/userSlice';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import Loading from '../Loading';
+import { Toast } from "antd-mobile";
 
 
 const TgApp: FC = () => {
@@ -74,17 +75,29 @@ const TgApp: FC = () => {
       setLoading(true)
       const [res, sysInfo] = await Promise.all([loginReq(data), getSystemConfigReq()])
       if (res.code == 0) {
-        dispatch(setUserInfoAction(res.data))
-        localStorage.setItem('authorization', res.data.user_id)
-        // const today = moment().utc().format('MM-DD')
-        // if (!res.data.check_date || (res.data.check_date && res.data.check_date != today)) {
-        //   navigate('/checkIn')
-        // }
+        // dispatch(setUserInfoAction(res.data))
+        localStorage.setItem('authorization', res.data.token)
+        const today = moment().utc().format('MM-DD')
+        if (!res.data.check_date || (res.data.check_date && res.data.check_date != today)) {
+          navigate('/checkIn')
+        } else {
+          navigate('/home')
+        }
+      } else {
+        Toast.show({
+          content: res.msg,
+          position: 'center'
+        })
       }
       if (sysInfo.code == 0) {
         dispatch(setSystemAction(sysInfo.data))
       }
       setLoading(false)
+    } else {
+      Toast.show({
+        content: 'Network abnormality',
+        position: 'center',
+      })
     }
   }
   useEffect(() => {

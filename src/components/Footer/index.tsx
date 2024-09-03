@@ -19,7 +19,7 @@ function FooterComp({ isH5PcRoot }: { isH5PcRoot?: boolean }) {
         {
             title: 'Home',
             icon: HomeIcon,
-            to: '/',
+            to: '/home',
         },
         {
             title: 'LeaderBoard',
@@ -44,13 +44,17 @@ function FooterComp({ isH5PcRoot }: { isH5PcRoot?: boolean }) {
     ]
     useEffect(() => {
         let flag = true
+        const hideBackPath = ['/', '/checkIn']
         if (myLocation.pathname) {
-            flag = menu.map((item) => { return item.to }).includes(myLocation.pathname)
+            flag = menu.map((item) => {
+                hideBackPath.push(item.to)
+                return item.to
+            }).includes(myLocation.pathname)
             setShowFooter(flag)
         } else {
             setShowFooter(true)
         }
-        if (flag) {
+        if (hideBackPath.includes(myLocation.pathname)) {
             backButton.hide()
             eventBus.emit('showBack', false)
         } else {

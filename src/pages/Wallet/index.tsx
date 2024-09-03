@@ -1,6 +1,5 @@
 import { useConnectWallet } from '@aelf-web-login/wallet-adapter-react';
 import './index.scss'
-import { Button } from 'antd-mobile';
 import { useSelector } from 'react-redux';
 import { formatWalletAddress, handleCopyLink } from '@/utils/common';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +7,8 @@ import { useEffect, useState } from 'react';
 import moment from 'moment';
 
 function WalletPage() {
-  const router = useNavigate()
+  const navigate = useNavigate()
+
   const [isH5PcRoot, setH5PcRoot] = useState(false)
   const { connectWallet, isConnected, disConnectWallet, walletInfo, isLocking, lock } = useConnectWallet();
   const userInfo = useSelector((state: any) => state.user.info);
@@ -28,7 +28,7 @@ function WalletPage() {
     if (isH5PcRoot) {
       await disConnectWallet()
     } else {
-      router('/assets')
+      navigate('/assets')
     }
   }
 
@@ -62,6 +62,7 @@ function WalletPage() {
         <span>{userInfo?.wallet ? '已认证' : '未认证'}</span>
       </div>
       <div className='connect-content'>
+        <div className='full-name'>{`${userInfo?.firstName} ${userInfo?.lastName}`}</div>
         <div className='username'>
           <span>{userInfo?.username}</span>
           <span className='time'>{moment(userInfo?.createdAt).format('YYYY-MM-DD')}&nbsp;加入</span>
@@ -69,7 +70,7 @@ function WalletPage() {
         <div className='lv-container'>
           <div className='lv-left'>
             <div className='lv'>当前车手等级</div>
-            <div className='lv-name'>
+            <div className='lv-name' onClick={() => navigate('/level')}>
               新手
               <img src='/assets/wallet/go.png' width={6} />
             </div>
@@ -83,7 +84,7 @@ function WalletPage() {
           </div>
         </div>
         {
-          isConnected ?
+          isConnected && userInfo?.wallet ?
             <div className='connect-assets'>
               <div className='my-assets' onClick={() => handleCopyLink(userInfo.wallet)}>
                 {formatWalletAddress(userInfo.wallet)}

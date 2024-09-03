@@ -1,0 +1,71 @@
+.level-page {
+  padding: 5vh 1.5rem;
+  height: 100%;
+}
+.list-item {
+  border-radius: 12px;
+  background: linear-gradient(225deg, var(--btnBg), var(--bgColor));
+  height: 70vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-direction: column;
+  .icon {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+  }
+  .left {
+    left: 20px;
+  }
+  .right {
+    right: 20px;
+  }
+  .img-wrapper {
+    position: relative;
+    img {
+      width: 160px;
+    }
+    div {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2rem;
+      font-weight: bold;
+    }
+  }
+  .current {
+    font-size: 1.1rem;
+    color: var(--darkColor);
+  }
+  .label {
+    font-size: 1.8rem;
+    color: var(--highColor);
+    font-family: 'Bold';
+  }
+  .normal-score {
+    font-size: 1.3rem;
+    color: var(--darkColor);
+    font-family: 'number';
+  } 
+  .score {
+    color: #fff;
+  }
+  .progress {
+    position: relative;
+    width: 70%;
+    background: var(--darkColor);
+    height: 4px;
+    border-radius: 4px;
+    .percent {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      background: var(--highColor);
+    }
+  }
+}

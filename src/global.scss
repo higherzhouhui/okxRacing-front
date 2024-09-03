@@ -256,13 +256,34 @@ body,
   border: 1px solid #333;
 }
 
+.pcLayout {
+  height: 100%!important;
+}
+
+
 header {
   padding: 4px 0 0 4px;
   width: fit-content;
   cursor: pointer;
-  z-index: 1001;
+  z-index: 999;
 }
 
 .adm-toast-mask .adm-toast-main {
   max-width: 370px!important;
+}
+
+.error-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  color: var(--textColor);
+  .reload {
+    background: var(--btnBg);
+    padding: 6px 12px;
+    border-radius: 12px;
+    color: #000;
+  }
 }
