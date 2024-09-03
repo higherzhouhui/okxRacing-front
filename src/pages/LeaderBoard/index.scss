@@ -6,6 +6,7 @@
     margin-bottom: 2rem;
     span {
       color: var(--highColor);
+      margin-left: 6px;
     }
   }
   .sub-title {
@@ -13,7 +14,7 @@
     margin-bottom: 2rem;
   }
   .record-btn {
-    background: rgba($color: #fff, $alpha: 0.2);
+    background: var(--btnBg);
     width: fit-content;
     padding: 4px 12px;
     border-radius: 12px;
@@ -22,5 +23,204 @@
     gap: 4px;
     line-height: 1.5rem;
     margin-bottom: 2.5rem;
+  }
+  .custom-list-container {
+    padding: 6px 0 42px 0;
+    position: relative;
+    .custom-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1.2rem;
+      color: var(--darkColor);
+      padding: 4px 12px;
+      border-radius: 8px;
+    }
+    .custom-skeleton {
+      margin-top: 8px;
+      width: 100%;
+      height: 30px;
+    }
+    .custom-list {
+      margin-top: 10px;
+      font-size: 1rem;
+      opacity: 1;
+      gap: 6px;
+      .ct-left {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        flex: 1;
+        img {
+          width: 20px;
+          object-fit: contain;
+        }
+        .order {
+          min-width: 20px;
+          display: inline-block;
+          text-align: center;
+          font-family: Arial, Helvetica, sans-serif;
+        }
+        .ctl-name {
+          font-size: 1.2rem;
+          flex: 1;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          word-break: break-all;
+          height: 100%;
+        }
+      }
+      .ct-right {
+        min-width: fit-content;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        img {
+          width: 20px;
+          object-fit: contain;
+        }
+        span {
+          color: #fff;
+          width: fit-content;
+          font-family: 'number';
+        }
+      }
+    }
+    .myself {
+      background: var(--bgColor);
+    }
+    .no-frens {
+      position: fixed;
+      bottom: 90px;
+      background: var(--bgColor);
+      width: 100%;
+      left: 50%;
+      transform: translate(-50%, 0);
+      padding: 24px;
+      .no-frens-title {
+        font-size: 1.2rem;
+        color: var(--darkColor);
+        margin-bottom: 24px;
+      }
+      .no-frens-bot {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        .no-frens-btn {
+          background: var(--btnBg);
+          color: #fff;
+          height: 42px;
+          font-size: 1.6rem;
+          flex: 1;
+          border-radius: 100px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: 'Bold';
+        }
+        svg {
+          fill: var(--btnBg);
+        }
+        .copy {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 42px;
+          border-radius: 50%;
+          width: 42px;
+          background: #fff;
+        }
+      }
+    }
+    .h5Pc {
+      bottom: 0!important;
+    }
+  }
+}
+.adm-tabs-content {
+  padding: 0;
+}
+
+.game-record {
+  .game-record-content {
+    padding: 12px;
+  }
+  .game-lists {
+    max-height: 70vh;
+    overflow: auto;
+    font-size: 1.1rem;
+    .custom-skeleton {
+      margin-top: 8px;
+      width: 100%;
+      height: 60px;
+    }
+    .game-list {
+      margin-top: 12px;
+      border-bottom: 1px solid var(--darkColor);
+      padding-bottom: 12px;
+      .game-items {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+      .game-item {
+        flex: 1;
+        .game-label {
+          color: var(--darkColor);
+          margin-bottom: 5px;
+          width: fit-content;
+          white-space: nowrap;
+        }
+        .game-code {
+          font-family: 'bold';
+          display: flex;
+          gap: 6px;
+          align-items: center;
+        }
+        .Rise, .Win {
+          fill: var(--rise);
+          color: var(--rise);
+        }
+        .Fall, .Miss {
+          fill: var(--fall);
+          color: var(--fall);
+        }
+      }
+      .game-time {
+        color: var(--darkColor);
+        font-size: 1rem;
+      }
+    }
+    .game-list:last-child {
+      border-bottom: none;
+    }
+  }
+  .page {
+    padding: 4px 8px 0 0;
+    text-align: right;
+    .dis {
+      fill: var(--darkColor);
+    }
+    .active {
+      fill: #fff;
+    }
+  }
+  .game-record-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    .img-wrapper {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translate(0, -50%);
+      cursor: pointer;
+      img {
+        width: 20px;
+      }
+    }
   }
 }

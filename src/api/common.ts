@@ -126,3 +126,10 @@ export const getBtcPriceReq = (dev: boolean, symbol: string) => {
   })
 }
 
+export const getSubTotalAndListReq = (params: any) => {
+  return service<any>({
+    url: '/api/user/subtotallist',
+    method: 'GET',
+    params
+  })
+}

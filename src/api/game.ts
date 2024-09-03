@@ -14,3 +14,18 @@ export const endGameReq = (data: any) => {
     data
   });
 };
+
+
+export const recordGameReq = (params: any) => {
+  return service<any>({
+    url: '/api/game/record',
+    method: 'GET',
+    params
+  });
+};
+export const addgasGameReq = () => {
+  return service<any>({
+    url: '/api/game/addgas',
+    method: 'GET',
+  });
+};

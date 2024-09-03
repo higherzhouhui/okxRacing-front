@@ -3,11 +3,9 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { getBtcPriceReq, getUserInfoReq } from '@/api/common';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserInfoAction } from '@/redux/slices/userSlice'
-import { initUtils } from '@telegram-apps/sdk';
 import { Popup, Toast } from 'antd-mobile';
 import { secondsToTimeFormat } from '@/utils/common';
 import { useNavigate } from 'react-router-dom';
-import EventBus from '@/utils/eventBus';
 import { useConnectWallet } from '@aelf-web-login/wallet-adapter-react';
 import { endGameReq } from '@/api/game';
 
@@ -15,12 +13,9 @@ export const HomePage: FC = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const userInfo = useSelector((state: any) => state.user.info);
-  const systemConfig = useSelector((state: any) => state.user.system);
-  const link = `${systemConfig.tg_link}?startapp=${btoa(userInfo.user_id)}`
   const [isShowRules, setShowRules] = useState(false)
   const scoreTimer = useRef<any>(null)
   const tokenPriceTimer = useRef<any>(null)
-  const [isShowInvite, setShowInvite] = useState(false)
   const [isVoice, setIsVoice] = useState(false)
   const { isConnected } = useConnectWallet()
   const [oldScore, setOldScore] = useState(0)
@@ -106,6 +101,7 @@ export const HomePage: FC = () => {
         const res = await endGameReq({
           guessType: guessType,
           result: isRight ? 'Win' : 'Miss',
+          symbol,
         })
         if (res.code == 0) {
           const info = {
@@ -225,8 +221,7 @@ export const HomePage: FC = () => {
   return (
     <div className="home-page fadeIn">
       <div className='race-bg'>
-        <img src='/assets/home/race.png' alt='race' className='race-img' />
-        <video src='/assets/home/doudong.webm' className='doudong' muted id='douDong' loop />
+        <video src='/assets/home/doudong.mp4' className='doudong' muted id='douDong' loop />
         <video src='/assets/home/race.mp4' className='doudong' id='race' muted={!isVoice} style={{ opacity: isBeginGuess ? '1' : 0 }} />
         <div className={`ybp-container ${isBeginGuess ? 'ybp-container-active' : ''}`}>
           <div className='ybp-inner'>
@@ -254,7 +249,7 @@ export const HomePage: FC = () => {
               </div>
             }
             <div className='chance'>
-              <span>⛽️</span>
+              <img src="/assets/home/gas.png" alt="gas" width={16} />
               <div className='progress-wrapper'>
                 <div className='progress' style={{ width: `${(userInfo?.ticket || 0) / 0.1}%` }}></div>
               </div>
@@ -292,7 +287,7 @@ export const HomePage: FC = () => {
             <img src={`/assets/home/${isVoice ? 'voice' : 'no-voice'}.png`} alt="voice" />
           </div>
           <div className='top-btn-right' onClick={() => handleWallet()}>
-            <svg viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4168" width="14" height="14"><path d="M662.016 574.208a20.2 20 0 1 0 103.424 0 20.2 20 0 1 0-103.424 0Z" fill="#ffffff" p-id="4169"></path><path d="M947.2 396.8l0-97.792c0-50.176-41.216-91.136-91.648-91.136l-27.136 0 0.512-1.28-586.24-176.128c-40.704-12.288-83.968 10.752-96.256 51.2l-38.4 126.208-16.128 0c-50.432 0-91.648 40.96-91.648 91.136l0 550.4c0 50.176 41.216 91.136 91.648 91.136l763.904 0c50.432 0 91.648-40.96 91.648-91.136l0-97.792c42.752-2.048 76.8-37.376 76.8-80.64l0-194.048C1024 434.176 989.952 398.848 947.2 396.8zM182.016 92.672c6.4-20.736 28.672-32.768 49.664-26.368l471.552 141.568L146.944 207.872 182.016 92.672zM855.552 903.168 91.648 903.168c-29.952 0-54.272-24.064-54.272-53.76l0-550.4c0-29.696 24.32-53.76 54.272-53.76l763.904 0c29.952 0 54.272 24.064 54.272 53.76l0 97.28-271.36 0c-44.544 0-80.896 36.352-80.896 80.896l0 194.048c0 44.544 36.352 80.896 80.896 80.896l271.36 0 0 97.28C909.824 879.104 885.504 903.168 855.552 903.168zM986.624 671.232c0 24.064-19.456 43.52-43.52 43.52L638.208 714.752c-24.064 0-43.52-19.456-43.52-43.52l0-194.048c0-24.064 19.456-43.52 43.52-43.52l304.896 0c24.064 0 43.52 19.456 43.52 43.52L986.624 671.232z" fill="#ffffff" p-id="4170"></path></svg>
+            <img src='/assets/home/wallet.png' width={18} />
             <span>PortKey Wallet</span>
           </div>
         </div>
@@ -300,7 +295,8 @@ export const HomePage: FC = () => {
           isAnimation ? <div className='count-time'>00:0{count}</div> : <>
             <div className='score-section'>
               <div className='avail-score'>
-                🏆 <span>Score</span>
+                <img src="/assets/home/jb.png" alt="jb" width={18} />
+                <span>Score</span>
               </div>
             </div>
             <div className='score-center'>{oldScore.toLocaleString()}</div>
@@ -343,32 +339,6 @@ export const HomePage: FC = () => {
                   &nbsp;Harvest your ripe <img src='/assets/common/cat.webp' alt='logo' width={16} height={16} /> within 6 hours!</li>
               </ul>
             </div>
-          </div>
-        </div>
-      </Popup>
-      <Popup
-        visible={isShowInvite}
-        onMaskClick={() => {
-          setShowInvite(false)
-        }}
-        bodyStyle={{
-          borderTopLeftRadius: '8px',
-          borderTopRightRadius: '8px',
-        }}
-        className='popup-invite'
-      >
-        <div className='popup-frens'>
-          <div className='title'>
-            Invite a Fren
-            <svg onClick={() => setShowInvite(false)} className="close-svg" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5777" width="18" height="18"><path d="M597.795527 511.488347 813.564755 295.718095c23.833825-23.833825 23.833825-62.47489 0.001023-86.307691-23.832801-23.832801-62.47489-23.833825-86.307691 0L511.487835 425.180656 295.717583 209.410404c-23.833825-23.833825-62.475913-23.833825-86.307691 0-23.832801 23.832801-23.833825 62.47489 0 86.308715l215.769228 215.769228L209.410915 727.258599c-23.833825 23.833825-23.833825 62.47489 0 86.307691 23.832801 23.833825 62.473867 23.833825 86.307691 0l215.768205-215.768205 215.769228 215.769228c23.834848 23.833825 62.475913 23.832801 86.308715 0 23.833825-23.833825 23.833825-62.47489 0-86.307691L597.795527 511.488347z" fill="#fff" p-id="5778"></path></svg>
-          </div>
-          <div className='content'>
-            <div className='content-desc'>
-              <div>Get {systemConfig?.invite_normalAccount_score} <img src='/assets/common/cat.webp' />and {systemConfig?.invite_normalAccount_ticket} <img src='/assets/common/ticket.webp' />（Invite a Friend）</div>
-              <div>Get {systemConfig?.invite_premiumAccount_score} <img src='/assets/common/cat.webp' />and {systemConfig?.invite_premiumAccount_ticket} <img src='/assets/common/ticket.webp' />（Invite a Telegram Premium）</div>
-            </div>
-            <div className='popup-content-btn' onClick={() => selfHandleCopyLink()}>Copy link</div>
-            <div className='popup-content-btn btn-send' onClick={() => handleSendLink()}>Send</div>
           </div>
         </div>
       </Popup>
@@ -465,8 +435,15 @@ const ResultComp: FC<ResultCompProps> = ({ percent, prePrice, curPrice, diff, vi
         visible ? <div className='result-comp'>
           <div className='result-comp-content'>
             <div className='rcct-content'>
-              <div className='rcc-top'>🔥</div>
-              <div className='rcc-big'>{isRight ? 'WIN' : 'MISS'}</div>
+              {
+                isRight ? <div className='rcct-miss'>
+                  <img src='/assets/home/success.png' className='success' />
+                  <img src='/assets/home/win.png' className='miss' />
+                </div> : <div className='rcct-miss'>
+                  <img src='/assets/home/fail.png' className='fail' />
+                  <img src='/assets/home/miss.png' className='miss' />
+                </div>
+              }
             </div>
             <div className='rccb-content'>
               <div className='rcc-desc'>

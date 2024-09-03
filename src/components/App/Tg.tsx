@@ -76,10 +76,10 @@ const TgApp: FC = () => {
       if (res.code == 0) {
         dispatch(setUserInfoAction(res.data))
         localStorage.setItem('authorization', res.data.user_id)
-        const today = moment().utc().format('MM-DD')
-        if (!res.data.check_date || (res.data.check_date && res.data.check_date != today)) {
-          navigate('/checkIn')
-        }
+        // const today = moment().utc().format('MM-DD')
+        // if (!res.data.check_date || (res.data.check_date && res.data.check_date != today)) {
+        //   navigate('/checkIn')
+        // }
       }
       if (sysInfo.code == 0) {
         dispatch(setSystemAction(sysInfo.data))

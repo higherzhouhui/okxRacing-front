@@ -97,18 +97,22 @@ code {
   --elevation-light-1: 0px 10px 60px rgba(0, 0, 0, .1);
   --elevation-dark-1: 0px 10px 60px rgba(0, 0, 0, .7);
   --tg-theme-button-color: red;
-  --bgColor: #000;
+  --bgColor: #1F2B47;
   --textColor: #fff;
-  --btnBg: #FFBE1D;
-  --highColor: #FFF200;
-  --adm-color-primary: #FFF200!important;
-  --adm-color-border: #333!important;
+  --btnBg: #2F68C5;
+  --highColor: #03d8ff;
+  --darkColor: #a4a4a4;
+  --rise: #00FF15;
+  --fall: #F43850;
+  --adm-color-primary: #03d8ff!important;
+  --adm-color-border: #253456!important;
 }
-html {
-  font-size: 12px;
 
-  @media (min-width: 400px) {
-    font-size: 14px;
+html {
+  font-size: 13px;
+
+  @media screen and (min-width: 400px) {
+    font-size: 15px;
   }
 }
 
@@ -133,7 +137,7 @@ body,
 
 .fadeIn {
   opacity: 0;
-  animation: fadeIn forwards 1.5s;
+  animation: fadeIn forwards 0.8s;
 }
 
 @keyframes fadeIn {
@@ -168,6 +172,8 @@ body,
   display: flex;
   flex-direction: column;
   color: var(--textColor);
+  background-image: url('/assets/common/bg.png');
+  background-size: 100% 100%;
   .content {
     flex: 1;
     overflow: auto;
@@ -175,7 +181,10 @@ body,
 }
 
 .adm-popup-body {
-  background: #181818!important;
+  background: #0E1320!important;
+  >div {
+    background: var(--bgColor);
+  }
 }
 .adm-modal-title {
   color: #000;
@@ -244,7 +253,7 @@ body,
 .maxWidth {
   max-width: 450px;
   margin: 0 auto;
-  border: 1px solid #999;
+  border: 1px solid #333;
 }
 
 header {
@@ -252,4 +261,8 @@ header {
   width: fit-content;
   cursor: pointer;
   z-index: 1001;
+}
+
+.adm-toast-mask .adm-toast-main {
+  max-width: 370px!important;
 }

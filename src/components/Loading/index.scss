@@ -11,6 +11,18 @@
   top: 0;
   left: 0;
   img {
-    width: 200px;
+    width: 80px;
+    animation: move 1s infinite;
+  }
+  @keyframes move {
+    from {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(30px);
+    }
+    100% {
+      transform: translateY(0);
+    }
   }
 }
