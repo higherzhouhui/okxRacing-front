@@ -10,22 +10,6 @@ function _resolve(dir: string) {
   return path.resolve(__dirname, dir);
 }
 
-const phaserMsg = () => {
-  return {
-    name: 'phaserMsg',
-    buildStart() {
-      process.stdout.write(`Building for production...\n`);
-    },
-    buildEnd() {
-      const line = "---------------------------------------------------------";
-      const msg = `❤️❤️❤️ Tell us about your game! - games@phaser.io ❤️❤️❤️`;
-      process.stdout.write(`${line}\n${msg}\n${line}\n`);
-
-      process.stdout.write(`✨ Done ✨\n`);
-    }
-  }
-}
-
 
 // https://vitejs.dev/config/
 
@@ -39,15 +23,14 @@ export default defineConfig({
     // Allows using self-signed certificates to run the dev server using HTTPS.
     // https://www.npmjs.com/package/@vitejs/plugin-basic-ssl
     basicSsl(),
-    phaserMsg(),
     nodePolyfills(),
   ],
   build: {
-    outDir: 'docs',
+    outDir: 'dist',
     rollupOptions: {
       output: {
         manualChunks: {
-          phaser: ['phaser']
+          // phaser: ['phaser']
         }
       }
     },
