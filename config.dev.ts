@@ -36,7 +36,7 @@ export default defineConfig({
         changeOrigin: true, // 是否改变源地址
         rewrite: (path) => path.replace(/^\/binance/, ''), // 重写路径
       },
-      '/api/': {
+      '/^api/': {
         target: 'http://localhost:6954', // 目标服务器地址
         // target: 'https://test.forkfrenpet.com', // 目标服务器地址
         changeOrigin: true, // 是否改变源地址

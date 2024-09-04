@@ -26,7 +26,7 @@ export default defineConfig({
     nodePolyfills(),
   ],
   build: {
-    outDir: 'dist',
+    outDir: 'racedist',
     rollupOptions: {
       output: {
         manualChunks: {
