@@ -1,5 +1,5 @@
-import { Button, Space, Swiper, SwiperRef, Toast } from 'antd-mobile'
 import './index.scss'
+import { Space, Swiper, SwiperRef } from 'antd-mobile'
 import { useEffect, useRef, useState } from 'react'
 import { levelListReq } from '@/api/game'
 import { useSelector } from 'react-redux'
@@ -44,13 +44,13 @@ function LevelPage() {
           <div className='lv-num'>{item.level}</div>
         </div>
         {
-          level == item.level ? <div className='current'>当前车手等级</div> : null
+          level == item.level ? <div className='current'>Current driver level</div> : null
         }
         <div className='label'>{item.name}</div>
         <div className='normal-score'>
           {
-            index == levelList.length - 1 ? <span>{Number(item.score).toLocaleString()} &nbsp;PTS或以上</span>
-              : item.level == 1 ? <span>{Number(levelList[0].score).toLocaleString()} &nbsp;PTS及以下</span>
+            index == levelList.length - 1 ? <span>{Number(item.score).toLocaleString()} &nbsp;points or more</span>
+              : item.level == 1 ? <span>{Number(levelList[0].score).toLocaleString()} &nbsp;points or less</span>
               : <span><span>{Number(item.score).toLocaleString()} ~ </span>{Number(levelList[index + 1].score).toLocaleString()} &nbsp;PTS</span>
           }
         </div>

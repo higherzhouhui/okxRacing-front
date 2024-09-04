@@ -77,12 +77,13 @@ const TgApp: FC = () => {
       if (res.code == 0) {
         // dispatch(setUserInfoAction(res.data))
         localStorage.setItem('authorization', res.data.token)
-        const today = moment().utc().format('MM-DD')
-        if (!res.data.check_date || (res.data.check_date && res.data.check_date != today)) {
-          navigate('/checkIn')
-        } else {
-          navigate('/home')
-        }
+        navigate('/home')
+        // const today = moment().utc().format('MM-DD')
+        // if (!res.data.check_date || (res.data.check_date && res.data.check_date != today)) {
+        //   navigate('/checkIn')
+        // } else {
+        //   navigate('/home')
+        // }
       } else {
         Toast.show({
           content: res.msg,

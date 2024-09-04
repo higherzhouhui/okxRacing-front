@@ -17,7 +17,7 @@ function FooterComp({ isH5PcRoot }: { isH5PcRoot?: boolean }) {
     const [isShowFooter, setShowFooter] = useState(true)
     const menu = [
         {
-            title: 'Home',
+            title: 'Racing',
             icon: HomeIcon,
             to: '/home',
         },

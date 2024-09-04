@@ -133,3 +133,11 @@ export const getSubTotalAndListReq = (params: any) => {
     params
   })
 }
+
+
+export const getCertifiedsReq = () => {
+  return service<any>({
+    url: '/user/getcertifieds',
+    method: 'GET',
+  })
+}

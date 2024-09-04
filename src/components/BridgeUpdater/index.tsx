@@ -39,12 +39,13 @@ export default function BridgeUpdater() {
       dispatch(setUserInfoAction(res.data))
       localStorage.setItem('authorization', res.data.token)
       localStorage.setItem('walletInfo', JSON.stringify(walletInfo))
-      const today = moment().utc().format('MM-DD')
-      if (!res.data.check_date || (res.data.check_date && res.data.check_date != today)) {
-        navigate('/checkIn')
-      } else {
-        navigate(url)
-      }
+      navigate('/home')
+      // const today = moment().utc().format('MM-DD')
+      // if (!res.data.check_date || (res.data.check_date && res.data.check_date != today)) {
+      //   navigate('/checkIn')
+      // } else {
+      //   navigate(url)
+      // }
     }
     eventBus.emit('loading', false)
   }
