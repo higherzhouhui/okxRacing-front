@@ -3,14 +3,14 @@
   .title {
     font-size: 2.5rem;
     font-weight: bold;
-    margin-bottom: 2rem;
+    margin-bottom: rem;
     span {
       color: var(--highColor);
       margin-left: 6px;
     }
   }
   .sub-title {
-    font-size: 1.5rem;
+    font-size: 1rem;
     margin-bottom: 2rem;
   }
   .record-btn {
@@ -91,12 +91,12 @@
     }
     .no-frens {
       position: fixed;
-      bottom: 90px;
+      bottom: 85px;
       background: var(--bgColor);
       width: 100%;
       left: 50%;
       transform: translate(-50%, 0);
-      padding: 24px;
+      padding: 18px;
       .no-frens-title {
         font-size: 1.2rem;
         color: var(--darkColor);
