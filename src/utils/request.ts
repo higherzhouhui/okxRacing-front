@@ -7,10 +7,11 @@ const handleResponse = (data: GlobalRequest.Response<any>) => {
   if (code === 403) {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('authorization');
-      window.location.href = `/#/`;
-      // setTimeout(() => {
-      //   window.location.reload()
-      // }, 200);
+      if (localStorage.getItem('h5PcRoot') == '1') {
+        window.location.href = `/#/wallet`;
+      } else {
+        window.location.href = `/#/index`;
+      }
     }
   }
 };
@@ -25,7 +26,7 @@ const handleError = (res: any) => {
 // 创建请求实例
 const instance = axios.create({
   baseURL: '',
-  timeout: 500000,
+  timeout: 50000,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8',
   },
@@ -42,6 +43,9 @@ instance.interceptors.request.use(
           'authorization': `Bearer ${authorization}`,
         };
       }
+    }
+    if (!config.url.includes('binance')) {
+      config.url = `/race${config.url}`
     }
     removePending(config);
     addPending(config);
@@ -66,6 +70,7 @@ instance.interceptors.response.use(
   (err) => {
     // 对响应错误做些什么
     handleError(err.response);
+    console.error('httpError:', `${err}`)
     return Promise.reject(err);
   }
 );

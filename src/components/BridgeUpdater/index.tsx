@@ -9,7 +9,6 @@ import { useDispatch } from "react-redux";
 import { setUserInfoAction } from "@/redux/slices/userSlice";
 import EventBus from "@/utils/eventBus";
 import { useNavigate } from "react-router-dom";
-import moment from "moment";
 export default function BridgeUpdater() {
   const provider = useConnectWallet();
   const dispatch = useDispatch()
@@ -44,7 +43,7 @@ export default function BridgeUpdater() {
       // if (!res.data.check_date || (res.data.check_date && res.data.check_date != today)) {
       //   navigate('/checkIn')
       // } else {
-      //   navigate(url)
+      //   navigate('/home')
       // }
     }
     eventBus.emit('loading', false)

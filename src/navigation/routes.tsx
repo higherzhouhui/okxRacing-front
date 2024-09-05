@@ -8,10 +8,11 @@ const  WalletPage= lazy(() => import('@/pages/Wallet'))
 const  AssetsPage= lazy(() => import('@/components/Assets'))
 const  LeaderBoardPage= lazy(() => import('@/pages/LeaderBoard'))
 const  CheckInlPage= lazy(() => import('@/pages/Frens/Detail'))
-const  TermsPage= lazy(() => import('@/pages/CheckIn'))
+const  TermsPage= lazy(() => import('@/pages/Terms'))
 const  LevelPage= lazy(() => import('@/pages/Level'))
 const  LoadingPage= lazy(() => import('@/components/Loading'))
 const  FrensDetailPage= lazy(() => import('@/pages/Frens/Detail'))
+const IndexPage = lazy(() => import('@/pages/Index'))
 
 interface Route {
   path: string;
@@ -22,6 +23,7 @@ interface Route {
 
 export const routes: Route[] = [
   { path: '/', Component: LoadingPage },
+  { path: '/index', Component: IndexPage },
   { path: '/home', Component: HomePage },
   { path: '/task', Component: TaskPage },
   { path: '/frens', Component: FrensPage },

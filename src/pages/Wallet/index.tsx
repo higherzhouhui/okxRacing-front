@@ -10,7 +10,7 @@ import { getCertifiedsReq } from '@/api/common';
 function WalletPage() {
   const navigate = useNavigate()
   const [isH5PcRoot, setH5PcRoot] = useState(false)
-  const { connectWallet, isConnected, disConnectWallet, walletInfo, isLocking, lock } = useConnectWallet();
+  const { connectWallet, isConnected, disConnectWallet, isLocking, lock } = useConnectWallet();
   const userInfo = useSelector((state: any) => state.user.info);
   const [total, setTotal] = useState(0)
   const onConnectBtnClickHandler = async () => {
@@ -22,17 +22,13 @@ function WalletPage() {
   };
 
   const handleAsset = async () => {
-    if (isH5PcRoot) {
-      await disConnectWallet()
-    } else {
-      navigate('/assets')
-    }
+    navigate('/assets')
   }
 
   useEffect(() => {
     if (localStorage.getItem('h5PcRoot') == '1') {
       setH5PcRoot(true)
-      if (localStorage.getItem('token')) {
+      if (localStorage.getItem('authorization')) {
         getCertifiedsReq().then(res => {
           if (res.code == 0) {
             setTotal(res.data.count)
@@ -99,15 +95,18 @@ function WalletPage() {
               <div className='my-assets' onClick={() => handleCopyLink(userInfo.wallet)}>
                 {formatWalletAddress(userInfo.wallet)}
               </div>
-              {
-                isH5PcRoot ? <div className='my-assets' onClick={lock}>
-                  {isLocking ? 'unLock' : 'Lock'}
-                </div> : null
-              }
-              <div className='my-assets' onClick={() => handleAsset()}>
+              <div className='connect-list'>
                 {
-                  isH5PcRoot ? 'Disconnect' : 'Assets'
+                  isH5PcRoot ? <div className='my-assets disconnect' onClick={async () => await disConnectWallet()}>DisConnect</div> : null
                 }
+                {
+                  isH5PcRoot ? <div className='my-assets lock' onClick={lock}>
+                    {isLocking ? 'unLock' : 'Lock'}
+                  </div> : null
+                }
+                <div className='my-assets assets' onClick={() => handleAsset()}>
+                  Assets
+                </div>
               </div>
             </div>
             :

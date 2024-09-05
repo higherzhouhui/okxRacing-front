@@ -1,68 +1,43 @@
-
-import eruda from "eruda";
-// import '@/trackers'
-
-import {
-  bindMiniAppCSSVars,
-  bindThemeParamsCSSVars,
-  bindViewportCSSVars,
-  initBackButton,
-  initInitData,
-  useLaunchParams,
-  useMiniApp,
-  useThemeParams,
-  useViewport,
-} from '@telegram-apps/sdk-react';
-
 import {
   Navigate,
   Route,
   Routes,
   useNavigate,
 } from 'react-router-dom';
+import {
+  bindViewportCSSVars,
+  initBackButton,
+  initInitData,
+  initMiniApp,
+  initSwipeBehavior,
+  initViewport,
+  retrieveLaunchParams
+} from '@telegram-apps/sdk';
+
 
 import { routes } from '@/navigation/routes';
 import Footer from '@/components/Footer';
 import Congrates from '@/components/Congrates';
 import EventBus from '@/utils/eventBus';
 import { AppRoot } from '@telegram-apps/telegram-ui';
-import { type FC, useEffect, useMemo, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { getSystemConfigReq, loginReq } from '@/api/common';
-import { setSystemAction, setUserInfoAction } from '@/redux/slices/userSlice';
+import { setSystemAction } from '@/redux/slices/userSlice';
 import { useDispatch } from 'react-redux';
-import moment from 'moment';
 import Loading from '../Loading';
 import { Toast } from "antd-mobile";
 
 
 const TgApp: FC = () => {
-  const debug = useLaunchParams().startParam === 'debug';
-  const lp = useLaunchParams();
-  const miniApp = useMiniApp();
-  const themeParams = useThemeParams();
-  const viewport = useViewport();
   const [backButton] = initBackButton()
+  const [swipeBehavior] = initSwipeBehavior();
+  const [viewport] = initViewport();
+  const [miniApp] = initMiniApp()
+  const launchParams = retrieveLaunchParams()
+
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const manifestUrl = useMemo(() => {
-    return new URL('tonconnect-manifest.json', window.location.href).toString();
-  }, []);
-
-  useEffect(() => {
-    return bindMiniAppCSSVars(miniApp, themeParams);
-  }, [miniApp, themeParams]);
-
-  useEffect(() => {
-    return bindThemeParamsCSSVars(themeParams);
-  }, [themeParams]);
-
-  useEffect(() => {
-    if (!viewport?.isExpanded) {
-      viewport?.expand(); // will expand the Mini App, if it's not
-    }
-    return viewport && bindViewportCSSVars(viewport);
-  }, [viewport]);
   const eventBus = EventBus.getInstance()
   const [isShowCongrates, setShowCongrates] = useState(false)
   const [showTime, setShowTime] = useState(1500)
@@ -101,6 +76,13 @@ const TgApp: FC = () => {
       })
     }
   }
+  const expandViewPort = async () => {
+    const vp = await viewport;
+    if (!vp.isExpanded) {
+      vp.expand(); // will expand the Mini App, if it's not
+    }
+    bindViewportCSSVars(vp);
+  }
   useEffect(() => {
     initApp()
     const onMessage = ({ visible, time }: { visible: boolean, time?: number }) => {
@@ -115,21 +97,18 @@ const TgApp: FC = () => {
   }, [])
 
   useEffect(() => {
-    if (debug) {
-      eruda.init()
-    }
-  }, [debug]);
-
-  useEffect(() => {
     backButton.on('click', () => {
       navigate(-1)
     })
+    swipeBehavior.disableVerticalSwipe();
+    // const tp = initThemeParams();
+    // bindThemeParamsCSSVars(tp);
+    expandViewPort()
   }, [])
-
   return (
     <AppRoot
       appearance={miniApp.isDark ? 'dark' : 'light'}
-      platform={['macos', 'ios'].includes(lp.platform) ? 'ios' : 'base'}
+      platform={['macos', 'ios'].includes(launchParams.platform) ? 'ios' : 'base'}
     >
       <div className='layout' id='layout'>
         <div className='content'>

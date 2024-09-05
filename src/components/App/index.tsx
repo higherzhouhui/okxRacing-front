@@ -1,9 +1,6 @@
-
-
-
 import { lazy, Suspense, useEffect, useState, type FC } from 'react';
-import Loading from '@/components/Loading';
 import { initInitData } from '@telegram-apps/sdk';
+import Loading from '../Loading';
 
 const TgApp = lazy(() => import('./Tg'))
 const PcApp = lazy(() => import('./Pc'))

@@ -3,9 +3,6 @@
   position: relative;
 
   .connect-assets {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
     margin-top: 24px;
     .my-assets {
       font-size: 18px;
@@ -17,6 +14,20 @@
       align-items: center;
       gap: 4px;
       width: fit-content;
+      margin: 0 auto;
+    }
+    .connect-list {
+      margin-top: 12px;
+      display: flex;
+    }
+    .lock {
+      background: var(--fall);
+    }
+    .disconnect {
+      background: var(--darkColor);
+    }
+    .assets {
+      background: var(--highColor);
     }
   }
 

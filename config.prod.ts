@@ -3,6 +3,9 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 import react from '@vitejs/plugin-react-swc';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 import { nodePolyfills } from "vite-plugin-node-polyfills";
+import compression from 'vite-plugin-compression';
+
+
 import path from 'path';
 
 // 定义一个函数来解析路径
@@ -24,14 +27,30 @@ export default defineConfig({
     // https://www.npmjs.com/package/@vitejs/plugin-basic-ssl
     basicSsl(),
     nodePolyfills(),
+    compression({
+      verbose: true, // 是否在控制台输出压缩结果
+      disable: false, // 是否禁用压缩
+      threshold: 10240, // 压缩文件的大小阈值（以字节为单位）
+      algorithm: 'gzip', // 压缩算法
+      ext: '.gz', // 压缩文件的后缀名
+      deleteOriginFile: true, // 是否删除原文件
+    })
   ],
   build: {
     outDir: 'racedist',
     rollupOptions: {
       output: {
         manualChunks: {
-          // phaser: ['phaser']
-        }
+          aelfSdk: ['aelf-sdk'],
+          antd: ['antd'],
+          login: ['@aelf-web-login/utils'],
+          loginbase: ['@aelf-web-login/wallet-adapter-base'],
+          loginbridge: ['@aelf-web-login/wallet-adapter-bridge'],
+          loginelf: ['@aelf-web-login/wallet-adapter-night-elf'],
+          loginaa: ['@aelf-web-login/wallet-adapter-portkey-aa'],
+          logindiscover: ['@aelf-web-login/wallet-adapter-portkey-discover'],
+          loginreact: ['@aelf-web-login/wallet-adapter-react'],
+        },
       }
     },
     minify: 'terser',
@@ -45,17 +64,8 @@ export default defineConfig({
       }
     }
   },
-  // @ts-ignore
   // base: process.env.GH_PAGES ? '/telegram-mini/' : './',
   server: {
-    proxy: {
-      '/api': {
-        // target: 'http://localhost:8085', // 目标服务器地址
-        target: 'https://test.forkfrenpet.com', // 目标服务器地址
-        changeOrigin: true, // 是否改变源地址
-        rewrite: (path) => path.replace(/^\/api/, '/api/'), // 重写路径
-      }
-    },
     fs: {
       allow: ['../sdk', './'],
     },

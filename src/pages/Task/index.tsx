@@ -49,7 +49,9 @@ function TaskPage() {
         const _list = JSON.parse(JSON.stringify(list))
         _list[index][cIndex].status = res.data.status
         _list[index][cIndex].loading = false
-        setList(_list)
+        setTimeout(() => {
+          setList(_list)
+        }, 3000);
       } else {
         Toast.show({ content: res.msg, position: 'top' })
         const _list = JSON.parse(JSON.stringify(list))

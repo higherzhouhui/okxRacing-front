@@ -37,7 +37,7 @@ export default function Assets() {
     console.log('walletInfo', walletInfo)
     console.log('portkeyAAInfo', portkeyAAInfo)
     if (walletType !== WalletTypeEnum.aa) {
-      navigate("/");
+      navigate("/index");
     }
   }, [walletType, navigate]);
 

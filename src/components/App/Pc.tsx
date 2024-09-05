@@ -1,11 +1,4 @@
 import {
-  bindMiniAppCSSVars,
-  bindThemeParamsCSSVars,
-  useMiniApp,
-  useThemeParams,
-} from '@telegram-apps/sdk-react';
-
-import {
   Navigate,
   Route,
   Routes,
@@ -18,28 +11,16 @@ import Congrates from '@/components/Congrates';
 import EventBus from '@/utils/eventBus';
 import { type FC, useEffect, useState } from 'react';
 import { getSystemConfigReq, h5PcLoginReq } from '@/api/common';
-import { setSystemAction, setUserInfoAction } from '@/redux/slices/userSlice';
+import { setSystemAction } from '@/redux/slices/userSlice';
 import { useDispatch } from 'react-redux';
-import moment from 'moment';
 import Loading from '../Loading';
 import { Toast } from 'antd-mobile';
 
 
 const PcApp: FC = () => {
-  const miniApp = useMiniApp();
-  const themeParams = useThemeParams();
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    return bindMiniAppCSSVars(miniApp, themeParams);
-  }, [miniApp, themeParams]);
-
-  useEffect(() => {
-    return bindThemeParamsCSSVars(themeParams);
-  }, [themeParams]);
-
   const eventBus = EventBus.getInstance()
   const [isShowCongrates, setShowCongrates] = useState(false)
   const [showTime, setShowTime] = useState(1500)
@@ -60,6 +41,7 @@ const PcApp: FC = () => {
           // dispatch(setUserInfoAction(res.data))
           localStorage.setItem('authorization', res.data.user_id)
           navigate('/home')
+
           // const today = moment().utc().format('MM-DD')
           // if (!res.data.check_date || (res.data.check_date && res.data.check_date != today)) {
           //   navigate('/checkIn')

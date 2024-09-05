@@ -1,10 +1,10 @@
-import '@/mockEnv';
-import { useEffect, type FC } from 'react';
+import { Suspense, type FC } from 'react';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { Provider } from 'react-redux';
 import store from '@/redux/store';
-import { ConfigProvider } from 'antd-mobile';
 import enUS from 'antd-mobile/es/locales/en-US'
+import { ConfigProvider } from 'antd-mobile';
+import { SDKProvider } from '@telegram-apps/sdk-react';
 import { PortkeyDiscoverWallet } from "@aelf-web-login/wallet-adapter-portkey-discover";
 import { PortkeyAAWallet } from "@aelf-web-login/wallet-adapter-portkey-aa";
 import { NightElfWallet } from "@aelf-web-login/wallet-adapter-night-elf";
@@ -15,7 +15,7 @@ import loginConfig from "@/constants/config/login.config";
 import { APP_NAME, WEBSITE_ICON } from "@/constants/website";
 import BridgeUpdater from '@/components/BridgeUpdater';
 import { HashRouter } from 'react-router-dom';
-import { SDKProvider } from '@telegram-apps/sdk-react';
+import Loading from '@/components/Loading';
 import { App } from './App';
 
 const {
@@ -119,34 +119,39 @@ const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
             : JSON.stringify(error)}
       </code>
     </blockquote>
-    <div className='reload' onClick={() => location.reload()}>Fresh</div>
+    <div className='reload' onClick={() => {
+      localStorage.removeItem('authorization')
+      window.location.reload()
+    }}>Fresh</div>
   </div>
 );
 
 const MiNiRoot: FC = () => {
+
   let bridgeAPI: any
   try {
     bridgeAPI = init(config)
   } catch (error) {
     console.error(error)
   }
+
   return (
-    <Provider store={store}>
-      <ConfigProvider locale={enUS}>
-        <WebLoginProvider bridgeAPI={bridgeAPI}>
-          <HashRouter>
-            <SDKProvider>
-              <App />
-            </SDKProvider>
-            <BridgeUpdater />
-          </HashRouter>
-        </WebLoginProvider>
-      </ConfigProvider>
-    </Provider>
+    <Suspense fallback={<Loading />}>
+      <Provider store={store}>
+        <ConfigProvider locale={enUS}>
+          <SDKProvider acceptCustomStyles>
+            <WebLoginProvider bridgeAPI={bridgeAPI}>
+              <HashRouter>
+                <App />
+                <BridgeUpdater />
+              </HashRouter>
+            </WebLoginProvider>
+          </SDKProvider>
+        </ConfigProvider>
+      </Provider>
+    </Suspense>
   );
 };
-
-
 
 export const Root: FC = () => (
   <ErrorBoundary fallback={ErrorBoundaryError} >
