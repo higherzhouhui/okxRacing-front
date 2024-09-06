@@ -98,6 +98,9 @@ export const HomePage: FC = () => {
         if (diff == 0) {
           isRight = false
         }
+        if (navigator.vibrate) {
+          navigator.vibrate(100)
+        }
         const res = await endGameReq({
           guessType: guessType,
           result: isRight ? 'Win' : 'Miss',
