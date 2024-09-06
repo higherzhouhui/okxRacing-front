@@ -24,7 +24,7 @@ if (import.meta.env.DEV || import.meta.env.PROD) {
       ['user', JSON.stringify({
         id: 77777777,
         first_name: 'Andrew',
-        last_name: 'isMockUser_258218',
+        last_name: 'isMockUser_258217',
         username: 'mockuser',
         language_code: 'en',
         is_premium: true,

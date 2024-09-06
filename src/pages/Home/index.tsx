@@ -40,6 +40,17 @@ export const HomePage: FC = () => {
       setSymbol('BTC')
     }
   }
+  const handleOpenVoice = () => {
+    const _isVoice = !isVoice
+    setIsVoice(_isVoice)
+    localStorage.setItem('isVoice', _isVoice ? '1' : '')
+  }
+  useEffect(() => {
+    const _isVoice = localStorage.getItem('isVoice')
+    if (_isVoice == '1') {
+      setIsVoice(true)
+    }
+  }, [])
   const handleGuess = (type: string) => {
     if (userInfo.ticket <= 0) {
       Toast.show({
@@ -286,7 +297,7 @@ export const HomePage: FC = () => {
       </div>
       <div className='main-content'>
         <div className='top-btn'>
-          <div className='top-btn-left' onClick={() => setIsVoice(!isVoice)}>
+          <div className='top-btn-left' onClick={() => handleOpenVoice()}>
             <img src={`/assets/home/${isVoice ? 'voice' : 'no-voice'}.png`} alt="voice" />
           </div>
           <div className='top-btn-right' onClick={() => handleWallet()}>
