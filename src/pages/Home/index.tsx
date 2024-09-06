@@ -254,7 +254,7 @@ export const HomePage: FC = () => {
                 <div className='progress' style={{ width: `${(userInfo?.ticket || 0) / 0.1}%` }}></div>
               </div>
               <div className='change-number'>{userInfo?.ticket}&nbsp;/&nbsp;<span>10</span></div>
-              <div className='more' onClick={() => navigate('/frens')}>
+              <div className='more' onClick={() => navigate('/task')}>
                 <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5328" width="12" height="12"><path d="M749.6 466.4l-384-384-91.2 91.2L613.6 512l-339.2 338.4 91.2 91.2 384-384 44.8-45.6z" p-id="5329" fill="#bfbfbf"></path></svg>
               </div>
             </div>
