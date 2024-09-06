@@ -20,7 +20,14 @@ function FrensPage() {
   const [hasMore, setHasMore] = useState(true)
   const [isH5PcRoot, setH5PcRoot] = useState(false)
   const handleShare = () => {
-    utils.shareURL(link, ``)
+    if (isH5PcRoot) {
+      const isOpen = window.open(link)
+      if (!isOpen) {
+        location.href = link
+      }
+    } else {
+      utils.shareURL(link, ``)
+    }
   }
 
   const copy = () => {

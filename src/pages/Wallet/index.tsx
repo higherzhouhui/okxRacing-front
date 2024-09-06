@@ -110,7 +110,11 @@ function WalletPage() {
               </div>
             </div>
             :
-            <div onClick={onConnectBtnClickHandler} className='connect-btn'>Connect</div>
+            <div onClick={onConnectBtnClickHandler} className='connect-btn'>
+              {
+                isLocking ? 'UnLock' : 'Connect'
+              }
+            </div>
         }
       </div>
     </div>

@@ -25,39 +25,33 @@ const PcApp: FC = () => {
   const [isShowCongrates, setShowCongrates] = useState(false)
   const [showTime, setShowTime] = useState(1500)
   const [isShowBack, setIsShowBack] = useState(false)
+  
   const initApp = async () => {
     try {
+      setLoading(true)
+
+      const sysInfo = await getSystemConfigReq()
+      if (sysInfo.code == 0) {
+        dispatch(setSystemAction(sysInfo.data))
+      }
       localStorage.setItem('h5PcRoot', '1')
       const authorization = localStorage.getItem('authorization')
       const walletInfo = localStorage.getItem('walletInfo')
-      const h5PcRoot = true
-      if (authorization && h5PcRoot && walletInfo) {
-        setLoading(true)
-        const [res, sysInfo] = await Promise.all([h5PcLoginReq(JSON.parse(walletInfo)), getSystemConfigReq()])
-        if (sysInfo.code == 0) {
-          dispatch(setSystemAction(sysInfo.data))
-        }
+      if (authorization && walletInfo) {
+        const res = await h5PcLoginReq(JSON.parse(walletInfo))
         if (res.code == 0) {
-          // dispatch(setUserInfoAction(res.data))
-          localStorage.setItem('authorization', res.data.user_id)
+          localStorage.setItem('authorization', res.data.token)
           navigate('/home')
-
-          // const today = moment().utc().format('MM-DD')
-          // if (!res.data.check_date || (res.data.check_date && res.data.check_date != today)) {
-          //   navigate('/checkIn')
-          // } else {
-          //   navigate('/home')
-          // }
         } else {
           Toast.show({
             content: res.msg,
             position: 'center'
           })
         }
-        setLoading(false)
       } else {
         navigate('/wallet')
       }
+      setLoading(false)
     } catch (error) {
       navigate('/wallet')
     }

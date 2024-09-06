@@ -137,7 +137,7 @@ export function handleCopyLink(link: string) {
   textArea.select();
   document.execCommand("copy");
   document.body.removeChild(textArea);
-  Toast.show({ content: 'copied', position: 'top' })
+  Toast.show({ content: 'The link has been copied to the clipboard.', position: 'top', duration: 3000 })
 }
 
 type ThrottleHandler = (args: any[]) => void;
