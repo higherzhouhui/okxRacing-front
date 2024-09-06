@@ -93,10 +93,12 @@ export default function BridgeUpdater() {
         if (event?.address) {
           if (localStorage.getItem('h5PcRoot') == '1') {
             const name = event?.extraInfo?.nickName || event?.name
+            const startParam = localStorage.getItem('startParam')
             h5PcLogin({
               wallet: event?.address,
               wallet_nickName: name,
               username: name,
+              startParam,
             })
           } else {
             bindWallet({

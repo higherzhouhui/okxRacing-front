@@ -25,7 +25,7 @@ const PcApp: FC = () => {
   const [isShowCongrates, setShowCongrates] = useState(false)
   const [showTime, setShowTime] = useState(1500)
   const [isShowBack, setIsShowBack] = useState(false)
-  
+
   const initApp = async () => {
     try {
       setLoading(true)
@@ -71,6 +71,19 @@ const PcApp: FC = () => {
     eventBus.addListener('showCongrates', onMessage)
     eventBus.addListener('showBack', onBack)
     eventBus.addListener('loading', onLoading)
+    // 获取邀请参数
+    try {
+      const url = new URL(location.href);
+      const params = new URLSearchParams(url.search.slice(1)); // 移除开头的'?'字符
+      const startParam = params.get('startParam')
+      if (startParam) {
+        localStorage.setItem('startParam', startParam)
+      } else {
+        localStorage.removeItem('startParam')
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }, [])
 
 

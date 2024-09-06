@@ -42,7 +42,7 @@ const TgApp: FC = () => {
   const [isShowCongrates, setShowCongrates] = useState(false)
   const [showTime, setShowTime] = useState(1500)
   const initApp = async () => {
-    localStorage.setItem('h5PcRoot', '0')
+    localStorage.removeItem('h5PcRoot')
     const initData = initInitData() as any;
     if (initData && initData.user && initData.user.id) {
       const user = initData.initData.user
