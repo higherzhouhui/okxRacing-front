@@ -8,6 +8,7 @@ import { secondsToTimeFormat } from '@/utils/common';
 import { useNavigate } from 'react-router-dom';
 import { useConnectWallet } from '@aelf-web-login/wallet-adapter-react';
 import { endGameReq } from '@/api/game';
+import { initHapticFeedback } from '@telegram-apps/sdk';
 
 export const HomePage: FC = () => {
   const dispatch = useDispatch()
@@ -33,6 +34,8 @@ export const HomePage: FC = () => {
   const [isDouDong, setIsDouDong] = useState(false)
   const [symbol, setSymbol] = useState('BTC')
   const [resultInfo, setResultInfo] = useState<any>({})
+  const hapticFeedback = initHapticFeedback();
+
   const handleSwitchSymbol = () => {
     if (symbol == 'BTC') {
       setSymbol('ELF')
@@ -109,9 +112,8 @@ export const HomePage: FC = () => {
         if (diff == 0) {
           isRight = false
         }
-        if (navigator.vibrate) {
-          navigator.vibrate(100)
-        }
+        hapticFeedback.impactOccurred('medium');
+
         const res = await endGameReq({
           guessType: guessType,
           result: isRight ? 'Win' : 'Miss',
