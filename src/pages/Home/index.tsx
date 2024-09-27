@@ -55,6 +55,13 @@ export const HomePage: FC = () => {
     }
   }, [])
   const handleGuess = (type: string) => {
+    if (type == 'Rise') {
+      hapticFeedback.selectionChanged();
+      console.log('Rise selectionChanged')
+    } else {
+      hapticFeedback.notificationOccurred('success');
+      console.log('Fall notificationOccurred')
+    }
     if (userInfo.ticket <= 0) {
       Toast.show({
         content: 'Gas is Empty, please wait!',
