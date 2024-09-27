@@ -55,13 +55,6 @@ export const HomePage: FC = () => {
     }
   }, [])
   const handleGuess = (type: string) => {
-    if (type == 'Rise') {
-      hapticFeedback.selectionChanged();
-      console.log('Rise selectionChanged')
-    } else {
-      hapticFeedback.notificationOccurred('success');
-      console.log('Fall notificationOccurred')
-    }
     if (userInfo.ticket <= 0) {
       Toast.show({
         content: 'Gas is Empty, please wait!',
@@ -119,8 +112,11 @@ export const HomePage: FC = () => {
         if (diff == 0) {
           isRight = false
         }
-        hapticFeedback.impactOccurred('medium');
-
+        if (isRight) {
+          hapticFeedback.notificationOccurred('success');
+        } else {
+          hapticFeedback.notificationOccurred('error');
+        }
         const res = await endGameReq({
           guessType: guessType,
           result: isRight ? 'Win' : 'Miss',
