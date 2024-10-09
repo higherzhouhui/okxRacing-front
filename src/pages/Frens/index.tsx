@@ -105,7 +105,7 @@ function FrensPage() {
       </div>
       <InfiniteScroll loadMore={loadMore} hasMore={hasMore} />
     </div>
-    <div className={`page-bottom maxWidth ${isH5PcRoot && 'pcH5'}`}>
+    <div className={`page-bottom maxWidth ${isH5PcRoot && 'h5Pc'}`}>
       <Button color="default" style={{ fontWeight: 'bold', height: '50px', borderRadius: '100px', flex: 1, background: 'var(--btnBg)', color: '#fff', border: 'none' }} onClick={() => handleShare()}>👆🏻 Invite frens</Button>
       <Button color="default" className="copy" onClick={() => copy()} style={{ borderRadius: '100px', height: '50px', padding: '0 15px' }}>
         {

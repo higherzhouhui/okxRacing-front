@@ -167,7 +167,7 @@ body,
 
 
 .layout {
-  height: 100vh;
+  height: var(--tg-viewport-height);
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -286,4 +286,18 @@ header {
     border-radius: 12px;
     color: #000;
   }
+}
+
+.adm-toast-mask .adm-toast-main {
+  color: var(--highColor);
+  background: var(--bgColor);
+  max-width: 350px;
+}
+
+.social-login-wrapper .social-login-upgraded-portkey {
+  display: none;
+}
+
+.adm-dialog-body {
+  max-width: 375px;
 }

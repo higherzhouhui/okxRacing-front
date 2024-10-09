@@ -73,6 +73,9 @@
             align-items: center;
             gap: 2px;
           }
+          svg {
+            fill: var(--darkColor);
+          }
         }
 
         .price {

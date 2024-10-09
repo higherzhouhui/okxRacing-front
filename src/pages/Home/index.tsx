@@ -198,7 +198,7 @@ export const HomePage: FC = () => {
         clearInterval(scoreTimer.current)
         let score = oldScore
         scoreTimer.current = setInterval(() => {
-          score += Math.max(Math.round((userScore - oldScore) / 50), 1)
+          score += Math.max(Math.round((userScore - oldScore) / 30), 1)
           if (score >= userScore) {
             setOldScore(userScore)
             clearInterval(scoreTimer.current)
@@ -245,7 +245,8 @@ export const HomePage: FC = () => {
         <div className={`ybp-container ${isBeginGuess ? 'ybp-container-active' : ''}`}>
           <div className='ybp-inner'>
             <div className='price-title' onClick={() => handleSwitchSymbol()}>
-              <div className='price-switch'>{symbol} Price <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3412" width="16" height="16"><path d="M917.333333 341.333333H106.666667a21.333333 21.333333 0 0 1 0-42.666666h759.166666l-134.253333-134.246667a21.333333 21.333333 0 0 1 30.173333-30.173333l170.666667 170.666666A21.333333 21.333333 0 0 1 917.333333 341.333333z m-624.913333 548.42a21.333333 21.333333 0 0 0 0-30.173333L158.166667 725.333333H917.333333a21.333333 21.333333 0 0 0 0-42.666666H106.666667a21.333333 21.333333 0 0 0-15.086667 36.42l170.666667 170.666666a21.333333 21.333333 0 0 0 30.173333 0z" fill="#fff" p-id="3413"></path></svg></div>
+              <div className='price-switch'>{symbol} Price 
+                <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3412" width="16" height="16"><path d="M917.333333 341.333333H106.666667a21.333333 21.333333 0 0 1 0-42.666666h759.166666l-134.253333-134.246667a21.333333 21.333333 0 0 1 30.173333-30.173333l170.666667 170.666666A21.333333 21.333333 0 0 1 917.333333 341.333333z m-624.913333 548.42a21.333333 21.333333 0 0 0 0-30.173333L158.166667 725.333333H917.333333a21.333333 21.333333 0 0 0 0-42.666666H106.666667a21.333333 21.333333 0 0 0-15.086667 36.42l170.666667 170.666666a21.333333 21.333333 0 0 0 30.173333 0z" fill="#fff" p-id="3413"></path></svg></div>
               {
                 isAnimation ? <span>$<span className='token-price'>{tokenPrice}</span></span> : null
               }

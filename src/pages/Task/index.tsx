@@ -1,19 +1,24 @@
-import { useEffect, useState } from 'react'
 import './index.scss'
+import { useEffect, useState } from 'react'
 import { taskListReq, handleTakReq } from '@/api/task'
-import { initUtils } from '@telegram-apps/sdk'
+import { initHapticFeedback, initUtils } from '@telegram-apps/sdk'
 import { Button, Popup, Skeleton, Toast } from 'antd-mobile'
 import { useNavigate } from 'react-router-dom'
 import BackTop from '@/components/BackTop'
 import { useDispatch, useSelector } from 'react-redux'
 import { addgasGameReq } from '@/api/game'
 import { setUserInfoAction } from '@/redux/slices/userSlice'
+import { useLaunchParams } from '@telegram-apps/sdk-react'
 
 function TaskPage() {
+  const hapticFeedback = initHapticFeedback();
+  const launchParams = useLaunchParams();
+  const utils = initUtils();
   const userInfo = useSelector((state: any) => state.user.info);
   const systemInfo = useSelector((state: any) => state.user.system);
   const [list, setList] = useState([])
   const [loading, setLoading] = useState(true)
+  const [taskLoading, setTaskLoading] = useState(false)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [isShowUnLock, setShowUnlock] = useState(false)
@@ -40,33 +45,44 @@ function TaskPage() {
     }
   }
   const handleDoTask = async (item: any, index: number, cIndex: number) => {
+    if (taskLoading) {
+      return
+    }
     if (item.status != 'Done') {
       const _list = JSON.parse(JSON.stringify(list))
+      setTaskLoading(true)
       _list[index][cIndex].loading = true
       setList(_list)
       const res = await handleTakReq(item)
       if (res.code == 0) {
-        const _list = JSON.parse(JSON.stringify(list))
-        _list[index][cIndex].status = res.data.status
-        _list[index][cIndex].loading = false
         setTimeout(() => {
+          const _list = JSON.parse(JSON.stringify(list))
+          _list[index][cIndex].status = res.data.status
+          _list[index][cIndex].loading = false
           setList(_list)
-        }, 3000);
+          setTaskLoading(false)
+          hapticFeedback.notificationOccurred('success')
+        }, 10000);
       } else {
         Toast.show({ content: res.msg, position: 'top' })
+        hapticFeedback.notificationOccurred('error')
         const _list = JSON.parse(JSON.stringify(list))
         _list[index][cIndex].loading = false
         setList(_list)
+        setTaskLoading(false)
       }
       if (item.status == null) {
-        if (localStorage.getItem('h5PcRoot') == '1') {
-          window.open(item.link)
+        if (localStorage.getItem('h5PcRoot') == '1' || launchParams.platform == 'tdesktop') {
+          if (item.linkType == 'self') {
+            navigate(item.link)
+          } else {
+            window.open(item.link)
+          }
         } else {
           if (item.linkType.includes('telegram')) {
-            const utils = initUtils()
-            utils.openLink(item.link)
+            utils.openTelegramLink(item.link)
           } else if (item.linkType == 'outside') {
-            window.open(item.link)
+            location.href = item.link
           } else if (item.linkType == 'self') {
             navigate(item.link)
           }
@@ -108,7 +124,17 @@ function TaskPage() {
         res.data.map(item => {
           item.loading = false
         })
-        const list = groupByType(res.data)
+        const nullList = res.data.filter(item => {
+          return item.status == null
+        })
+        const claimList = res.data.filter(item => {
+          return item.status == 'Claim'
+        })
+        const doneList = res.data.filter(item => {
+          return item.status == 'Done'
+        })
+        const _list = [...nullList, ...claimList, ...doneList]
+        const list = groupByType(_list)
         setList(list)
       }
     })

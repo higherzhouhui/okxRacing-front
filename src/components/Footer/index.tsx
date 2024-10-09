@@ -4,6 +4,7 @@ import Link from '../Link';
 import { useLocation } from 'react-router-dom';
 import { initBackButton } from '@telegram-apps/sdk';
 import EventBus from '@/utils/eventBus';
+import { useConnectWallet } from '@aelf-web-login/wallet-adapter-react';
 const TaskIcon = <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="18758" width="32" height="32"><path d="M530.46 269c4.64 0 9.05 2.01 12.09 5.52l109.54 126.3A16.01 16.01 0 0 1 656 411.3V893c0 8.82-7.18 16-16 16H178c-8.82 0-16-7.18-16-16V285c0-8.82 7.18-16 16-16h352.46m0-64H178c-44.18 0-80 35.82-80 80v608c0 44.18 35.82 80 80 80h462c44.18 0 80-35.82 80-80V411.3c0-19.26-6.95-37.87-19.56-52.42L590.9 232.58A80.014 80.014 0 0 0 530.46 205z" p-id="18759"></path><path d="M819.29 864h-45.92c-17.67 0-32-14.33-32-32s14.33-32 32-32h45.92c25.21 0 45.71-19.94 45.71-44.46V295.17c0-10.61-3.91-20.88-11.01-28.94L747.58 145.52c-8.7-9.87-21.35-15.52-34.7-15.52H370.49c-17.67 0-32-14.33-32-32s14.33-32 32-32h342.38c31.72 0 61.87 13.56 82.71 37.2L902 223.91c17.41 19.75 27 45.06 27 71.26v460.37C929 815.35 879.78 864 819.29 864z" p-id="18760"></path><path d="M702 468H552.09c-41.96 0-76.09-31.47-76.09-70.15V240.5h64v157.35c0 1.88 4.57 6.15 12.09 6.15H702v64zM898 326H748.09c-41.96 0-76.09-31.47-76.09-70.15V98.5h64v157.35c0 1.88 4.57 6.15 12.09 6.15H898v64zM535.13 784.5H262.88c-17.67 0-32 14.33-32 32s14.33 32 32 32h272.25c17.67 0 32-14.33 32-32s-14.33-32-32-32zM535.13 638.75H262.88c-17.67 0-32 14.33-32 32s14.33 32 32 32h272.25c17.67 0 32-14.33 32-32s-14.33-32-32-32zM535.13 493H262.88c-17.67 0-32 14.33-32 32s14.33 32 32 32h272.25c17.67 0 32-14.33 32-32s-14.33-32-32-32z" p-id="18761"></path></svg>
 const LeaderBoard = <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11400" width="32" height="32"><path d="M916.262 941.33366666L107.72 941.33366666c-9.72 0-15.1 2.195-17.595 12.475-2.297 9.465 7.875 17.615 17.595 17.615l808.542 0c9.76 0 15.94-2.25 17.615-12.495C935.447 949.33366666 926.022 941.33366666 916.262 941.33366666zM714.117 890.56366666l197.026 0c9.76 0 17.615-7.875 17.6-17.615L928.743 600.21866666c0-9.74-7.84-17.61-17.615-17.61L714.112 582.60866666c-9.75 0-12.47 7.87-12.47 17.61l0 272.751c0 9.72 2.715 17.595 12.47 17.595L714.117 890.56466666zM731.732 612.69366666l166.92 0 0 247.786-166.92 0L731.732 612.69366666zM416.046 890.56366666l191.891 0c9.775 0 17.615-7.875 17.615-17.615L625.552 150.38666666c0-9.72-7.84-12.475-17.615-12.475L416.046 137.91166666c-9.72 0-17.595 2.755-17.595 12.475l0 722.562C398.451 882.68866666 406.326 890.56366666 416.046 890.56366666zM428.541 168.00166666l166.92 0 0 692.477-166.92 0L428.541 168.00166666zM107.72 890.56366666l197.03 0c9.72 0 17.613-7.875 17.578-17.615L322.328 438.49766666c0-9.702-7.893-17.595-17.598-17.595L107.72 420.90266666c-9.72 0-12.475 7.875-12.475 17.595l0 434.451C95.245 882.68866666 98 890.56366666 107.72 890.56366666L107.72 890.56366666zM125.335 450.99266666l166.92 0 0 409.466-166.92 0L125.335 450.99266666z" p-id="11401"></path></svg>
 const WalletIcon = <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="21876" width="32" height="32"><path d="M787.584 164.138667a85.333333 85.333333 0 0 1 1.493333 15.936v13.653333A128.042667 128.042667 0 0 1 896 320v88.021333c36.821333 9.493333 64 42.88 64 82.645334v149.333333a85.376 85.376 0 0 1-64 82.645333V810.666667a128 128 0 0 1-128 128H192a128 128 0 0 1-128-128V320a128 128 0 0 1 127.744-128v-1.429333L687.829333 96.213333a85.333333 85.333333 0 0 1 99.776 67.904zM768 256H192a64 64 0 0 0-63.893333 60.245333L128 320v490.666667a64 64 0 0 0 60.245333 63.893333L192 874.666667h576a64 64 0 0 0 63.893333-60.245334L832 810.666667v-85.333334h-181.333333a160 160 0 0 1 0-320H832v-85.333333a64 64 0 0 0-60.245333-63.893333L768 256z m106.666667 213.333333H650.666667a96 96 0 0 0-4.522667 191.893334L650.666667 661.333333H874.666667a21.333333 21.333333 0 0 0 21.184-18.837333L896 640v-149.333333a21.333333 21.333333 0 0 0-18.837333-21.184L874.666667 469.333333z m-224 64a32 32 0 1 1 0 64 32 32 0 0 1 0-64z m51.584-374.549333l-2.474667 0.341333-172.949333 32.853334h198.229333v-12.906667l-0.341333-2.986667a21.333333 21.333333 0 0 0-22.464-17.28z" p-id="21877"></path></svg>
@@ -12,14 +13,16 @@ const FriendsIcon = <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www
 
 function FooterComp({ isH5PcRoot }: { isH5PcRoot?: boolean }) {
     const [backButton] = initBackButton()
+    const { isConnected, isLocking } = useConnectWallet()
     const myLocation = useLocation()
     const eventBus = EventBus.getInstance()
     const [isShowFooter, setShowFooter] = useState(true)
+    const [isIos, setIsIos] = useState(false)
     const menu = [
         {
             title: 'Racing',
             icon: HomeIcon,
-            to: '/home',
+            to: '/',
         },
         {
             title: 'LeaderBoard',
@@ -44,7 +47,7 @@ function FooterComp({ isH5PcRoot }: { isH5PcRoot?: boolean }) {
     ]
     useEffect(() => {
         let flag = true
-        const hideBackPath = ['/', '/checkIn']
+        const hideBackPath = ['/']
         if (myLocation.pathname) {
             flag = menu.map((item) => {
                 hideBackPath.push(item.to)
@@ -61,8 +64,17 @@ function FooterComp({ isH5PcRoot }: { isH5PcRoot?: boolean }) {
             backButton.show();
             eventBus.emit('showBack', true)
         }
-    }, [myLocation.pathname])
-    return <footer className="footer" style={{ display: isShowFooter ? 'block' : 'none' }}>
+        if (!isConnected && !isLocking) {
+            // setShowFooter(false)
+        }
+    }, [myLocation.pathname, isConnected])
+
+    useEffect(() => {
+        const flag = /iPad|iPhone|iPod/.test(navigator.userAgent)
+        setIsIos(flag)
+    }, [])
+
+    return <footer className="footer" style={{ display: isShowFooter ? 'block' : 'none', paddingBottom: isIos ? '1.5rem' : '1rem' }}>
         <div className='list'>
             {
                 menu.map((item => {

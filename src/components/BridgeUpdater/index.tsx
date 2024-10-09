@@ -3,25 +3,35 @@ import { useEffect } from "react";
 import { PortkeyBridgeEventReceiveInstance } from "../../bridgeEvent/on";
 import { PortkeyBridgeEventPost } from "../../bridgeEvent/dispatch";
 import { NotificationEvents } from "../../bridgeEvent/constants";
-import { bindWalletReq, h5PcLoginReq } from '@/api/common'
+import { h5PcLoginReq, loginReq } from '@/api/common'
 import { Toast } from "antd-mobile";
 import { useDispatch } from "react-redux";
 import { setUserInfoAction } from "@/redux/slices/userSlice";
 import EventBus from "@/utils/eventBus";
 import { useNavigate } from "react-router-dom";
+import { initInitData } from "@telegram-apps/sdk";
 export default function BridgeUpdater() {
   const provider = useConnectWallet();
   const dispatch = useDispatch()
   const eventBus = EventBus.getInstance()
   const navigate = useNavigate()
-  const bindWallet = async (walletInfo: any) => {
-    if (localStorage.getItem('authorization')) {
-      const res = await bindWalletReq(walletInfo)
-      if (res.code !== 0) {
-        Toast.show({ content: res.msg, position: 'top' })
-      } else {
-        dispatch(setUserInfoAction(res.data))
-      }
+  const tgLogin = async (walletInfo: any) => {
+    eventBus.emit('loading', true)
+    const res = await loginReq(walletInfo)
+    eventBus.emit('loading', false)
+    if (res.code !== 0) {
+      Toast.show({ content: res.msg, position: 'top' })
+    } else {
+      dispatch(setUserInfoAction(res.data))
+      localStorage.setItem('authorization', res.data.token)
+      localStorage.setItem('walletInfo', JSON.stringify(walletInfo))
+      navigate('/')
+      // const today = moment().utc().format('MM-DD')
+      // if (!res.data.check_date || (res.data.check_date && res.data.check_date != today)) {
+      //   navigate('/checkIn')
+      // } else {
+      //   navigate('/')
+      // }
     }
   }
 
@@ -32,21 +42,21 @@ export default function BridgeUpdater() {
       url = url.replace('#', '')
     }
     const res = await h5PcLoginReq(walletInfo)
+    eventBus.emit('loading', false)
     if (res.code !== 0) {
       Toast.show({ content: res.msg, position: 'top' })
     } else {
       dispatch(setUserInfoAction(res.data))
       localStorage.setItem('authorization', res.data.token)
       localStorage.setItem('walletInfo', JSON.stringify(walletInfo))
-      navigate('/home')
+      navigate('/')
       // const today = moment().utc().format('MM-DD')
       // if (!res.data.check_date || (res.data.check_date && res.data.check_date != today)) {
       //   navigate('/checkIn')
       // } else {
-      //   navigate('/home')
+      //   navigate('/')
       // }
     }
-    eventBus.emit('loading', false)
   }
 
 
@@ -101,14 +111,17 @@ export default function BridgeUpdater() {
               startParam,
             })
           } else {
-            bindWallet({
+            const initData = initInitData() as any;
+            const user = initData.initData.user
+            const data = { ...initData.initData, ...user }
+            tgLogin({
+              ...data,
               wallet: event?.address,
               wallet_nickName: event?.extraInfo?.nickName,
             })
           }
-        }
-        // 如果无wallet任何信息，则清空数据
-        if (!event) {
+        } else {
+          // 如果无wallet任何信息，则清空数据
           localStorage.removeItem('authorization')
           localStorage.removeItem('walletInfo')
         }
@@ -123,10 +136,14 @@ export default function BridgeUpdater() {
       }
     );
     return () => {
-      r1.remove();
-      r2.remove();
-      r3.remove();
-      r4.remove();
+      try {
+        r1.remove();
+        r2.remove();
+        r3.remove();
+        r4.remove();
+      } catch (error) {
+        console.error(error)
+      }
     };
   }, []);
 

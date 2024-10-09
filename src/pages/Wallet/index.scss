@@ -3,28 +3,39 @@
   position: relative;
 
   .connect-assets {
-    margin-top: 24px;
+    margin-top: 1rem;
     .my-assets {
-      font-size: 18px;
-      background: var(--btnBg);
+      margin-top: 1rem;
+      font-size: 1rem;
+      background: rgba($color: #000000, $alpha: 0.3);
       color: #fff;
-      padding: 4px 12px;
-      border-radius: 6px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-family: 'bold';
       display: flex;
       align-items: center;
-      gap: 4px;
-      width: fit-content;
-      margin: 0 auto;
+      justify-content: space-between;
+      .value {
+        width: fit-content;
+        background: var(--highColor);
+        color: #000;
+        padding: 4px;
+        width: 100px;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        text-align: center;
+      }
     }
     .connect-list {
-      margin-top: 12px;
       display: flex;
+      margin-top: 2rem;
     }
     .lock {
-      background: var(--fall);
+      background: var(--palette-dark-20);
     }
-    .disconnect {
-      background: var(--darkColor);
+    .lock {
+      background: var(--palette-red-dark);
     }
     .assets {
       background: var(--highColor);

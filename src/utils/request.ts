@@ -10,7 +10,7 @@ const handleResponse = (data: GlobalRequest.Response<any>) => {
       if (localStorage.getItem('h5PcRoot') == '1') {
         window.location.href = `/#/wallet`;
       } else {
-        window.location.href = `/#/index`;
+        window.location.href = `/`;
       }
     }
   }

@@ -32,15 +32,14 @@ export default defineConfig({
     port: 6953,
     proxy: {
       '/binance': {
-        target: 'https://api.binance.com', // 目标服务器地址
+        target: 'https://api.binance.com', // 获取比特币价格
         changeOrigin: true, // 是否改变源地址
         rewrite: (path) => path.replace(/^\/binance/, ''), // 重写路径
       },
       '/race': {
-        target: 'http://localhost:6954/api', // 目标服务器地址
-        // target: 'https://test.forkfrenpet.com', // 目标服务器地址
+        target: 'http://localhost:6954/api', // 本地开发服务器地址
         changeOrigin: true, // 是否改变源地址
-        rewrite: (path) => path.replace(/^\/race\//, ''), // 重写路径
+        rewrite: (path) => path.replace(/^\/race/, ''), // 重写路径
       },
     },
     fs: {
