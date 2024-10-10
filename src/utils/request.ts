@@ -7,11 +7,7 @@ const handleResponse = (data: GlobalRequest.Response<any>) => {
   if (code === 403) {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('authorization');
-      if (localStorage.getItem('h5PcRoot') == '1') {
-        window.location.href = `/#/wallet`;
-      } else {
-        window.location.href = `/`;
-      }
+      window.location.href = `/#/wallet`;
     }
   }
 };
