@@ -1,5 +1,5 @@
-import { useConnectWallet } from '@aelf-web-login/wallet-adapter-react';
 import './index.scss'
+import { useConnectWallet } from '@aelf-web-login/wallet-adapter-react';
 import { useSelector } from 'react-redux';
 import { formatWalletAddress, handleCopyLink } from '@/utils/common';
 import { useNavigate } from 'react-router-dom';

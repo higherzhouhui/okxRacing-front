@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import './index.scss'
-import { InfiniteScroll, Popup, Skeleton, Tabs } from 'antd-mobile';
+import { DotLoading, InfiniteScroll, Popup, Skeleton, Tabs } from 'antd-mobile';
 import { getSubUserListReq, getUserListReq } from '@/api/common';
 import { recordGameReq } from '@/api/game';
 import { useSelector } from 'react-redux';
@@ -9,6 +9,22 @@ import { handleCopyLink } from '@/utils/common';
 import { Empty } from 'antd-mobile'
 import moment from 'moment';
 import BackTop from '@/components/BackTop';
+
+const InfiniteScrollContent = ({ hasMore }: { hasMore?: boolean }) => {
+  return (
+    <>
+      {hasMore ? (
+        <>
+          <span>Loading</span>
+          <DotLoading />
+        </>
+      ) : (
+        <span></span>
+      )}
+    </>
+  )
+}
+
 
 function LeaderBoardPage() {
   const [isShowRecord, setShowRecord] = useState(false)
@@ -263,7 +279,9 @@ const CustomList: FC<CustomListType> = ({ type }) => {
         }
       </div>
     </div>
-    <InfiniteScroll loadMore={loadMore} hasMore={hasMore} />
+    <InfiniteScroll loadMore={loadMore} hasMore={hasMore}>
+      <InfiniteScrollContent hasMore={hasMore} />
+    </InfiniteScroll>
   </div>
 }
 

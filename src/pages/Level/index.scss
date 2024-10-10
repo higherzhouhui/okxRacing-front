@@ -12,6 +12,9 @@
   justify-content: center;
   gap: 20px;
   flex-direction: column;
+  svg {
+    cursor: pointer;
+  }
   .icon {
     position: absolute;
     top: 50%;

@@ -117,6 +117,7 @@
           align-items: center;
           justify-content: center;
           font-family: 'Bold';
+          cursor: pointer;
         }
         svg {
           fill: var(--btnBg);
@@ -129,6 +130,7 @@
           border-radius: 50%;
           width: 42px;
           background: #fff;
+          cursor: pointer;
         }
       }
     }
@@ -146,7 +148,7 @@
     padding: 12px;
   }
   .game-lists {
-    max-height: 50vh;
+    height: 40vh;
     overflow: auto;
     font-size: 1.1rem;
     .custom-skeleton {

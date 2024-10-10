@@ -3,12 +3,13 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { getBtcPriceReq, getUserInfoReq } from '@/api/common';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserInfoAction } from '@/redux/slices/userSlice'
-import { Popup, Toast } from 'antd-mobile';
-import { secondsToTimeFormat } from '@/utils/common';
+import { Dialog, Popup, Toast } from 'antd-mobile';
+import { formatWalletAddress, handleCopyLink, secondsToTimeFormat } from '@/utils/common';
 import { useNavigate } from 'react-router-dom';
 import { useConnectWallet } from '@aelf-web-login/wallet-adapter-react';
 import { endGameReq } from '@/api/game';
 import { initHapticFeedback } from '@telegram-apps/sdk';
+import { WalletTypeEnum } from '@aelf-web-login/wallet-adapter-base';
 
 export const HomePage: FC = () => {
   const dispatch = useDispatch()
@@ -18,7 +19,6 @@ export const HomePage: FC = () => {
   const scoreTimer = useRef<any>(null)
   const tokenPriceTimer = useRef<any>(null)
   const [isVoice, setIsVoice] = useState(false)
-  const { isConnected } = useConnectWallet()
   const [oldScore, setOldScore] = useState(0)
   const [tokenPrice, setTokenPrice] = useState('')
   const [isBeginGuess, setBeginGuess] = useState(false)
@@ -35,6 +35,7 @@ export const HomePage: FC = () => {
   const [symbol, setSymbol] = useState('BTC')
   const [resultInfo, setResultInfo] = useState<any>({})
   const hapticFeedback = initHapticFeedback();
+  const { isConnected, walletInfo, walletType, connectWallet } = useConnectWallet();
 
   const handleSwitchSymbol = () => {
     if (symbol == 'BTC') {
@@ -172,11 +173,30 @@ export const HomePage: FC = () => {
     }
   }, [isBeginGuess])
 
+  const onConnectBtnClickHandler = async () => {
+    try {
+      await connectWallet();
+    } catch (e: any) {
+      const msg = e?.nativeError?.message || e?.message
+      Dialog.alert({
+        content: `${msg}`,
+        confirmText: 'I Know',
+        onConfirm: () => {
+
+        },
+      })
+    }
+  };
+
   const handleWallet = () => {
     if (isConnected) {
-      navigate('/assets')
+      if (walletType == WalletTypeEnum.aa) {
+        navigate('/assets')
+      } else {
+        handleCopyLink(walletInfo.address, 'The address has been copied to the clipboard.')
+      }
     } else {
-      navigate('/wallet')
+      onConnectBtnClickHandler()
     }
   }
 
@@ -308,7 +328,7 @@ export const HomePage: FC = () => {
           </div>
           <div className='top-btn-right' onClick={() => handleWallet()}>
             <img src='/assets/home/wallet.png' width={18} />
-            <span>PortKey Wallet</span>
+            <span>{isConnected ? formatWalletAddress(walletInfo?.address) : 'PortKey Wallet'}</span>
           </div>
         </div>
         {
