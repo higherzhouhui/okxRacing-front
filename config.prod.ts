@@ -3,7 +3,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 import react from '@vitejs/plugin-react-swc';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 import { nodePolyfills } from "vite-plugin-node-polyfills";
-import compression from 'vite-plugin-compression';
+// import compression from 'vite-plugin-compression';
 
 
 import path from 'path';
@@ -27,14 +27,14 @@ export default defineConfig({
     // https://www.npmjs.com/package/@vitejs/plugin-basic-ssl
     basicSsl(),
     nodePolyfills(),
-    compression({
-      verbose: true, // 是否在控制台输出压缩结果
-      disable: false, // 是否禁用压缩
-      threshold: 10240, // 压缩文件的大小阈值（以字节为单位）
-      algorithm: 'gzip', // 压缩算法
-      ext: '.gz', // 压缩文件的后缀名
-      deleteOriginFile: true, // 是否删除原文件
-    })
+    // compression({
+    //   verbose: true, // 是否在控制台输出压缩结果
+    //   disable: false, // 是否禁用压缩
+    //   threshold: 10240, // 压缩文件的大小阈值（以字节为单位）
+    //   algorithm: 'gzip', // 压缩算法
+    //   ext: '.gz', // 压缩文件的后缀名
+    //   deleteOriginFile: true, // 是否删除原文件
+    // })
   ],
   build: {
     outDir: 'racedist',
