@@ -95,10 +95,12 @@ function WalletPage() {
       </div>
       <div className='connect-content'>
         <div className='full-name'>{`${userInfo?.firstName || ''} ${userInfo?.lastName || ''} ${!userInfo?.firstName && !userInfo.lastName ? userInfo.username : ''}`}</div>
-        <div className='username'>
+        {
+          userInfo?.username ? <div className='username'>
           <span>{userInfo?.username}</span>
           <span className='time'>{moment(userInfo?.createdAt).format('YYYY-MM-DD')}&nbsp;Join</span>
-        </div>
+        </div> : <div></div>
+        }
         <div className='lv-container'>
           <div className='lv-left'>
             <div className='lv'>Current driver level</div>
@@ -107,7 +109,7 @@ function WalletPage() {
               <img src='/assets/wallet/go.png' width={6} />
             </div>
             <div className='lv-score'>
-              Accumulated points&nbsp;<span>{userInfo?.score?.toLocaleString()}</span>
+              Accumulated points&nbsp;<span>{userInfo?.score?.toLocaleString() || 0}</span>
             </div>
           </div>
           <div className='lv-right'>

@@ -65,7 +65,7 @@ function FooterComp({ isH5PcRoot }: { isH5PcRoot?: boolean }) {
             eventBus.emit('showBack', true)
         }
         if (!isConnected && !isLocking) {
-            // setShowFooter(false)
+            setShowFooter(false)
         }
     }, [myLocation.pathname, isConnected])
 
