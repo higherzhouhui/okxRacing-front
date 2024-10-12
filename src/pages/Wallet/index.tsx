@@ -94,12 +94,14 @@ function WalletPage() {
         <span>{userInfo?.wallet ? 'Certified' : 'Not certified'}</span>
       </div>
       <div className='connect-content'>
-        <div className='full-name'>{`${userInfo?.firstName || ''} ${userInfo?.lastName || ''} ${!userInfo?.firstName && !userInfo.lastName ? userInfo.username : ''}`}</div>
         {
-          userInfo?.username ? <div className='username'>
-          <span>{userInfo?.username}</span>
-          <span className='time'>{moment(userInfo?.createdAt).format('YYYY-MM-DD')}&nbsp;Join</span>
-        </div> : <div></div>
+          userInfo?.username ? <>
+            <div className='full-name'>{`${userInfo?.firstName || ''} ${userInfo?.lastName || ''} ${!userInfo?.firstName && !userInfo.lastName ? userInfo?.username : ''}`}</div>
+            <div className='username'>
+              <span>{userInfo?.username}</span>
+              <span className='time'>{moment(userInfo?.createdAt).format('YYYY-MM-DD')}&nbsp;Join</span>
+            </div>
+          </> : <div></div>
         }
         <div className='lv-container'>
           <div className='lv-left'>
