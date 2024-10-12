@@ -39,13 +39,11 @@ function WalletPage() {
   useEffect(() => {
     if (localStorage.getItem('h5PcRoot') == '1') {
       setH5PcRoot(true)
-      if (localStorage.getItem('authorization')) {
-        getCertifiedsReq().then(res => {
-          if (res.code == 0) {
-            setTotal(res.data.count)
-          }
-        })
-      }
+      getCertifiedsReq().then(res => {
+        if (res.code == 0) {
+          setTotal(res.data.count)
+        }
+      })
     } else {
       getCertifiedsReq().then(res => {
         if (res.code == 0) {
