@@ -2,7 +2,7 @@ import './index.scss'
 import { useEffect, useState } from 'react'
 import { taskListReq, handleTakReq } from '@/api/task'
 import { initHapticFeedback, initUtils, postEvent } from '@telegram-apps/sdk'
-import { Button, Popup, Skeleton, Toast } from 'antd-mobile'
+import { Button, Popover, Popup, Skeleton, Tabs, Toast } from 'antd-mobile'
 import { useNavigate } from 'react-router-dom'
 import BackTop from '@/components/BackTop'
 import { useDispatch, useSelector } from 'react-redux'
@@ -23,6 +23,8 @@ function TaskPage() {
   const dispatch = useDispatch()
   const [isShowUnLock, setShowUnlock] = useState(false)
   const [isShowAddGas, setShowAddGas] = useState(false)
+  const [isShowTotal, setShowTotal] = useState(false)
+  const [isShowDriver, setShowDriver] = useState(false)
   const handleUnLock = () => {
     setShowUnlock(true)
   }
@@ -59,7 +61,7 @@ function TaskPage() {
           const _list = JSON.parse(JSON.stringify(list))
           _list[index][cIndex].status = res.data.taskItem.status
           _list[index][cIndex].loading = false
-          dispatch(setUserInfoAction({score: res.data.score}))
+          dispatch(setUserInfoAction({ score: res.data.score }))
           setList(_list)
           setTaskLoading(false)
           hapticFeedback.notificationOccurred('success')
@@ -147,6 +149,21 @@ function TaskPage() {
         <div className='ky-label'>Available Points</div>
         <div className='ky-score'>{userInfo?.score?.toLocaleString()}</div>
       </div>
+      <div className='total'>
+        <div className='total-label'>
+          Total Points Earned
+          <Popover
+            content='The mysterious surprise you will receive will depend on your accumulated points'
+            placement='top'
+            mode='dark'
+            trigger='click'
+            visible={isShowTotal}
+          >
+            <span className='touch-btn' onClick={() => setShowTotal(!isShowTotal)}>?</span>
+          </Popover>
+        </div>
+        <div className='total-score'>{userInfo?.score?.toLocaleString()}</div>
+      </div>
       <div className='right-score'>
         <div className='right-score-item'>
           <div className='rs-label'>Guess the basic integral correctly once</div>
@@ -155,7 +172,18 @@ function TaskPage() {
             {systemInfo?.right_score}</div>
         </div>
         <div className='right-score-item'>
-          <div className='rs-label'>Hourly autonomous driving points</div>
+          <div className='rs-label'>
+            Hourly autonomous driving points
+            <Popover
+              content='The points you can earn per hour through autonomous driving'
+              placement='top'
+              mode='dark'
+              trigger='click'
+              visible={isShowDriver}
+            >
+            <span className='touch-btn' onClick={() => setShowDriver(!isShowDriver)}>?</span>
+            </Popover>
+          </div>
           <div className='rs-code'>
             <img src="/assets/common/score.png" alt="score" />
             {systemInfo?.auto_driver}
@@ -199,41 +227,58 @@ function TaskPage() {
           return <Skeleton className='skeleton' animated key={index} />
         }) : null
       }
-      {
-        list.map((item: any, index) => {
-          return <div className='item-wrapper' key={index}>
-            <div className='item-wrapper-title'>
-              <img src={`/assets/task/${getImgSrc(item[0].type)}.png`} className='logo-pic' />
-              {
-                item[0].type
-              }
-            </div>
-            {
-              item.map((citem: any, cindex: number) => {
-                return <div key={cindex} className='task-list-item'>
-                  <div className='task-list-left'>
-                    <div className='middle'>
-                      <div className='middle-name'>{citem.name}</div>
-                      <div className='reward'>
-                        <span>+{citem?.score?.toLocaleString()}</span>
-                        &nbsp;<img src='/assets/common/score.png' alt='tomato' className='unit-img' />
-                        &nbsp;Pts
-                      </div>
+      <Tabs>
+        <Tabs.Tab title='Event Partner Tasks' key='Partner' >
+          {
+            list.length && list[1].map((citem: any, cindex: number) => {
+              return <div key={cindex} className='task-list-item'>
+                <div className='task-list-left'>
+                  <div className='middle'>
+                    <div className='middle-name'>{citem.name}</div>
+                    <div className='reward'>
+                      <span>+{citem?.score?.toLocaleString()}</span>
+                      &nbsp;<img src='/assets/common/score.png' alt='tomato' className='unit-img' />
+                      &nbsp;Pts
                     </div>
                   </div>
-                  <div className='task-list-right'>
-                    <Button className={`task-list-right-btn touch-btn ${citem.status}`} onClick={() => handleDoTask(citem, index, cindex)} loading={citem.loading}>
-                      {
-                        citem.status || 'Start'
-                      }
-                    </Button>
+                </div>
+                <div className='task-list-right'>
+                  <Button className={`task-list-right-btn touch-btn ${citem.status}`} onClick={() => handleDoTask(citem, 1, cindex)} loading={citem.loading}>
+                    {
+                      citem.status || 'Start'
+                    }
+                  </Button>
+                </div>
+              </div>
+            })
+          }
+        </Tabs.Tab>
+        <Tabs.Tab title='Driver Task' key='Driver' >
+        {
+            list.length && list[0].map((citem: any, cindex: number) => {
+              return <div key={cindex} className='task-list-item'>
+                <div className='task-list-left'>
+                  <div className='middle'>
+                    <div className='middle-name'>{citem.name}</div>
+                    <div className='reward'>
+                      <span>+{citem?.score?.toLocaleString()}</span>
+                      &nbsp;<img src='/assets/common/score.png' alt='tomato' className='unit-img' />
+                      &nbsp;Pts
+                    </div>
                   </div>
                 </div>
-              })
-            }
-          </div>
-        })
-      }
+                <div className='task-list-right'>
+                  <Button className={`task-list-right-btn touch-btn ${citem.status}`} onClick={() => handleDoTask(citem, 0, cindex)} loading={citem.loading}>
+                    {
+                      citem.status || 'Start'
+                    }
+                  </Button>
+                </div>
+              </div>
+            })
+          }
+        </Tabs.Tab>
+      </Tabs>
     </div>
 
     <Popup visible={isShowUnLock}

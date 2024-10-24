@@ -1,39 +1,71 @@
 .task-page {
-  padding: 18px 12px;
+  padding: 18px;
+
   .task-title {
     border-radius: 12px;
-    padding: 12px;
+    padding: 18px 12px;
     background-image: url('/assets/task/score-bg.png');
     background-size: 100% 100%;
+
     .ky {
       display: flex;
       justify-content: space-between;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--darkColor);
-      margin-bottom: 18px;
+      margin-bottom: 0.5rem;
+
       .ky-label {
-        font-size: 1.3rem;
-        color: var(--darkColor);
+        opacity: 0.9;
       }
+
       .ky-score {
-        font-size: 2rem;
+        font-size: 1.8rem;
         font-weight: bold;
         font-family: 'number';
         color: var(--highColor);
       }
     }
+
+    .total {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--darkColor);
+
+      .total-label {
+        opacity: 0.9;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .total-score {
+        font-size: 1.2rem;
+        font-weight: bold;
+        font-family: 'number';
+        color: var(--highColor);
+      }
+    }
+
     .right-score {
       display: flex;
+
       .right-score-item {
         flex: 1;
+
         .rs-label {
           color: var(--darkColor);
           margin-bottom: 6px;
+
+          span {
+            margin-left: 6px;
+          }
         }
+
         .rs-code {
           font-size: 1.5rem;
           font-weight: bold;
           font-family: 'number';
+
           img {
             width: 18px;
             margin-right: 6px;
@@ -42,19 +74,23 @@
       }
     }
   }
+
   .update-title {
     margin: 20px 0 12px 0;
   }
+
   .gas-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     column-gap: 12px;
+
     .gas-item {
       background-image: url('/assets/task/upgrade-bg.png');
       background-size: 100% 100%;
       border-radius: 12px;
       padding: 20px 16px;
       position: relative;
+
       .gas-mask {
         position: absolute;
         width: 100%;
@@ -67,23 +103,29 @@
         flex-direction: column;
         background: rgba($color: #000000, $alpha: 0.7);
         border-radius: 12px;
+
         .lock-img {
           width: 30px;
         }
+
         .unlock {
           margin-top: 6px;
+
           img {
             width: 6px;
             margin-left: 5px;
           }
         }
       }
+
       .gas-icon {
         width: 50px;
         margin-bottom: 1rem;
       }
+
       .gas-title {
         font-size: 1.2rem;
+
         span {
           background: var(--btnBg);
           border-radius: 4px;
@@ -91,6 +133,7 @@
           margin-left: 4px;
         }
       }
+
       .unlock-desc {
         display: flex;
         align-items: center;
@@ -98,13 +141,16 @@
         font-size: 1.1rem;
         gap: 4px;
         color: var(--darkColor);
+
         .lv {
           position: relative;
           padding-left: 10px;
           color: var(--darkColor);
+
           .high {
             color: #fff;
           }
+
           &::before {
             content: '';
             width: 4px;
@@ -117,43 +163,53 @@
             transform: translateY(-50%);
           }
         }
+
         img {
           width: 18px;
         }
+
         span {
           color: #eee;
         }
       }
     }
   }
+
   .item-wrapper {
     margin-bottom: 1.5rem;
+
     .item-wrapper-title {
       display: flex;
       align-items: center;
       gap: 6px;
       font-size: 1.5rem;
       font-family: bold;
+
       .logo-pic {
         width: 30px;
         border-radius: 50%;
       }
+
       .touch {
         width: 24px;
         border-radius: 50%;
       }
     }
   }
+
   .task-list {
     padding: 1.5rem 0;
+
     .skeleton {
       width: 100%;
       height: 5rem;
       margin-bottom: 1rem;
     }
+
     .skeleton:last-child {
       margin-bottom: 0;
     }
+
     .task-list-item {
       border-radius: 6px;
       padding: 1.5rem;
@@ -164,6 +220,7 @@
       align-items: center;
       border-bottom: 1px solid var(--darkColor);
     }
+
     .task-list-left {
       display: flex;
       align-items: center;
@@ -173,27 +230,32 @@
         object-fit: contain;
         margin-right: 6px;
       }
+
       .unit-img {
         width: 16px;
         height: 16px;
       }
+
       .middle {
         flex: 1;
       }
+
       .middle-name {
-        font-size: 1.2rem;
-        font-weight: bold;
+        font-size: 1rem;
       }
+
       .reward {
         align-items: center;
         margin-top: 0.6rem;
         display: flex;
       }
     }
+
     .task-list-right {
       min-width: fit-content;
       margin-left: 4px;
     }
+
     .task-list-right-btn {
       border-radius: 2rem;
       color: #fff;
@@ -202,24 +264,30 @@
       width: 60px;
       border: none;
     }
+
     .Claim {
       background: var(--highColor);
+      color: #000;
     }
+
     .Done {
       background: var(--darkColor);
     }
   }
 }
+
 .pop-unlock-content {
   padding: 40px 12px;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+
   .auto-img {
     width: 60px;
     margin-bottom: 1rem;
   }
+
   .new {
     background: var(--btnBg);
     padding: 4px 6px;
@@ -227,32 +295,39 @@
     margin-bottom: 0.5rem;
     font-weight: bold;
   }
+
   .auto-title {
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 6px;
   }
+
   .auto-desc {
     font-size: 1.1rem;
     line-height: 1.6rem;
     margin-bottom: 1.5rem;
   }
+
   .free {
     display: flex;
     align-items: center;
     gap: 10px;
     font-size: 1.2rem;
     margin-bottom: 1rem;
+
     img {
       width: 22px;
     }
+
     .lv {
       color: var(--darkColor);
       position: relative;
       padding-left: 10px;
+
       .high {
         color: #fff;
       }
+
       &::before {
         content: '';
         width: 4px;
@@ -266,6 +341,7 @@
       }
     }
   }
+
   .learn-btn {
     width: 100%;
     font-family: 'Bold';
@@ -277,14 +353,17 @@
     height: 52px;
     justify-content: center;
   }
+
   .btn-disable {
     background: var(--darkColor);
   }
+
   .close {
     position: absolute;
     right: 12px;
     top: 20px;
     cursor: pointer;
+
     img {
       width: 24px;
     }

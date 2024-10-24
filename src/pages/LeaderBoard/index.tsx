@@ -75,11 +75,11 @@ function LeaderBoardPage() {
       <span>My Records</span>
       <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2231" width="10" height="10"><path d="M326.7079 958.51045l-63.278185-60.523445L651.328255 512.841158 257.924327 124.944664l66.024739-60.523445 445.672362 448.419939L326.7079 958.51045z" fill="#ffffff" p-id="2232"></path></svg>
     </div>
-    <Tabs defaultActiveKey='Friends' activeLineMode="full">
-      <Tabs.Tab title='Friends' key='Friends' className='touch-btn'>
+    <Tabs>
+      <Tabs.Tab title='Friends' key='Friends' >
         <CustomList />
       </Tabs.Tab>
-      <Tabs.Tab title='Global' key='Global' className='touch-btn'>
+      <Tabs.Tab title='Global' key='Global' >
         <CustomList type='global' />
       </Tabs.Tab>
     </Tabs>

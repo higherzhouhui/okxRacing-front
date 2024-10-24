@@ -307,3 +307,10 @@ header {
 .touch-btn:active {
   transform: scale(0.95);
 }
+.adm-popover {
+  --background: #111!important;
+}
+.adm-popover-inner-content {
+  max-width: 250px;
+  word-break: break-all;
+}
