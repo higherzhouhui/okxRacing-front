@@ -71,15 +71,15 @@ function LeaderBoardPage() {
   return <div className='fadeIn leader-page'>
     <div className='title'>Racing Driver<span>Leader Board</span></div>
     <div className='sub-title'>Check your ranking and challenge top drivers!</div>
-    <div className='record-btn' onClick={() => handleShowRecord()}>
-      <span>My records</span>
+    <div className='record-btn touch-btn' onClick={() => handleShowRecord()}>
+      <span>My Records</span>
       <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2231" width="10" height="10"><path d="M326.7079 958.51045l-63.278185-60.523445L651.328255 512.841158 257.924327 124.944664l66.024739-60.523445 445.672362 448.419939L326.7079 958.51045z" fill="#ffffff" p-id="2232"></path></svg>
     </div>
-    <Tabs>
-      <Tabs.Tab title='Friends' key='fruits'>
+    <Tabs defaultActiveKey='Friends' activeLineMode="full">
+      <Tabs.Tab title='Friends' key='Friends' className='touch-btn'>
         <CustomList />
       </Tabs.Tab>
-      <Tabs.Tab title='Global' key='vegetables'>
+      <Tabs.Tab title='Global' key='Global' className='touch-btn'>
         <CustomList type='global' />
       </Tabs.Tab>
     </Tabs>
@@ -97,7 +97,7 @@ function LeaderBoardPage() {
       <div className='game-record-content maxWidth'>
         <div className='game-record-title'>
           Game Record
-          <div className='img-wrapper' onClick={() => setShowRecord(false)}><img src="/assets/common/close.png" alt="close" /></div>
+          <div className='img-wrapper' onClick={() => setShowRecord(false)}><img className='touch-btn' src="/assets/common/close.png" alt="close" /></div>
         </div>
         <div className='game-lists'>
           {
@@ -120,7 +120,7 @@ function LeaderBoardPage() {
                       </div>
                   </div>
                   <div className='game-item'>
-                    <div className='game-label'>Your prediction</div>
+                    <div className='game-label'>Your Prediction</div>
                     
                     <div className='game-code'>
                       {item.guessType}
@@ -135,7 +135,7 @@ function LeaderBoardPage() {
                     <div className={`game-code ${item.result}`}>{item.result}</div>
                   </div>
                   <div className='game-item'>
-                    <div className='game-label'>Win count</div>
+                    <div className='game-label'>Win Count</div>
                     <div className='game-code'>{item.count}</div>
                   </div>
                 </div>
@@ -146,8 +146,8 @@ function LeaderBoardPage() {
         </div>
         {
           total > pageSize ? <div className='page'>
-          <svg onClick={() => handlePage('minus')} className={`${page == 1 ? 'dis' : 'active'}`} viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="23965" width="26" height="26"><path d="M496.529 748.638l-180.54-236.26 186.647-236.256a38.17 38.17 0 0 0 8.781-24.048 38.19 38.19 0 0 0-13.743-29.395 38.172 38.172 0 0 0-53.822 4.962L237.36 487.95c-11.581 14.084-11.581 34.392 0 48.474l200.005 260.308a38.166 38.166 0 0 0 53.822 5.727 38.158 38.158 0 0 0 13.848-25.799 38.178 38.178 0 0 0-8.506-28.022z m0 0M520.196 487.95c-11.58 14.084-11.58 34.392 0 48.474l200.006 260.308a38.164 38.164 0 0 0 53.821 5.727 38.172 38.172 0 0 0 5.723-53.822l-180.92-236.26 186.647-236.256a38.17 38.17 0 0 0 8.78-24.048 38.183 38.183 0 0 0-41.682-38.079 38.178 38.178 0 0 0-25.883 13.646L520.196 487.95z m0 0" p-id="23966"></path></svg>
-          <svg onClick={() => handlePage('add')} className={`${page == Math.ceil(total / pageSize) ? 'dis' : 'active'}`} viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="22870" width="26" height="26"><path d="M527.471 275.362l180.54 236.26-186.646 236.256a38.17 38.17 0 0 0-8.781 24.048 38.19 38.19 0 0 0 13.743 29.395 38.172 38.172 0 0 0 53.822-4.962L786.641 536.05c11.581-14.084 11.581-34.392 0-48.474L586.635 227.267a38.169 38.169 0 0 0-53.822-5.726 38.158 38.158 0 0 0-13.848 25.799 38.178 38.178 0 0 0 8.506 28.022z m0 0M503.804 536.05c11.58-14.084 11.58-34.392 0-48.474L303.798 227.267a38.17 38.17 0 0 0-53.821-5.726 38.172 38.172 0 0 0-5.723 53.822l180.92 236.26-186.647 236.255a38.17 38.17 0 0 0-8.78 24.048 38.183 38.183 0 0 0 41.682 38.079 38.178 38.178 0 0 0 25.883-13.646L503.804 536.05z m0 0" p-id="22871"></path></svg>
+          <svg onClick={() => handlePage('minus')} className={`${page == 1 ? 'dis' : 'active'} touch-btn`} viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="23965" width="26" height="26"><path d="M496.529 748.638l-180.54-236.26 186.647-236.256a38.17 38.17 0 0 0 8.781-24.048 38.19 38.19 0 0 0-13.743-29.395 38.172 38.172 0 0 0-53.822 4.962L237.36 487.95c-11.581 14.084-11.581 34.392 0 48.474l200.005 260.308a38.166 38.166 0 0 0 53.822 5.727 38.158 38.158 0 0 0 13.848-25.799 38.178 38.178 0 0 0-8.506-28.022z m0 0M520.196 487.95c-11.58 14.084-11.58 34.392 0 48.474l200.006 260.308a38.164 38.164 0 0 0 53.821 5.727 38.172 38.172 0 0 0 5.723-53.822l-180.92-236.26 186.647-236.256a38.17 38.17 0 0 0 8.78-24.048 38.183 38.183 0 0 0-41.682-38.079 38.178 38.178 0 0 0-25.883 13.646L520.196 487.95z m0 0" p-id="23966"></path></svg>
+          <svg onClick={() => handlePage('add')} className={`${page == Math.ceil(total / pageSize) ? 'dis' : 'active'} touch-btn`} viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="22870" width="26" height="26"><path d="M527.471 275.362l180.54 236.26-186.646 236.256a38.17 38.17 0 0 0-8.781 24.048 38.19 38.19 0 0 0 13.743 29.395 38.172 38.172 0 0 0 53.822-4.962L786.641 536.05c11.581-14.084 11.581-34.392 0-48.474L586.635 227.267a38.169 38.169 0 0 0-53.822-5.726 38.158 38.158 0 0 0-13.848 25.799 38.178 38.178 0 0 0 8.506 28.022z m0 0M503.804 536.05c11.58-14.084 11.58-34.392 0-48.474L303.798 227.267a38.17 38.17 0 0 0-53.821-5.726 38.172 38.172 0 0 0-5.723 53.822l180.92 236.26-186.647 236.255a38.17 38.17 0 0 0-8.78 24.048 38.183 38.183 0 0 0 41.682 38.079 38.178 38.178 0 0 0 25.883-13.646L503.804 536.05z m0 0" p-id="22871"></path></svg>
         </div> : null
         }
       </div>
@@ -219,8 +219,8 @@ const CustomList: FC<CustomListType> = ({ type }) => {
   return <div className='custom-list-container'>
     <div className='custom-content'>
       <div className='custom-title'>
-        <div className='ct-left'>{total}&nbsp;<span>players</span></div>
-        <div className='ct-right'>Total historical points</div>
+        <div className='ct-left'>{total}&nbsp;<span>Players</span></div>
+        <div className='ct-right'>Total Historical Points</div>
       </div>
       <div className='custom-lists'>
         {
@@ -270,8 +270,8 @@ const CustomList: FC<CustomListType> = ({ type }) => {
               data.length == 1 ? <div className='no-frens-title'>You haven't invited your friends yet. Now invite them to check the rankings and compete together!</div> : null
             }
             <div className='no-frens-bot'>
-              <div className='no-frens-btn' onClick={() => handleShare()}>Invite Frens</div>
-              <div className='copy' onClick={() => handleCopy()}>
+              <div className='no-frens-btn touch-btn' onClick={() => handleShare()}>Invite Frens</div>
+              <div className='copy touch-btn' onClick={() => handleCopy()}>
                 <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2252" width="16" height="16"><path d="M337.28 138.688a27.968 27.968 0 0 0-27.968 27.968v78.72h377.344c50.816 0 92.032 41.152 92.032 91.968v377.344h78.656a28.032 28.032 0 0 0 27.968-28.032V166.656a28.032 28.032 0 0 0-27.968-27.968H337.28z m441.408 640v78.656c0 50.816-41.216 91.968-92.032 91.968H166.656a92.032 92.032 0 0 1-91.968-91.968V337.28c0-50.816 41.152-92.032 91.968-92.032h78.72V166.656c0-50.816 41.152-91.968 91.968-91.968h520c50.816 0 91.968 41.152 91.968 91.968v520c0 50.816-41.152 92.032-91.968 92.032h-78.72zM166.656 309.312a27.968 27.968 0 0 0-27.968 28.032v520c0 15.424 12.544 27.968 27.968 27.968h520a28.032 28.032 0 0 0 28.032-27.968V337.28a28.032 28.032 0 0 0-28.032-28.032H166.656z" p-id="2253" ></path></svg>
               </div>
             </div>

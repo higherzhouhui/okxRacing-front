@@ -11,6 +11,8 @@ import {
   initMiniApp,
   initSwipeBehavior,
   initViewport,
+  on,
+  postEvent,
   retrieveLaunchParams
 } from '@telegram-apps/sdk';
 
@@ -34,7 +36,6 @@ const TgApp: FC = () => {
   const [viewport] = initViewport();
   const [miniApp] = initMiniApp()
   const launchParams = retrieveLaunchParams()
-
   const { isConnected } = useConnectWallet();
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
@@ -49,23 +50,8 @@ const TgApp: FC = () => {
     localStorage.removeItem('h5PcRoot')
     const initData = initInitData() as any;
     if (initData && initData.user && initData.user.id) {
-      // const user = initData.initData.user
-      // const data = { ...initData.initData, ...user }
       setLoading(true)
       const [sysInfo] = await Promise.all([getSystemConfigReq()])
-      // if (res.code == 0) {
-      //   // dispatch(setUserInfoAction(res.data))
-      //   localStorage.setItem('authorization', res.data.token)
-      //   const today = moment().utc().format('MM-DD')
-      //   if (!res.data.check_date || (res.data.check_date && res.data.check_date != today)) {
-      //     navigate('/checkIn')
-      //   }
-      // } else {
-      //   Toast.show({
-      //     content: res.msg,
-      //     position: 'center'
-      //   })
-      // }
       if (sysInfo.code == 0) {
         dispatch(setSystemAction(sysInfo.data))
         localStorage.setItem('game_time', sysInfo?.data?.game_time)
@@ -120,6 +106,10 @@ const TgApp: FC = () => {
     backButton.on('click', () => {
       navigate(-1)
     })
+    on('back_button_pressed', () => {
+      navigate(-1)
+    })
+    postEvent('web_app_set_header_color', { color: '#000000' });
     if (launchParams.version)
       // const tp = initThemeParams();
       // bindThemeParamsCSSVars(tp);

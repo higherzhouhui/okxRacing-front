@@ -38,6 +38,9 @@ export const HomePage: FC = () => {
   const { isConnected, walletInfo, walletType, connectWallet } = useConnectWallet();
 
   const handleSwitchSymbol = () => {
+    if (isAnimation) {
+      return
+    }
     if (symbol == 'BTC') {
       setSymbol('ELF')
     } else {
@@ -266,7 +269,8 @@ export const HomePage: FC = () => {
           <div className='ybp-inner'>
             <div className='price-title' onClick={() => handleSwitchSymbol()}>
               <div className='price-switch'>{symbol} Price 
-                <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3412" width="16" height="16"><path d="M917.333333 341.333333H106.666667a21.333333 21.333333 0 0 1 0-42.666666h759.166666l-134.253333-134.246667a21.333333 21.333333 0 0 1 30.173333-30.173333l170.666667 170.666666A21.333333 21.333333 0 0 1 917.333333 341.333333z m-624.913333 548.42a21.333333 21.333333 0 0 0 0-30.173333L158.166667 725.333333H917.333333a21.333333 21.333333 0 0 0 0-42.666666H106.666667a21.333333 21.333333 0 0 0-15.086667 36.42l170.666667 170.666666a21.333333 21.333333 0 0 0 30.173333 0z" fill="#fff" p-id="3413"></path></svg></div>
+              <svg viewBox="0 0 1024 1024" className='touch-btn' version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2282" width="20" height="20"><path d="M448 774.4v192l-448-320h1024v128H448z m-448-512h576v-192l448 320H0v-128z" fill="#f5f5f5" p-id="2283"></path></svg>                
+                </div>
               {
                 isAnimation ? <span>$<span className='token-price'>{tokenPrice}</span></span> : null
               }
@@ -295,7 +299,7 @@ export const HomePage: FC = () => {
               </div>
               <div className='change-number'>{userInfo?.ticket}&nbsp;/&nbsp;<span>10</span></div>
               <div className='more' onClick={() => navigate('/task')}>
-                <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5328" width="12" height="12"><path d="M749.6 466.4l-384-384-91.2 91.2L613.6 512l-339.2 338.4 91.2 91.2 384-384 44.8-45.6z" p-id="5329" fill="#bfbfbf"></path></svg>
+              <svg className='touch-btn' viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4512" width="14" height="14"><path d="M461.376 945.216a47.808 47.808 0 0 1 1.344-67.84l380.032-365.312L462.72 146.688a48 48 0 0 1 66.368-69.376l416 400.064a48.256 48.256 0 0 1 0 69.312l-416 399.872a47.744 47.744 0 0 1-67.776-1.344z m-384 0a47.808 47.808 0 0 1 1.344-67.84l380.032-365.312L78.72 146.688a48 48 0 0 1 66.432-69.376l416 400.064a48.256 48.256 0 0 1 0 69.312l-416 399.872a47.808 47.808 0 0 1-67.84-1.344z" fill="#e6e6e6" p-id="4513"></path></svg>
               </div>
             </div>
           </div>
@@ -323,10 +327,10 @@ export const HomePage: FC = () => {
       </div>
       <div className='main-content'>
         <div className='top-btn'>
-          <div className='top-btn-left' onClick={() => handleOpenVoice()}>
+          <div className='top-btn-left touch-btn' onClick={() => handleOpenVoice()}>
             <img src={`/assets/home/${isVoice ? 'voice' : 'no-voice'}.png`} alt="voice" />
           </div>
-          <div className='top-btn-right' onClick={() => handleWallet()}>
+          <div className='top-btn-right touch-btn' onClick={() => handleWallet()}>
             <img src='/assets/home/wallet.png' width={18} />
             <span>{isConnected ? formatWalletAddress(walletInfo?.address) : 'PortKey Wallet'}</span>
           </div>

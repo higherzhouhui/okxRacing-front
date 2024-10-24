@@ -26,8 +26,6 @@
   font-style: normal;
 }
 
-
-
 .content::-webkit-scrollbar {
   width: 1px; /* 设置滚动条的宽度 */
   display: none;
@@ -109,10 +107,10 @@ code {
 }
 
 html {
-  font-size: 13px;
+  font-size: 12px;
 
   @media screen and (min-width: 400px) {
-    font-size: 15px;
+    font-size: 14px;
   }
 }
 
@@ -120,6 +118,7 @@ html {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: 'Regular';
 }
 
 body,
@@ -131,8 +130,6 @@ body,
   overflow: hidden;
   color: var(--textColor);
 }
-
-
 
 
 .fadeIn {
@@ -300,4 +297,13 @@ header {
 
 .adm-dialog-body {
   max-width: 375px;
+}
+
+.touch-btn {
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.touch-btn:active {
+  transform: scale(0.95);
 }

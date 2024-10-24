@@ -13,10 +13,12 @@ function WalletPage() {
   const [isH5PcRoot, setH5PcRoot] = useState(false)
   const { connectWallet, isConnected, disConnectWallet, walletInfo, isLocking, lock, walletType } = useConnectWallet();
   const userInfo = useSelector((state: any) => state.user.info);
+  const systemConfig = useSelector((state: any) => state.user.system);
   const [total, setTotal] = useState(0)
   const [hasToken, setHasToken] = useState(true)
   const timer = useRef<any>(null)
   const timer1 = useRef<any>(null)
+  const [levelInfo, setLevelInfo] = useState<any>({})
   const onConnectBtnClickHandler = async () => {
     try {
       await connectWallet();
@@ -80,9 +82,22 @@ function WalletPage() {
     }
   }, [isConnected, walletInfo, isLocking])
 
+
+  useEffect(() => {
+    if (userInfo) {
+      const levelList = systemConfig.level
+      for (let i = 0; i < levelList.length; i ++) {
+        if (userInfo.score < levelList[i].score) {
+          setLevelInfo(levelList[i])
+          break
+        }
+      }
+    }
+  }, [userInfo])
+
   return <div className='wallet-page fadeIn'>
     <div className='wallet-page-title'>Upon completion of identity verification, you will be able to obtain<span>the race driver's license.</span></div>
-    <div className='sub-title'>After obtaining the race driver's license, you will be eligible for the mysterious surprise reward.</div>
+    <div className='sub-title'>After obtaining the race driver's license, you will be eligible for the mystery reward surprise reward.</div>
     <div className='ready-confirm'>
       <img src='/assets/wallet/people.png' />
       <span className='count'>{total}</span>
@@ -105,9 +120,9 @@ function WalletPage() {
         }
         <div className='lv-container'>
           <div className='lv-left'>
-            <div className='lv'>Current driver level</div>
-            <div className='lv-name' onClick={() => navigate('/level')}>
-              Novice
+            <div className='lv'>Current License Level</div>
+            <div className='lv-name touch-btn' onClick={() => navigate('/level')}>
+              {levelInfo?.name || 'Novice'}
               <img src='/assets/wallet/go.png' width={6} />
             </div>
             <div className='lv-score'>
@@ -116,7 +131,7 @@ function WalletPage() {
           </div>
           <div className='lv-right'>
             <img src="/assets/wallet/lv.png" alt="lv" />
-            <div className='lv-num'>1</div>
+            <div className='lv-num'>{levelInfo?.level || 1}</div>
           </div>
         </div>
         {
@@ -124,14 +139,14 @@ function WalletPage() {
             <div>
               <div className='connect-assets'>
                 <div className='my-assets'>
-                  <div className='label'>Your wallet address:{formatWalletAddress(userInfo.wallet)}</div>
-                  <div className='value' onClick={() => handleCopyLink(userInfo.wallet, 'The address has been copied to the clipboard.')}>Copy</div>
+                  <div className='label'>Your Wallet Address:{formatWalletAddress(userInfo.wallet)}</div>
+                  <div className='value touch-btn' onClick={() => handleCopyLink(userInfo.wallet, 'The address has been copied to the clipboard.')}>Copy</div>
                 </div>
 
                 {
                   walletType == "PortkeyAA" ? <div className='my-assets' onClick={() => handleAsset()}>
                     <div className='label'>Your Assets</div>
-                    <div className='value'>Assets</div>
+                    <div className='value touch-btn'>Assets</div>
                   </div> : <div></div>
                 }
                 {
@@ -139,16 +154,16 @@ function WalletPage() {
                     {
                       walletType == 'PortkeyAA' ? <>
                         <div className='my-assets'>
-                          <div className='label'>Lock wallet</div>
-                          <div className='value' onClick={lock}>{isLocking ? 'unLock' : 'Lock'}</div>
+                          <div className='label'>Lock Wallet</div>
+                          <div className='value touch-btn' onClick={lock}>{isLocking ? 'unLock' : 'Lock'}</div>
                         </div>
                         <div className='my-assets'>
                           <div className='label'>Disconnect/Switch Wallet</div>
-                          <div className='value' onClick={async () => await disConnectWallet()}>Disconnect</div>
+                          <div className='value touch-btn' onClick={async () => await disConnectWallet()}>Disconnect</div>
                         </div>
                       </> : <div className='my-assets'>
                         <div className='label'>Disconnect/Switch Wallet</div>
-                        <div className='value' onClick={async () => await disConnectWallet()}>Disconnect</div>
+                        <div className='value touch-btn' onClick={async () => await disConnectWallet()}>Disconnect</div>
                       </div>
                     }
                   </> : <div></div>

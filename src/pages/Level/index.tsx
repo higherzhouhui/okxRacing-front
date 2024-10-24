@@ -44,14 +44,14 @@ function LevelPage() {
           <div className='lv-num'>{item.level}</div>
         </div>
         {
-          level == item.level ? <div className='current'>Current driver level</div> : null
+          level == item.level ? <div className='current'>Current License Level</div> : null
         }
         <div className='label'>{item.name}</div>
         <div className='normal-score'>
           {
             index == levelList.length - 1 ? <span>{Number(item.score).toLocaleString()} &nbsp;points or more</span>
               : item.level == 1 ? <span>{Number(levelList[0].score).toLocaleString()} &nbsp;points or less</span>
-              : <span><span>{Number(item.score).toLocaleString()} ~ </span>{Number(levelList[index + 1].score).toLocaleString()} &nbsp;PTS</span>
+              : <span><span>{Number(levelList[index - 1].score).toLocaleString()} ~ </span>{Number(levelList[index].score).toLocaleString()} &nbsp;PTS</span>
           }
         </div>
         {
@@ -61,10 +61,10 @@ function LevelPage() {
         }
         <svg onClick={() => {
             ref.current?.swipePrev()
-          }} viewBox="0 0 1024 1024" className='icon left' version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4487" width="32" height="32"><path d="M512 64C264.8 64 64 264.8 64 512s200.8 448 448 448 448-200.8 448-448S759.2 64 512 64z m158.4 674.4L625.6 784l-272-272 272-272 45.6 45.6L444 512l226.4 226.4z" p-id="4488" fill="#cdcdcd"></path></svg>
+          }} viewBox="0 0 1024 1024" className='icon left touch-btn' version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4487" width="32" height="32"><path d="M512 64C264.8 64 64 264.8 64 512s200.8 448 448 448 448-200.8 448-448S759.2 64 512 64z m158.4 674.4L625.6 784l-272-272 272-272 45.6 45.6L444 512l226.4 226.4z" p-id="4488" fill="#cdcdcd"></path></svg>
           <svg onClick={() => {
             ref.current?.swipeNext()
-          }} viewBox="0 0 1024 1024" className='icon right' version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2275" width="32" height="32"><path d="M512 64C264.8 64 64 264.8 64 512s200.8 448 448 448 448-200.8 448-448S759.2 64 512 64zM398.4 784l-45.6-45.6L580 512 353.6 285.6l45.6-45.6 272 272-272.8 272z" p-id="2276" fill="#cdcdcd"></path></svg>
+          }} viewBox="0 0 1024 1024" className='icon right touch-btn' version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2275" width="32" height="32"><path d="M512 64C264.8 64 64 264.8 64 512s200.8 448 448 448 448-200.8 448-448S759.2 64 512 64zM398.4 784l-45.6-45.6L580 512 353.6 285.6l45.6-45.6 272 272-272.8 272z" p-id="2276" fill="#cdcdcd"></path></svg>
       </div>
     </Swiper.Item>
   ))
