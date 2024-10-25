@@ -103,9 +103,9 @@ const TgApp: FC = () => {
   }, [])
 
   useEffect(() => {
-    backButton.on('click', () => {
-      navigate(-1)
-    })
+    // backButton.on('click', () => {
+    //   navigate(-1)
+    // })
     on('back_button_pressed', () => {
       navigate(-1)
     })
