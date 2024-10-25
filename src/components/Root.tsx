@@ -104,7 +104,7 @@ const config: IConfigProps = {
 };
 
 const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
-  <div className='error-container maxWidth'>
+  import.meta.env.DEV ?<div style={{ color: '#fff' }}>
     <p>An unhandled error occurred:</p>
     <blockquote>
       <code>
@@ -115,13 +115,20 @@ const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
             : JSON.stringify(error)}
       </code>
     </blockquote>
-    <div className='reload' onClick={() => {
-      localStorage.removeItem('authorization')
-      window.location.reload()
-    }}>Fresh</div>
-  </div>
+  </div> : <ErrorBoundaryProd /> 
 );
 
+function ErrorBoundaryProd() {
+  useEffect(() => {
+    setTimeout(() => {
+      localStorage.clear()
+      window.location.reload()
+    }, 5000);
+  }, [])
+  return <div className='error-page'>
+    <Loading />
+  </div>
+}
 
 function WebLoginProviderELE({ children }: { children: React.ReactNode }) {
   const bridgeAPI = init(config);
