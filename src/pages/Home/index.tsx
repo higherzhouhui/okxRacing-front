@@ -10,8 +10,11 @@ import { useConnectWallet } from '@aelf-web-login/wallet-adapter-react';
 import { endGameReq } from '@/api/game';
 import { initHapticFeedback } from '@telegram-apps/sdk';
 import { WalletTypeEnum } from '@aelf-web-login/wallet-adapter-base';
+import { getEntireDIDAelfAddress } from "@portkey/did-ui-react";
+import loginConfig from "@/constants/config/login.config";
 
 export const HomePage: FC = () => {
+  const { CHAIN_ID } = loginConfig;  
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const userInfo = useSelector((state: any) => state.user.info);
@@ -328,12 +331,14 @@ export const HomePage: FC = () => {
       <div className='main-content'>
         <div className='top-btn'>
           <div className='top-btn-left touch-btn' onClick={() => handleOpenVoice()}>
+
             <img src={`/assets/home/${isVoice ? 'voice' : 'no-voice'}.png`} alt="voice" />
           </div>
           <div className='top-btn-right touch-btn' onClick={() => handleWallet()}>
             <img src='/assets/home/wallet.png' width={18} />
-            <span>{isConnected ? formatWalletAddress(walletInfo?.address) : 'PortKey Wallet'}</span>
+            <span>{isConnected ? getEntireDIDAelfAddress(formatWalletAddress(walletInfo?.address) || '', undefined, CHAIN_ID) : 'PortKey Wallet'}</span>
           </div>
+
         </div>
         {
           isAnimation ? <div className='count-time'>00:0{count}</div> : <>

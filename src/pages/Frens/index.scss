@@ -98,10 +98,9 @@
     gap: 6px;
     padding: 18px 12px;
     position: fixed;
-    bottom: 85px;
     width: 100%;
     background-color: var(--bgColor);
-
+    top: calc(var(--tg-viewport-height) - 160px);
     button {
       height: 44px;
     }

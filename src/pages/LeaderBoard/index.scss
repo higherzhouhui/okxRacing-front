@@ -92,16 +92,16 @@
     }
     .no-frens {
       position: fixed;
-      bottom: 85px;
+      top: calc(var(--tg-viewport-height) - 230px);
       background: var(--bgColor);
       width: 100%;
       left: 50%;
       transform: translate(-50%, 0);
-      padding: 18px;
+      padding: 1rem;
       .no-frens-title {
         font-size: 1.2rem;
         color: var(--darkColor);
-        margin-bottom: 24px;
+        margin-bottom: 12px;
       }
       .no-frens-bot {
         display: flex;

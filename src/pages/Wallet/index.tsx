@@ -7,8 +7,11 @@ import { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 import { getCertifiedsReq } from '@/api/common';
 import { Dialog } from 'antd-mobile';
+import { getEntireDIDAelfAddress } from "@portkey/did-ui-react";
+import loginConfig from "@/constants/config/login.config";
 
 function WalletPage() {
+  const { CHAIN_ID } = loginConfig;  
   const navigate = useNavigate()
   const [isH5PcRoot, setH5PcRoot] = useState(false)
   const { connectWallet, isConnected, disConnectWallet, walletInfo, isLocking, lock, walletType } = useConnectWallet();
@@ -139,7 +142,10 @@ function WalletPage() {
             <div>
               <div className='connect-assets'>
                 <div className='my-assets'>
-                  <div className='label'>Your Wallet Address:{formatWalletAddress(userInfo.wallet)}</div>
+                  <div className='label'>
+                    <div style={{marginBottom: '2px'}}>Your Wallet Address:</div>
+                    {getEntireDIDAelfAddress(formatWalletAddress(userInfo?.wallet) || '', undefined, CHAIN_ID)}
+                    </div>
                   <div className='value touch-btn' onClick={() => handleCopyLink(userInfo.wallet, 'The address has been copied to the clipboard.')}>Copy</div>
                 </div>
 
