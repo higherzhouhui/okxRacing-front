@@ -75,9 +75,13 @@ function TaskPage() {
         setTaskLoading(false)
       }
       if (item.status == null) {
-        console.log(launchParams.platform, item.linkType, localStorage.getItem('h5PcRoot'))
-        return
-        if (localStorage.getItem('h5PcRoot') == '1' || launchParams.platform == 'tdesktop') {
+        if (launchParams.platform == 'tdesktop') {
+          if (item.linkType == 'self') {
+            navigate(item.link)
+          } else {
+            postEvent('web_app_open_link', { url: item.link })
+          }
+        } else if (localStorage.getItem('h5PcRoot') == '1') {
           if (item.linkType == 'self') {
             navigate(item.link)
           } else {
