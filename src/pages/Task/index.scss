@@ -238,6 +238,14 @@
 
       .middle {
         flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        img {
+          width: 30px;
+          object-fit: contain;
+          min-width: 30px;
+        }
       }
 
       .middle-name {

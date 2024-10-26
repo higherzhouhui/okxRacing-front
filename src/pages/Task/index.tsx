@@ -75,6 +75,7 @@ function TaskPage() {
         setTaskLoading(false)
       }
       if (item.status == null) {
+        console.log(launchParams.platform, item.linkType, localStorage.getItem('h5PcRoot'))
         if (localStorage.getItem('h5PcRoot') == '1' || launchParams.platform == 'tdesktop') {
           if (item.linkType == 'self') {
             navigate(item.link)
@@ -181,7 +182,7 @@ function TaskPage() {
               trigger='click'
               visible={isShowDriver}
             >
-            <span className='touch-btn' onClick={() => setShowDriver(!isShowDriver)}>?</span>
+              <span className='touch-btn' onClick={() => setShowDriver(!isShowDriver)}>?</span>
             </Popover>
           </div>
           <div className='rs-code'>
@@ -234,11 +235,16 @@ function TaskPage() {
               return <div key={cindex} className='task-list-item'>
                 <div className='task-list-left'>
                   <div className='middle'>
-                    <div className='middle-name'>{citem.name}</div>
-                    <div className='reward'>
-                      <span>+{citem?.score?.toLocaleString()}</span>
-                      &nbsp;<img src='/assets/common/score.png' alt='tomato' className='unit-img' />
-                      &nbsp;Pts
+                    <img src={`/assets/task/${citem.logo}.png`} />
+                    <div>
+                      <div className='middle-name'>
+                        {citem.name}
+                      </div>
+                      <div className='reward'>
+                        <span>+{citem?.score?.toLocaleString()}</span>
+                        &nbsp;<img src='/assets/common/score.png' alt='tomato' className='unit-img' />
+                        &nbsp;Pts
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -254,16 +260,18 @@ function TaskPage() {
           }
         </Tabs.Tab>
         <Tabs.Tab title='Driver Task' key='Driver' >
-        {
+          {
             list.length && list[0].map((citem: any, cindex: number) => {
               return <div key={cindex} className='task-list-item'>
                 <div className='task-list-left'>
                   <div className='middle'>
-                    <div className='middle-name'>{citem.name}</div>
-                    <div className='reward'>
-                      <span>+{citem?.score?.toLocaleString()}</span>
-                      &nbsp;<img src='/assets/common/score.png' alt='tomato' className='unit-img' />
-                      &nbsp;Pts
+                    <div>
+                      <div className='middle-name'>{citem.name}</div>
+                      <div className='reward'>
+                        <span>+{citem?.score?.toLocaleString()}</span>
+                        &nbsp;<img src='/assets/common/score.png' alt='tomato' className='unit-img' />
+                        &nbsp;Pts
+                      </div>
                     </div>
                   </div>
                 </div>
