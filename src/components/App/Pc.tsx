@@ -13,7 +13,6 @@ import { type FC, useEffect, useState } from 'react';
 import { getSystemConfigReq, h5PcLoginReq } from '@/api/common';
 import { setSystemAction, setUserInfoAction } from '@/redux/slices/userSlice';
 import { useDispatch } from 'react-redux';
-import moment from 'moment';
 import Loading from '../Loading';
 import { Toast } from 'antd-mobile';
 import { useConnectWallet } from '@aelf-web-login/wallet-adapter-react';
@@ -27,6 +26,7 @@ const PcApp: FC = () => {
   const [showTime, setShowTime] = useState(1500)
   const [isShowBack, setIsShowBack] = useState(false)
   const { isConnected, isLocking } = useConnectWallet()
+  const [lHeight, setHeight] = useState('100vh')
   const initApp = async () => {
     localStorage.setItem('h5PcRoot', '1')
     const sysInfo = await getSystemConfigReq()
@@ -69,6 +69,8 @@ const PcApp: FC = () => {
     const onBack = (flag: boolean) => {
       setIsShowBack(flag)
     }
+    const height = window.innerHeight
+    setHeight(`${height}px`)
     eventBus.addListener('showCongrates', onMessage)
     eventBus.addListener('showBack', onBack)
     eventBus.addListener('loading', onLoading)
@@ -90,7 +92,7 @@ const PcApp: FC = () => {
 
 
   return (
-    <div className='layout maxWidth' id='layout'>
+    <div className='layout maxWidth' id='layout' style={{height: lHeight}}>
       {
         isShowBack ? <header onClick={() => navigate(-1)}>
           <svg className='backBtn' viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2332" width="24" height="24"><path d="M395.21518 513.604544l323.135538-312.373427c19.052938-18.416442 19.052938-48.273447 0-66.660212-19.053961-18.416442-49.910737-18.416442-68.964698 0L291.75176 480.290811c-19.052938 18.416442-19.052938 48.273447 0 66.660212l357.633237 345.688183c9.525957 9.207709 22.01234 13.796214 34.497699 13.796214 12.485359 0 24.971741-4.588505 34.466999-13.82896 19.052938-18.416442 19.052938-48.242747 0-66.660212L395.21518 513.604544z" fill="#ffffff" p-id="2333"></path></svg>

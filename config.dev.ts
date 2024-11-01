@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths';
 import react from "@vitejs/plugin-react";
-import basicSsl from '@vitejs/plugin-basic-ssl';
+// import basicSsl from '@vitejs/plugin-basic-ssl';
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 import path from 'path';
@@ -22,7 +22,7 @@ export default defineConfig({
     tsconfigPaths(),
     // Allows using self-signed certificates to run the dev server using HTTPS.
     // https://www.npmjs.com/package/@vitejs/plugin-basic-ssl
-    basicSsl(),
+    // basicSsl(),
     nodePolyfills(),
   ],
   build: {

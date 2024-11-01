@@ -103,17 +103,13 @@ const TgApp: FC = () => {
   }, [])
 
   useEffect(() => {
-    // backButton.on('click', () => {
-    //   navigate(-1)
-    // })
-    on('back_button_pressed', () => {
-      navigate(-1)
-    })
+    setTimeout(() => {
+      on('back_button_pressed', () => {
+        navigate(-1)
+      })
+    }, 1000);
     postEvent('web_app_set_header_color', { color: '#000000' });
-    if (launchParams.version)
-      // const tp = initThemeParams();
-      // bindThemeParamsCSSVars(tp);
-      expandViewPort()
+    expandViewPort()
   }, [])
   return (
     <AppRoot

@@ -23,7 +23,15 @@
         color: var(--highColor);
       }
     }
-
+    .touch-btn {
+      border: 1px solid;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
     .total {
       display: flex;
       justify-content: space-between;

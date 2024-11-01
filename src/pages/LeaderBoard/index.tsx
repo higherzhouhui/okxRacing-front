@@ -3,12 +3,13 @@ import './index.scss'
 import { DotLoading, InfiniteScroll, Popup, Skeleton, Tabs } from 'antd-mobile';
 import { getSubUserListReq, getUserListReq } from '@/api/common';
 import { recordGameReq } from '@/api/game';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { initUtils } from '@telegram-apps/sdk';
 import { handleCopyLink } from '@/utils/common';
 import { Empty } from 'antd-mobile'
 import moment from 'moment';
 import BackTop from '@/components/BackTop';
+import { setUserInfoAction } from '@/redux/slices/userSlice';
 
 const InfiniteScrollContent = ({ hasMore }: { hasMore?: boolean }) => {
   return (
@@ -171,6 +172,7 @@ const CustomList: FC<CustomListType> = ({ type }) => {
   const link = `${systemConfig?.tg_link}?startapp=${btoa(userInfo.user_id)}`;
   const [isH5PcRoot, setH5PcRoot] = useState(false)
   const [hasMore, setHasMore] = useState(true)
+  const dispatch = useDispatch()
   const handleShare = () => {
     if (isH5PcRoot) {
       const isOpen = window.open(link)
@@ -182,9 +184,7 @@ const CustomList: FC<CustomListType> = ({ type }) => {
     }
   }
   const handleCopy = () => {
-   
     handleCopyLink(link)
-
   }
   const loadMore = async () => {
     setLoading(true)
@@ -209,6 +209,7 @@ const CustomList: FC<CustomListType> = ({ type }) => {
       const _hasMore = list.length == pageSize ? true : false
       setHasMore(_hasMore)
       setRank(res.data?.rank || 0)
+      dispatch(setUserInfoAction({score: res.data.score, username: res.data.username}))
     }
   }
   useEffect(() => {

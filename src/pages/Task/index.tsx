@@ -48,6 +48,7 @@ function TaskPage() {
   }
   const handleDoTask = async (item: any, index: number, cIndex: number) => {
     if (taskLoading) {
+      Toast.show({ content: 'Please wait!' })
       return
     }
     if (item.status != 'Done') {
@@ -75,17 +76,20 @@ function TaskPage() {
         setTaskLoading(false)
       }
       if (item.status == null) {
-        if (launchParams.platform == 'tdesktop') {
+        if (localStorage.getItem('h5PcRoot') == '1') {
+          if (item.linkType == 'self') {
+            navigate(item.link)
+          } else {
+            const open = window.open(item.link)
+            if (!open) {
+              location.href = item.link
+            }
+          }
+        } else if (launchParams.platform == 'tdesktop') {
           if (item.linkType == 'self') {
             navigate(item.link)
           } else {
             postEvent('web_app_open_link', { url: item.link })
-          }
-        } else if (localStorage.getItem('h5PcRoot') == '1') {
-          if (item.linkType == 'self') {
-            navigate(item.link)
-          } else {
-            window.open(item.link)
           }
         } else {
           if (item.linkType.includes('telegram')) {
@@ -264,7 +268,7 @@ function TaskPage() {
             })
           }
         </Tabs.Tab>
-        <Tabs.Tab title='Driver Task' key='Driver' >
+        <Tabs.Tab title='Driver Tasks' key='Driver' >
           {
             list.length && list[0].map((citem: any, cindex: number) => {
               return <div key={cindex} className='task-list-item'>
@@ -310,7 +314,7 @@ function TaskPage() {
         <img src="/assets/task/auto.png" alt="auto" className='auto-img' />
         <div className='new'>New</div>
         <div className='auto-title'>Auto Driver</div>
-        <div className='auto-desc'>Bind your Telegram account with portKey and complete identity authentication to unlock autonomous driving. During your offline period, the game will automatically continue and earn points.</div>
+        <div className='auto-desc'>Bind your Telegram account with Portkey and complete identity authentication to unlock autonomous driving. During your offline period, the game will automatically continue and earn points.</div>
         <div className='free'>
           <img src='/assets/common/score.png' />
           <span className='free-title'>Free</span>
