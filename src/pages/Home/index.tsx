@@ -7,14 +7,14 @@ import { Dialog, Popup, Toast } from 'antd-mobile';
 import { formatWalletAddress, handleCopyLink, secondsToTimeFormat } from '@/utils/common';
 import { useNavigate } from 'react-router-dom';
 import { useConnectWallet } from '@aelf-web-login/wallet-adapter-react';
-import { endGameReq } from '@/api/game';
+import { beginGameReq, endGameReq } from '@/api/game';
 import { initHapticFeedback } from '@telegram-apps/sdk';
 import { WalletTypeEnum } from '@aelf-web-login/wallet-adapter-base';
 import { getEntireDIDAelfAddress } from "@portkey/did-ui-react";
 import loginConfig from "@/constants/config/login.config";
 
 export const HomePage: FC = () => {
-  const { CHAIN_ID } = loginConfig;  
+  const { CHAIN_ID } = loginConfig;
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const userInfo = useSelector((state: any) => state.user.info);
@@ -38,8 +38,7 @@ export const HomePage: FC = () => {
   const [symbol, setSymbol] = useState('BTC')
   const [resultInfo, setResultInfo] = useState<any>({})
   const hapticFeedback = initHapticFeedback();
-  const { isConnected, walletInfo, walletType, connectWallet } = useConnectWallet();
-
+  const { isConnected, walletInfo, walletType, connectWallet, isLocking } = useConnectWallet();
   const handleSwitchSymbol = () => {
     if (isAnimation) {
       return
@@ -62,6 +61,13 @@ export const HomePage: FC = () => {
     }
   }, [])
   const handleGuess = (type: string) => {
+    if (isLocking) {
+      Toast.show({
+        content: 'Your wallet has been locked',
+        position: 'top',
+      })
+      return
+    }
     if (userInfo.ticket <= 0) {
       Toast.show({
         content: 'Gas is Empty, please wait!',
@@ -72,6 +78,8 @@ export const HomePage: FC = () => {
     if (isAnimation) {
       return
     }
+
+    beginGameReq({ p: btoa(realPrice.current), type: type })
     if (!isDouDong) {
       const douDongVideo = document.getElementById('douDong') as any
       if (douDongVideo) {
@@ -125,9 +133,10 @@ export const HomePage: FC = () => {
           hapticFeedback.notificationOccurred('error');
         }
         const res = await endGameReq({
-          guessType: guessType,
-          result: isRight ? 'Win' : 'Miss',
-          symbol,
+          gt: btoa(guessType),
+          rs: btoa(isRight ? 'Win' : 'Miss'),
+          sy: symbol,
+          p: btoa(realPrice.current)
         })
         if (res.code == 0) {
           const info = {
@@ -156,7 +165,8 @@ export const HomePage: FC = () => {
         } else {
           Toast.show({
             content: res.msg,
-            position: 'top'
+            position: 'top',
+            duration: 5000,
           })
           clearInterval(countTimer.current)
           setIsAnimation(false)
@@ -215,6 +225,12 @@ export const HomePage: FC = () => {
   }, [])
 
   useEffect(() => {
+    if (isLocking) {
+      onConnectBtnClickHandler()
+    }
+  }, [isLocking])
+
+  useEffect(() => {
     if (userInfo?.is_New) {
       // 展示规则
     }
@@ -267,13 +283,13 @@ export const HomePage: FC = () => {
     <div className="home-page fadeIn">
       <div className='race-bg'>
         <video src='/assets/home/doudong.mp4' className='doudong' muted id='douDong' loop />
-        <video src='/assets/home/race.mp4' className='doudong' id='race' muted={!isVoice} style={{ opacity: isBeginGuess ? '1' : 0 }} />
+        <video src='/assets/home/race.mp4' className='doudong' id='race' muted={!isVoice} style={{ opacity: isBeginGuess ? '1' : 0 }} controls={false} />
         <div className={`ybp-container ${isBeginGuess ? 'ybp-container-active' : ''}`}>
           <div className='ybp-inner'>
             <div className='price-title' onClick={() => handleSwitchSymbol()}>
-              <div className='price-switch'>{symbol} Price 
-              <svg viewBox="0 0 1024 1024" className='touch-btn' version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2282" width="20" height="20"><path d="M448 774.4v192l-448-320h1024v128H448z m-448-512h576v-192l448 320H0v-128z" fill="#f5f5f5" p-id="2283"></path></svg>                
-                </div>
+              <div className='price-switch'>{symbol} Price
+                <svg viewBox="0 0 1024 1024" className='touch-btn' version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2282" width="20" height="20"><path d="M448 774.4v192l-448-320h1024v128H448z m-448-512h576v-192l448 320H0v-128z" fill="#f5f5f5" p-id="2283"></path></svg>
+              </div>
               {
                 isAnimation ? <span>$<span className='token-price'>{tokenPrice}</span></span> : null
               }
@@ -302,7 +318,7 @@ export const HomePage: FC = () => {
               </div>
               <div className='change-number'>{userInfo?.ticket}&nbsp;/&nbsp;<span>10</span></div>
               <div className='more' onClick={() => navigate('/task')}>
-              <svg className='touch-btn' viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4512" width="14" height="14"><path d="M461.376 945.216a47.808 47.808 0 0 1 1.344-67.84l380.032-365.312L462.72 146.688a48 48 0 0 1 66.368-69.376l416 400.064a48.256 48.256 0 0 1 0 69.312l-416 399.872a47.744 47.744 0 0 1-67.776-1.344z m-384 0a47.808 47.808 0 0 1 1.344-67.84l380.032-365.312L78.72 146.688a48 48 0 0 1 66.432-69.376l416 400.064a48.256 48.256 0 0 1 0 69.312l-416 399.872a47.808 47.808 0 0 1-67.84-1.344z" fill="#e6e6e6" p-id="4513"></path></svg>
+                <svg className='touch-btn' viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4512" width="14" height="14"><path d="M461.376 945.216a47.808 47.808 0 0 1 1.344-67.84l380.032-365.312L462.72 146.688a48 48 0 0 1 66.368-69.376l416 400.064a48.256 48.256 0 0 1 0 69.312l-416 399.872a47.744 47.744 0 0 1-67.776-1.344z m-384 0a47.808 47.808 0 0 1 1.344-67.84l380.032-365.312L78.72 146.688a48 48 0 0 1 66.432-69.376l416 400.064a48.256 48.256 0 0 1 0 69.312l-416 399.872a47.808 47.808 0 0 1-67.84-1.344z" fill="#e6e6e6" p-id="4513"></path></svg>
               </div>
             </div>
           </div>
@@ -336,7 +352,7 @@ export const HomePage: FC = () => {
           </div>
           <div className='top-btn-right touch-btn' onClick={() => handleWallet()}>
             <img src='/assets/home/wallet.png' width={18} />
-            <span>{isConnected ? getEntireDIDAelfAddress(formatWalletAddress(walletInfo?.address) || '', undefined, CHAIN_ID) : 'PortKey Wallet'}</span>
+            <span>{isConnected ? getEntireDIDAelfAddress(formatWalletAddress(walletInfo?.address) || '', undefined, CHAIN_ID) : isLocking ? 'Unlock' : 'Portkey Wallet'}</span>
           </div>
 
         </div>

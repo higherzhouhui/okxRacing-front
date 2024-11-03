@@ -70,6 +70,13 @@ function FooterComp({ isH5PcRoot }: { isH5PcRoot?: boolean }) {
     }, [myLocation.pathname, isConnected])
 
     useEffect(() => {
+        if (isLocking) {
+            setShowFooter(true)
+        }
+    }, [isLocking])
+
+
+    useEffect(() => {
         const flag = /iPad|iPhone|iPod/.test(navigator.userAgent)
         setIsIos(flag)
     }, [])

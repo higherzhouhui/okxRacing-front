@@ -1,9 +1,10 @@
 import service from '@/utils/request';
 
-export const beginGameReq = () => {
+export const beginGameReq = (data: any) => {
   return service<any>({
     url: '/game/begin',
-    method: 'GET',
+    method: 'POST',
+    data
   });
 };
 

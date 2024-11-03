@@ -100,7 +100,7 @@
     position: fixed;
     width: 100%;
     background-color: var(--bgColor);
-    top: calc(var(--tg-viewport-height) - 160px);
+    bottom: 90px;
     button {
       height: 44px;
     }

@@ -92,12 +92,12 @@
     }
     .no-frens {
       position: fixed;
-      top: calc(var(--tg-viewport-height) - 205px);
       background: var(--bgColor);
       width: 100%;
       left: 50%;
       transform: translate(-50%, 0);
       padding: 1rem;
+      bottom: 90px;
       .no-frens-title {
         font-size: 1.2rem;
         color: var(--darkColor);
@@ -161,6 +161,7 @@
       margin-top: 12px;
       border-bottom: 1px solid var(--darkColor);
       padding-bottom: 12px;
+      font-size: 0.9rem;
       .game-items {
         display: flex;
         gap: 10px;
