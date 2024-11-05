@@ -352,7 +352,7 @@ export const HomePage: FC = () => {
           </div>
           <div className='top-btn-right touch-btn' onClick={() => handleWallet()}>
             <img src='/assets/home/wallet.png' width={18} />
-            <span>{isConnected ? getEntireDIDAelfAddress(formatWalletAddress(walletInfo?.address) || '', undefined, CHAIN_ID) : isLocking ? 'Unlock' : 'Portkey Wallet'}</span>
+            <span>{isConnected ? getEntireDIDAelfAddress(formatWalletAddress(walletInfo?.address || userInfo?.wallet) || '', undefined, CHAIN_ID) : isLocking ? 'Unlock' : 'Portkey Wallet'}</span>
           </div>
 
         </div>
