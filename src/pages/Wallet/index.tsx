@@ -100,7 +100,7 @@ function WalletPage() {
 
   return <div className='wallet-page fadeIn'>
     <div className='wallet-page-title'>Upon completion of identity verification, you will be able to obtain<span>the race driver's license.</span></div>
-    <div className='sub-title'>After obtaining the race driver's license, you will be eligible for the mystery reward surprise reward.</div>
+    <div className='sub-title'>After obtaining the race driver's license, you will be eligible for the mystery reward.</div>
     <div className='ready-confirm'>
       <img src='/assets/wallet/people.png' />
       <span className='count'>{total}</span>
