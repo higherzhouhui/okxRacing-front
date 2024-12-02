@@ -1,6 +1,6 @@
 import { TChainId } from "@aelf-web-login/wallet-adapter-base";
 
-export const CHAIN_ID = "tDVV" satisfies TChainId;
+export const CHAIN_ID = "AELF" satisfies TChainId;
 export const TELEGRAM_BOT_ID = import.meta.env.VITE_TELEGRAM_BOT_ID;
 
 export const NETWORK_TYPE = import.meta.env.VITE_NETWORK_TYPE;

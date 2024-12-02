@@ -107,7 +107,7 @@ const TgApp: FC = () => {
       on('back_button_pressed', () => {
         navigate(-1)
       })
-    }, 1000);
+    }, 1500);
     postEvent('web_app_set_header_color', { color: '#000000' });
     postEvent('web_app_setup_main_button', { color: '#000000' });
     expandViewPort()
