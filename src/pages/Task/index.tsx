@@ -25,6 +25,25 @@ function TaskPage() {
   const [isShowAddGas, setShowAddGas] = useState(false)
   const [isShowTotal, setShowTotal] = useState(false)
   const [isShowDriver, setShowDriver] = useState(false)
+
+  const handleShowTotal = () => {
+    if (isShowTotal) {
+      setShowTotal(false)
+    } else {
+      setShowTotal(true)
+      setShowDriver(false)
+    }
+  }
+
+  const handleShowDriver = () => {
+    if (isShowDriver) {
+      setShowDriver(false)
+    } else {
+      setShowAddGas(false)
+      setShowDriver(true)
+    }
+  }
+
   const handleUnLock = () => {
     setShowUnlock(true)
   }
@@ -169,7 +188,7 @@ function TaskPage() {
             trigger='click'
             visible={isShowTotal}
           >
-            <span className='touch-btn' onClick={() => setShowTotal(!isShowTotal)}>?</span>
+            <span className='touch-btn' onClick={() => handleShowTotal()}>?</span>
           </Popover>
         </div>
         <div className='total-score'>{userInfo?.score?.toLocaleString()}</div>
@@ -191,7 +210,7 @@ function TaskPage() {
               trigger='click'
               visible={isShowDriver}
             >
-              <span className='touch-btn' onClick={() => setShowDriver(!isShowDriver)}>?</span>
+              <span className='touch-btn' onClick={() => handleShowDriver()}>?</span>
             </Popover>
           </div>
           <div className='rs-code'>

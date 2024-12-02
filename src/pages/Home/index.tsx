@@ -282,8 +282,8 @@ export const HomePage: FC = () => {
   return (
     <div className="home-page fadeIn">
       <div className='race-bg'>
-        <video src='/assets/home/doudong.mp4' className='doudong' muted id='douDong' loop />
-        <video src='/assets/home/race.mp4' className='doudong' id='race' muted={!isVoice} style={{ opacity: isBeginGuess ? '1' : 0 }} controls={false} />
+        <video src='/assets/home/doudong.mp4' className='doudong' muted id='douDong' loop webkit-playsinline playsInline controls={false}/>
+        <video src='/assets/home/race.mp4' className='doudong' id='race' muted={!isVoice} style={{ opacity: isBeginGuess ? '1' : 0 }} controls={false} webkit-playsinline playsInline/>
         <div className={`ybp-container ${isBeginGuess ? 'ybp-container-active' : ''}`}>
           <div className='ybp-inner'>
             <div className='price-title' onClick={() => handleSwitchSymbol()}>
