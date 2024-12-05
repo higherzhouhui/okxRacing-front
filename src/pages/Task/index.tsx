@@ -226,7 +226,6 @@ function TaskPage() {
       <div className='gas-item'>
         <img src='/assets/task/auto.png' className='gas-icon' />
         <div className='gas-title'>Auto Driver<span>New</span></div>
-        <div className='unlock-desc'>Unlock</div>
         {
           !userInfo.auto_driver ? <div className='gas-mask touch-btn' onClick={() => handleUnLock()}>
             <img src='/assets/task/unlock.png' className='lock-img' />
