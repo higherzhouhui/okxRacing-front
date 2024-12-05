@@ -87,7 +87,7 @@ function WalletPage() {
 
 
   useEffect(() => {
-    if (userInfo) {
+    if (userInfo && systemConfig && systemConfig?.level) {
       const levelList = systemConfig.level
       for (let i = 0; i < levelList.length; i ++) {
         if (userInfo.score < levelList[i].score) {
@@ -96,7 +96,7 @@ function WalletPage() {
         }
       }
     }
-  }, [userInfo])
+  }, [userInfo, systemConfig])
 
   return <div className='wallet-page fadeIn'>
     <div className='wallet-page-title'>Upon completion of identity verification, you will be able to obtain<span>the race driver's license.</span></div>
