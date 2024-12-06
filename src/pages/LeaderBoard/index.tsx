@@ -184,7 +184,11 @@ const CustomList: FC<CustomListType> = ({ type }) => {
     }
   }
   const handleCopy = () => {
-    handleCopyLink(link)
+    let _link = link
+    if (localStorage.getItem('h5PcRoot') == '1') {
+      _link = `${location.host}?startParam=${btoa(userInfo.user_id)}`
+    }
+    handleCopyLink(_link)
   }
   const loadMore = async () => {
     setLoading(true)
