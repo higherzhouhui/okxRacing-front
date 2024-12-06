@@ -219,14 +219,13 @@
     }
 
     .task-list-item {
-      border-radius: 6px;
+      border-radius: 8px;
       padding: 1.5rem;
       margin-top: 1.5rem;
       background: var(--bgColor);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid var(--darkColor);
     }
 
     .task-list-left {

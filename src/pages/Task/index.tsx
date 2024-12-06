@@ -186,7 +186,6 @@ function TaskPage() {
             placement='top'
             mode='dark'
             trigger='click'
-            visible={isShowTotal}
           >
             <span className='touch-btn' onClick={() => handleShowTotal()}>?</span>
           </Popover>
@@ -208,7 +207,6 @@ function TaskPage() {
               placement='top'
               mode='dark'
               trigger='click'
-              visible={isShowDriver}
             >
               <span className='touch-btn' onClick={() => handleShowDriver()}>?</span>
             </Popover>

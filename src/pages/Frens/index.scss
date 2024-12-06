@@ -98,22 +98,23 @@
     gap: 6px;
     padding: 18px 12px;
     width: 100%;
-    background-color: var(--bgColor);
     button {
       height: 44px;
     }
 
-    .copy {
-      font-weight: bold;
-
-      span {
-        display: flex;
-        align-items: center;
-      }
+    svg {
+      fill: var(--btnBg);
     }
-  }
 
-  .h5Pc {
-    // bottom: 0;
+    .copy {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 3rem;
+      border-radius: 50%;
+      width: 3rem;
+      background: #fff;
+      cursor: pointer;
+    }
   }
 }

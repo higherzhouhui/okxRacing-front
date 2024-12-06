@@ -1,18 +1,71 @@
 .leader-page {
-  padding: 24px 12px;
+  padding: 24px 0 0 0;
+  height: 100%;
+
+  .invite-frnes-container {
+    position: sticky;
+    bottom: 0px;
+    background: var(--bgColor);
+    padding: 0.6rem 12px;
+    top: 5000px;
+    .no-frens-title {
+      font-size: 1.2rem;
+      color: #ccc;
+      margin-bottom: 12px;
+    }
+
+    .no-frens-bot {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      .no-frens-btn {
+        background: var(--btnBg);
+        color: #fff;
+        height: 3rem;
+        font-size: 1.4rem;
+        flex: 1;
+        border-radius: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Bold';
+        cursor: pointer;
+      }
+
+      svg {
+        fill: var(--btnBg);
+      }
+
+      .copy {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 3rem;
+        border-radius: 50%;
+        width: 3rem;
+        background: #fff;
+        cursor: pointer;
+      }
+    }
+  }
+
   .title {
     font-size: 2.5rem;
     font-weight: bold;
     margin-bottom: rem;
+    padding: 0 12px;
     span {
       color: var(--highColor);
       margin-left: 6px;
     }
   }
+
   .sub-title {
     font-size: 1rem;
     margin-bottom: 2rem;
+    padding: 0 12px;
   }
+
   .record-btn {
     background: var(--btnBg);
     width: fit-content;
@@ -24,10 +77,13 @@
     line-height: 1.5rem;
     margin-bottom: 2.5rem;
     cursor: pointer;
+    margin-left: 12px;
   }
+
   .custom-list-container {
     padding: 6px 0 42px 0;
     position: relative;
+
     .custom-title {
       display: flex;
       align-items: center;
@@ -37,31 +93,37 @@
       padding: 4px 12px;
       border-radius: 8px;
     }
+
     .custom-skeleton {
       margin-top: 8px;
       width: 100%;
       height: 30px;
     }
+
     .custom-list {
       margin-top: 10px;
       font-size: 1rem;
       opacity: 1;
       gap: 6px;
+
       .ct-left {
         display: flex;
         gap: 18px;
         align-items: center;
         flex: 1;
+
         img {
           width: 20px;
           object-fit: contain;
         }
+
         .order {
           min-width: 20px;
           display: inline-block;
           text-align: center;
           font-family: Arial, Helvetica, sans-serif;
         }
+
         .ctl-name {
           font-size: 1.2rem;
           flex: 1;
@@ -71,15 +133,18 @@
           height: 100%;
         }
       }
+
       .ct-right {
         min-width: fit-content;
         display: flex;
         align-items: center;
         gap: 8px;
+
         img {
           width: 20px;
           object-fit: contain;
         }
+
         span {
           color: #fff;
           width: fit-content;
@@ -87,9 +152,11 @@
         }
       }
     }
+
     .myself {
       background: var(--bgColor);
     }
+
     .no-frens {
       position: fixed;
       background: var(--bgColor);
@@ -98,19 +165,22 @@
       transform: translate(-50%, 0);
       padding: 1rem;
       bottom: 105px;
+
       .no-frens-title {
         font-size: 1.2rem;
         color: var(--darkColor);
         margin-bottom: 12px;
       }
+
       .no-frens-bot {
         display: flex;
         justify-content: space-between;
         gap: 12px;
+
         .no-frens-btn {
           background: var(--btnBg);
           color: #fff;
-          height: 42px;
+          height: 3rem;
           font-size: 1.4rem;
           flex: 1;
           border-radius: 100px;
@@ -120,26 +190,30 @@
           font-family: 'Bold';
           cursor: pointer;
         }
+
         svg {
           fill: var(--btnBg);
         }
+
         .copy {
           display: flex;
           align-items: center;
           justify-content: center;
-          height: 42px;
+          height: 3rem;
           border-radius: 50%;
-          width: 42px;
+          width: 3rem;
           background: #fff;
           cursor: pointer;
         }
       }
     }
+
     .h5Pc {
       // bottom: 0!important;
     }
   }
 }
+
 .adm-tabs-content {
   padding: 0;
 }
@@ -148,68 +222,85 @@
   .game-record-content {
     padding: 12px;
   }
+
   .game-lists {
     height: 40vh;
     overflow: auto;
     font-size: 1.1rem;
+
     .custom-skeleton {
       margin-top: 8px;
       width: 100%;
       height: 60px;
     }
+
     .game-list {
       margin-top: 12px;
       border-bottom: 1px solid var(--darkColor);
       padding-bottom: 12px;
       font-size: 0.9rem;
+
       .game-items {
         display: flex;
         gap: 10px;
         margin-bottom: 8px;
       }
+
       .game-item {
         flex: 1;
+
         .game-label {
           color: var(--darkColor);
           margin-bottom: 5px;
           width: fit-content;
           white-space: nowrap;
         }
+
         .game-code {
           font-family: 'bold';
           display: flex;
           gap: 6px;
           align-items: center;
         }
-        .Rise, .Win {
+
+        .Rise,
+        .Win {
           fill: var(--rise);
           color: var(--rise);
         }
-        .Fall, .Miss {
+
+        .Fall,
+        .Miss {
           fill: var(--fall);
           color: var(--fall);
         }
       }
+
       .game-time {
         color: var(--darkColor);
         font-size: 1rem;
       }
     }
+
     .game-list:last-child {
       border-bottom: none;
     }
   }
+
   .page {
     padding: 4px 8px 0 0;
     display: flex;
     justify-content: space-between;
+
     .dis {
       fill: var(--darkColor);
     }
+
     .active {
       fill: #fff;
     }
   }
+
   .game-record-title {
     display: flex;
     align-items: center;
@@ -217,12 +308,14 @@
     position: relative;
     font-size: 1.3rem;
     margin-bottom: 1.5rem;
+
     .img-wrapper {
       position: absolute;
       right: 12px;
       top: 50%;
       transform: translate(0, -50%);
       cursor: pointer;
+
       img {
         width: 20px;
       }
