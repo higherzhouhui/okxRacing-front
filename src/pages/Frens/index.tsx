@@ -48,7 +48,7 @@ function FrensPage() {
   const handleCopy = () => {
     let _link = link
     if (localStorage.getItem('h5PcRoot') == '1') {
-      _link = `${location.host}?startParam=${btoa(userInfo.user_id)}`
+      _link = `${location.origin}?startParam=${btoa(userInfo.user_id)}`
     }
     handleCopyLink(_link)
     setIsCopy(true)

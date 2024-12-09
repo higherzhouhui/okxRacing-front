@@ -135,19 +135,6 @@ function TaskPage() {
     );
   }
 
-  const getImgSrc = (img: string) => {
-    if (img.includes('Game')) {
-      return 'game'
-    }
-    if (img.includes('PortKey')) {
-      return 'portkey'
-    }
-    if (img.includes('aelf')) {
-      return 'aelf'
-    }
-    return 'portkey'
-  }
-
 
   useEffect(() => {
     setLoading(true)
@@ -166,9 +153,16 @@ function TaskPage() {
         const doneList = res.data.filter(item => {
           return item.status == 'Done'
         })
-        const _list = [...nullList, ...claimList, ...doneList]
-        const list = groupByType(_list)
-        setList(list)
+        const _list = [...claimList, ...nullList, ...doneList]
+        const nList = [[], []]
+        _list.map((item: any) => {
+          if (item.type == 'Partner') {
+            nList[0].push(item)
+          } else {
+            nList[1].push(item)
+          }
+        })
+        setList(nList)
       }
     })
   }, [])
@@ -256,7 +250,7 @@ function TaskPage() {
       <Tabs>
         <Tabs.Tab title='Event Partner Tasks' key='Partner' >
           {
-            list.length && list[1].map((citem: any, cindex: number) => {
+            list.length && list[0].map((citem: any, cindex: number) => {
               return <div key={cindex} className='task-list-item'>
                 <div className='task-list-left'>
                   <div className='middle'>
@@ -274,7 +268,7 @@ function TaskPage() {
                   </div>
                 </div>
                 <div className='task-list-right'>
-                  <Button className={`task-list-right-btn touch-btn ${citem.status}`} onClick={() => handleDoTask(citem, 1, cindex)} loading={citem.loading}>
+                  <Button className={`task-list-right-btn touch-btn ${citem.status}`} onClick={() => handleDoTask(citem, 0, cindex)} loading={citem.loading}>
                     {
                       citem.status || 'Start'
                     }
@@ -286,7 +280,7 @@ function TaskPage() {
         </Tabs.Tab>
         <Tabs.Tab title='Driver Tasks' key='Driver' >
           {
-            list.length && list[0].map((citem: any, cindex: number) => {
+            list.length && list[1].map((citem: any, cindex: number) => {
               return <div key={cindex} className='task-list-item'>
                 <div className='task-list-left'>
                   <div className='middle'>
@@ -301,7 +295,7 @@ function TaskPage() {
                   </div>
                 </div>
                 <div className='task-list-right'>
-                  <Button className={`task-list-right-btn touch-btn ${citem.status}`} onClick={() => handleDoTask(citem, 0, cindex)} loading={citem.loading}>
+                  <Button className={`task-list-right-btn touch-btn ${citem.status}`} onClick={() => handleDoTask(citem, 1, cindex)} loading={citem.loading}>
                     {
                       citem.status || 'Start'
                     }
