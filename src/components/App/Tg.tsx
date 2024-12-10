@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom';
 import {
   bindViewportCSSVars,
-  initBackButton,
   initInitData,
   initMiniApp,
   initSwipeBehavior,
@@ -32,7 +31,6 @@ import { useConnectWallet } from '@aelf-web-login/wallet-adapter-react';
 
 
 const TgApp: FC = () => {
-  const [backButton] = initBackButton()
   const [viewport] = initViewport();
   const [miniApp] = initMiniApp()
   const launchParams = retrieveLaunchParams()

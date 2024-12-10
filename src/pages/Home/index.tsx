@@ -12,6 +12,8 @@ import { initHapticFeedback } from '@telegram-apps/sdk';
 import { WalletTypeEnum } from '@aelf-web-login/wallet-adapter-base';
 import { getEntireDIDAelfAddress } from "@portkey/did-ui-react";
 import loginConfig from "@/constants/config/login.config";
+import EventBus from '@/utils/eventBus';
+import { Counter } from '@/components/Counter';
 
 export const HomePage: FC = () => {
   const { CHAIN_ID } = loginConfig;
@@ -19,10 +21,8 @@ export const HomePage: FC = () => {
   const navigate = useNavigate()
   const userInfo = useSelector((state: any) => state.user.info);
   const [isShowRules, setShowRules] = useState(false)
-  const scoreTimer = useRef<any>(null)
   const tokenPriceTimer = useRef<any>(null)
   const [isVoice, setIsVoice] = useState(false)
-  const [oldScore, setOldScore] = useState(0)
   const [tokenPrice, setTokenPrice] = useState('')
   const [isBeginGuess, setBeginGuess] = useState(false)
   const [isAnimation, setIsAnimation] = useState(false)
@@ -38,6 +38,8 @@ export const HomePage: FC = () => {
   const [symbol, setSymbol] = useState('BTC')
   const [resultInfo, setResultInfo] = useState<any>({})
   const hapticFeedback = initHapticFeedback();
+  const eventBus = EventBus.getInstance()
+  
   const { isConnected, walletInfo, walletType, connectWallet, isLocking } = useConnectWallet();
   const handleSwitchSymbol = () => {
     if (isAnimation) {
@@ -102,7 +104,6 @@ export const HomePage: FC = () => {
       clearTimeout(guessTimer.current)
       clearInterval(countTimer.current)
       clearTimeout(resultTimer.current)
-      clearInterval(scoreTimer.current)
 
       guessTimer.current = setTimeout(async () => {
         setBeginGuess(false)
@@ -216,12 +217,26 @@ export const HomePage: FC = () => {
     }
   }
 
+  const initUserInfo = async () => {
+    eventBus.emit('loading', true)
+    const res = await getUserInfoReq()
+    if (res.code == 0) {
+      dispatch(setUserInfoAction(res.data))
+    }
+    eventBus.emit('loading', false)
+  }
+
+
   useEffect(() => {
-    getUserInfoReq().then(res => {
-      if (res.code == 0) {
-        dispatch(setUserInfoAction(res.data))
+    initUserInfo()
+    return () => {
+      if (resultTimer.current) {
+        clearTimeout(resultTimer.current)
       }
-    })
+      if (guessTimer.current) {
+        clearTimeout(guessTimer.current)
+      }
+    }
   }, [])
 
   useEffect(() => {
@@ -230,28 +245,6 @@ export const HomePage: FC = () => {
     }
   }, [isLocking])
 
-  useEffect(() => {
-    if (userInfo?.is_New) {
-      // 展示规则
-    }
-    if (userInfo && userInfo.score) {
-      const userScore = userInfo.score
-      if (userScore != oldScore) {
-        clearInterval(scoreTimer.current)
-        let score = oldScore
-        scoreTimer.current = setInterval(() => {
-          score += Math.max(Math.round((userScore - oldScore) / 30), 1)
-          if (score >= userScore) {
-            setOldScore(userScore)
-            clearInterval(scoreTimer.current)
-          } else {
-            setOldScore(score)
-          }
-        }, 50)
-      }
-    }
-    return () => clearInterval(scoreTimer.current)
-  }, [userInfo])
 
   const getTokenPrice = async () => {
     try {
@@ -364,7 +357,9 @@ export const HomePage: FC = () => {
                 <span>Score</span>
               </div>
             </div>
-            <div className='score-center'>{oldScore.toLocaleString()}</div>
+            <div className='score-center'>
+              <Counter end={userInfo?.score} duration={2000} />
+            </div>
           </>
         }
       </div>

@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addgasGameReq } from '@/api/game'
 import { setUserInfoAction } from '@/redux/slices/userSlice'
 import { useLaunchParams } from '@telegram-apps/sdk-react'
+import { Counter } from '@/components/Counter'
 
 function TaskPage() {
   const hapticFeedback = initHapticFeedback();
@@ -165,12 +166,15 @@ function TaskPage() {
         setList(nList)
       }
     })
+    console.log(userInfo?.score, 11111111111)
   }, [])
   return <div className='task-page fadeIn'>
     <div className='task-title'>
       <div className='ky'>
         <div className='ky-label'>Available Points</div>
-        <div className='ky-score'>{userInfo?.score?.toLocaleString()}</div>
+        <div className='ky-score'>
+          <Counter end={userInfo?.score} duration={2000} />
+        </div>
       </div>
       <div className='total'>
         <div className='total-label'>
@@ -184,7 +188,7 @@ function TaskPage() {
             <span className='touch-btn' onClick={() => handleShowTotal()}>?</span>
           </Popover>
         </div>
-        <div className='total-score'>{userInfo?.score?.toLocaleString()}</div>
+        <div className='total-score'><Counter end={userInfo?.score} duration={2000} /></div>
       </div>
       <div className='right-score'>
         <div className='right-score-item'>

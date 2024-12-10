@@ -258,7 +258,10 @@ const CustomList: FC<CustomListType> = ({ type }) => {
       const _hasMore = list.length == pageSize ? true : false
       setHasMore(_hasMore)
       setRank(res.data?.rank || 0)
-      dispatch(setUserInfoAction({ score: res.data.score, username: res.data.username }))
+      
+      if (type == 'global') {
+        dispatch(setUserInfoAction({ score: res.data.score, username: res.data.username }))
+      }
     }
   }
   useEffect(() => {
