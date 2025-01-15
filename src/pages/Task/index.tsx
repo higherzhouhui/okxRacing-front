@@ -192,14 +192,14 @@ function TaskPage() {
       </div>
       <div className='right-score'>
         <div className='right-score-item'>
-          <div className='rs-label'>Guess the basic integral correctly once</div>
+          <div className='rs-label'>Correct guesses</div>
           <div className='rs-code'>
             <img src="/assets/common/score.png" alt="score" />
             {systemInfo?.right_score}</div>
         </div>
         <div className='right-score-item'>
           <div className='rs-label'>
-            Hourly autonomous driving points
+            Hourly autonomous driving
             <Popover
               content='The points you can earn per hour through autonomous driving'
               placement='top'
