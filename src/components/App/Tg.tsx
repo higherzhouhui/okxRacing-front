@@ -78,7 +78,6 @@ const TgApp: FC = () => {
       console.log('current Version:', version)
       if (version > 7.7) {
         const [swipeBehavior] = initSwipeBehavior();
-        console.log('disableVerticalSwipe')
         swipeBehavior.disableVerticalSwipe();
       }
     } catch (error) {

@@ -4,7 +4,7 @@ import { getBtcPriceReq, getUserInfoReq } from '@/api/common';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserInfoAction } from '@/redux/slices/userSlice'
 import { Dialog, Popup, Toast } from 'antd-mobile';
-import { formatWalletAddress, handleCopyLink, secondsToTimeFormat } from '@/utils/common';
+import { formatWalletAddress, getSignature, handleCopyLink, secondsToTimeFormat } from '@/utils/common';
 import { useNavigate } from 'react-router-dom';
 import { useConnectWallet } from '@aelf-web-login/wallet-adapter-react';
 import { beginGameReq, endGameReq } from '@/api/game';
@@ -81,7 +81,7 @@ export const HomePage: FC = () => {
       return
     }
 
-    beginGameReq({ p: btoa(realPrice.current), type: type })
+    // beginGameReq({ p: btoa(realPrice.current), type: type })
     if (!isDouDong) {
       const douDongVideo = document.getElementById('douDong') as any
       if (douDongVideo) {
@@ -133,12 +133,16 @@ export const HomePage: FC = () => {
         } else {
           hapticFeedback.notificationOccurred('error');
         }
-        const res = await endGameReq({
-          gt: btoa(guessType),
-          rs: btoa(isRight ? 'Win' : 'Miss'),
-          sy: symbol,
-          p: btoa(realPrice.current)
-        })
+        const post_data = {
+          guessType: guessType,
+          result: isRight ? 'Win' : 'Miss',
+          symbol: symbol,
+          timeStamp: Date.now(),
+          sign: '',
+        }
+        post_data.sign = getSignature(post_data)
+        const res = await endGameReq(post_data)
+
         if (res.code == 0) {
           const info = {
             diff: diff,

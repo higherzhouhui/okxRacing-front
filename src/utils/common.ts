@@ -1,5 +1,6 @@
 import { Toast } from "antd-mobile";
 import moment from "moment";
+import md5 from "js-md5";
 
 export function stringToColor(string: string) {
   if (!string) {
@@ -171,4 +172,36 @@ export const accordingEthToBtc = (result: any) => {
     console.error(error)
   }
   return btc
+}
+
+export const dataSerialize = (sortObj: any) => {
+  let strJoin = ''
+  for (let key in sortObj) {
+    if (sortObj[key] || sortObj[key] == 0) {
+      strJoin += key + "=" + sortObj[key] + "&"
+    }
+  }
+  return strJoin
+}
+
+// 参数排序
+export function dataSort(obj: any) {
+  if (JSON.stringify(obj) == "{}" || obj == null) {
+    return {}
+  }
+  let key = Object.keys(obj)?.sort()
+  let newObj: any = {}
+  for (let i = 0; i < key.length; i++) {
+    newObj[key[i]] = obj[key[i]]
+  }
+  return newObj
+}
+
+
+export const getSignature = (content: any) => {
+  const secretKey = 'YpEzusH5qFVd3hPe8cwYhyLZdh88Bpe'
+  const objStr = dataSerialize(dataSort(content))
+  console.log(objStr, 1111111111)
+  const signature = md5(objStr + "secretKey=" + secretKey);
+  return signature.toLocaleUpperCase()
 }

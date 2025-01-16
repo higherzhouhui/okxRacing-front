@@ -16,6 +16,7 @@ import { useDispatch } from 'react-redux';
 import Loading from '../Loading';
 import { Toast } from 'antd-mobile';
 import { useConnectWallet } from '@aelf-web-login/wallet-adapter-react';
+import { getSignature } from '@/utils/common';
 
 const PcApp: FC = () => {
   const [loading, setLoading] = useState(false)
@@ -38,7 +39,14 @@ const PcApp: FC = () => {
     const connectedWallet = localStorage.getItem('connectedWallet')
     if (authorization && walletInfo && connectedWallet != "PortkeyDiscover") {
       setLoading(true)
-      const res = await h5PcLoginReq(JSON.parse(walletInfo))
+      let post_data = JSON.parse(walletInfo)
+      post_data = {
+        ...post_data,
+        timeStamp: Date.now(),
+        sign: ''
+      }
+      post_data.sign = getSignature(post_data)
+      const res = await h5PcLoginReq(post_data)
       if (res.code == 0) {
         dispatch(setUserInfoAction(res.data))
         localStorage.setItem('authorization', res.data.token)

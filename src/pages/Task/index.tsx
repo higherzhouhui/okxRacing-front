@@ -10,6 +10,7 @@ import { addgasGameReq } from '@/api/game'
 import { setUserInfoAction } from '@/redux/slices/userSlice'
 import { useLaunchParams } from '@telegram-apps/sdk-react'
 import { Counter } from '@/components/Counter'
+import { getSignature } from '@/utils/common'
 
 function TaskPage() {
   const hapticFeedback = initHapticFeedback();
@@ -76,7 +77,13 @@ function TaskPage() {
       setTaskLoading(true)
       _list[index][cIndex].loading = true
       setList(_list)
-      const res = await handleTakReq(item)
+      const post_data = {
+        ...item,
+        timeStamp: Date.now(),
+        sign: ''
+      }
+      post_data.sign = getSignature(post_data)
+      const res = await handleTakReq(post_data)
       if (res.code == 0) {
         setTimeout(() => {
           const _list = JSON.parse(JSON.stringify(list))
