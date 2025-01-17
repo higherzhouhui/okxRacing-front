@@ -1,6 +1,8 @@
 .task-page {
   padding: 18px;
-
+  .adm-tabs-content {
+    padding: 0;
+  }
   .task-title {
     border-radius: 12px;
     padding: 18px 12px;
@@ -89,7 +91,7 @@
 
   .gas-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     column-gap: 12px;
 
     .gas-item {
@@ -98,7 +100,7 @@
       border-radius: 12px;
       padding: 20px 16px;
       position: relative;
-
+      text-align: center;
       .gas-mask {
         position: absolute;
         width: 100%;
@@ -149,7 +151,7 @@
         font-size: 1.1rem;
         gap: 4px;
         color: var(--darkColor);
-
+        justify-content: center;
         .lv {
           position: relative;
           padding-left: 10px;
@@ -221,7 +223,7 @@
     .task-list-item {
       border-radius: 8px;
       padding: 1.5rem;
-      margin-top: 1.5rem;
+      margin-top: 1rem;
       background: var(--bgColor);
       display: flex;
       justify-content: space-between;

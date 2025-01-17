@@ -173,7 +173,6 @@ function TaskPage() {
         setList(nList)
       }
     })
-    console.log(userInfo?.score, 11111111111)
   }, [])
   return <div className='task-page fadeIn'>
     <div className='task-title'>
@@ -226,7 +225,7 @@ function TaskPage() {
 
     <div className='update-title'>Upgrade</div>
     <div className='gas-container'>
-      <div className='gas-item'>
+      {/*<div className='gas-item'>
         <img src='/assets/task/auto.png' className='gas-icon' />
         <div className='gas-title'>Auto Driver<span>New</span></div>
         {
@@ -239,6 +238,7 @@ function TaskPage() {
           </div> : <div></div>
         }
       </div>
+      */}
       <div className='gas-item touch-btn' onClick={() => setShowAddGas(true)}>
         <img src='/assets/task/gas.png' className='gas-icon' />
         <div className='gas-title'>Refill the fuel tank</div>
