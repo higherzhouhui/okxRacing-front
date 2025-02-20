@@ -49,16 +49,19 @@
     }
   }
 
-  .title {
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: rem;
-    padding: 0 12px;
-    span {
-      color: var(--highColor);
-      margin-left: 6px;
-    }
-  }
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  padding: 0 12px;
+}
+
+.title span {
+  color: var(--highColor);
+  margin-left: 6px;
+  display: inline-block; /* 或者使用 display: block; */
+}
+
 
   .sub-title {
     font-size: 1rem;
